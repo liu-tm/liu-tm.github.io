@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"blog.liu-tm.cn","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="BIO与NIO、AIO的区别(容易理解的解释)IO的方式通常分为几种，同步阻塞的BIO、同步非阻塞的NIO、异步非阻塞的AIO。">
-<meta property="og:type" content="article">
+  <meta name="description" content="BIO与NIO、AIO的区别(容易理解的解释)IO的方式通常分为几种，同步阻塞的BIO、同步非阻塞的NIO、异步非阻塞的AIO。 一、BIO    在JDK1.4出来之前，我们建立网络连接的时候采用BIO模式，需要先在服务端启动一个ServerSocket，然后在客户端启动Socket来对服务端进行通信，默认情况下服务端需要对每个请求建立一堆线程等待请求，而客户端发送请求后，先咨询服务端是否有线">
+<meta property="og:type" content="website">
 <meta property="og:title" content="Java IO">
-<meta property="og:url" content="https://blog.liu-tm.cn/2021/01/16/Java_IO/index.html">
+<meta property="og:url" content="https://blog.liu-tm.cn/Java_IO.html">
 <meta property="og:site_name" content="Marvin&#39;s Blog">
-<meta property="og:description" content="BIO与NIO、AIO的区别(容易理解的解释)IO的方式通常分为几种，同步阻塞的BIO、同步非阻塞的NIO、异步非阻塞的AIO。">
+<meta property="og:description" content="BIO与NIO、AIO的区别(容易理解的解释)IO的方式通常分为几种，同步阻塞的BIO、同步非阻塞的NIO、异步非阻塞的AIO。 一、BIO    在JDK1.4出来之前，我们建立网络连接的时候采用BIO模式，需要先在服务端启动一个ServerSocket，然后在客户端启动Socket来对服务端进行通信，默认情况下服务端需要对每个请求建立一堆线程等待请求，而客户端发送请求后，先咨询服务端是否有线">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/37237/201512/37237-20151222220329015-207666376.png">
 <meta property="article:published_time" content="2021-01-16T08:11:34.000Z">
@@ -36,7 +36,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://images2015.cnblogs.com/blog/37237/201512/37237-20151222220329015-207666376.png">
 
-<link rel="canonical" href="https://blog.liu-tm.cn/2021/01/16/Java_IO/">
+<link rel="canonical" href="https://blog.liu-tm.cn/Java_IO">
 
 
 <script id="page-configurations">
@@ -44,12 +44,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : true,
+    isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>Java IO | Marvin's Blog</title>
+  <title>Java IO | Marvin's Blog
+</title>
   
 
 
@@ -187,60 +188,33 @@
       <div class="main-inner">
         <div class="content-wrap">
           
+  
+  
 
-          <div class="content post posts-expand">
+          <div class="content page posts-expand">
             
 
     
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.liu-tm.cn/2021/01/16/Java_IO/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Marvin">
-      <meta itemprop="description" content="博闻天地">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Marvin's Blog">
-    </span>
+    
+    
+    <div class="post-block" lang="zh-CN">
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Java IO
-        </h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
+<h1 class="post-title" itemprop="name headline">Java IO
+</h1>
 
-              <time title="创建时间：2021-01-16 16:11:34 / 修改时间：16:12:36" itemprop="dateCreated datePublished" datetime="2021-01-16T16:11:34+08:00">2021-01-16</time>
-            </span>
+<div class="post-meta">
+  
 
-          
-            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span id="busuanzi_value_page_pv"></span>
-            </span>
+</div>
 
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+</header>
 
       
-        <p><i id="quote" data-modify="false"></i></p>
+      
+      
+      <div class="post-body">
+          <p><i id="quote" data-modify="false"></i></p>
 <h3 id="BIO与NIO、AIO的区别-容易理解的解释"><a href="#BIO与NIO、AIO的区别-容易理解的解释" class="headerlink" title="BIO与NIO、AIO的区别(容易理解的解释)"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/dreamer23/article/details/80903978">BIO与NIO、AIO的区别(容易理解的解释)</a></h3><p>IO的方式通常分为几种，同步阻塞的BIO、同步非阻塞的NIO、异步非阻塞的AIO。</p>
 <p>一、BIO</p>
 <p>   在JDK1.4出来之前，我们建立网络连接的时候采用BIO模式，需要先在服务端启动一个ServerSocket，然后在客户端启动Socket来对服务端进行通信，默认情况下服务端需要对每个请求建立一堆线程等待请求，而客户端发送请求后，先咨询服务端是否有线程相应，如果没有则会一直等待或者遭到拒绝请求，如果有的话，客户端会线程会等待请求结束后才继续执行。</p>
@@ -292,89 +266,16 @@
 <p>异步阻塞IO：此种方式下是指应用发起一个IO操作以后，不等待内核IO操作的完成，等内核完成IO操作以后会通知应用程序，这其实就是同步和异步最关键的区别，同步必须等待或者主动的去询问IO是否完成，那么为什么说是阻塞的呢？因为此时是通过select系统调用来完成的，而select函数本身的实现方式是阻塞的，而采用select函数有个好处就是它可以同时监听多个文件句柄，从而提高系统的并发性！</p>
 <p> 异步非阻塞IO:在此种模式下，用户进程只需要发起一个IO操作然后立即返回，等IO操作真正的完成以后，应用程序会得到IO操作完成的通知，此时用户进程只需要对数据进行处理就好了，不需要进行实际的IO读写操作，因为真正的IO读取或者写入操作已经由内核完成了。目前Java中还没有支持此种IO模型。 </p>
 
+      </div>
+      
+      
+      
     </div>
+    
 
     
     
     
-
-      <footer class="post-footer">
-	  
-	  	
-		<div class="post-end">
-		  
-			<div>
-    
-	<div class="end-flag">
-
-		<span class="line"></span>
-
-		<span class="text">&ensp;本文到此结束&ensp;<i class="fa fa-heart"></i>&ensp;感谢您的阅读&ensp;</span>
-
-		<span class="line"></span>
-
-    </div>
-<!--
-        <div style="text-align:center;color: #ccc;font-size:14px;">------------&ensp;本文到此结束&ensp;<i class="fa fa-heart"></i>&ensp;感谢您的阅读&ensp;------------</div>		
--->
-    
-</div>
-		  
-		</div>
-          <div class="post-tags">
-              <a href="/tags/develop/" rel="tag"><i class="fa fa-tags"></i> develop</a>
-              <a href="/tags/java/" rel="tag"><i class="fa fa-tags"></i> java</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2020/12/30/started/" rel="prev" title="started">
-      <i class="fa fa-chevron-left"></i> started
-    </a></div>
-      <div class="post-nav-item"></div>
-    </div>
-      </footer>
-
-	  	<div class="post-spread"></div>
-
-	<link rel="stylesheet" href="/css/share.min.css" >
-	<script src="/js/jquery-1.10.2.min.js"></script>
-	<script src="/js/jquery.share.js"></script>
-	<script src="/js/jquery.qrcode.min.js"></script>
-
-	<script>
-	$('#quote').html("本文取自网络"
-	+( $('#quote').data('modify') ? "（已作部分改动及格式整理）":"")
-	+"，如有侵权请联系<a href='../../../../about/index'>我</a>改正。")
-	</script>
-	
-	<script>
-	var $config = {
-	  sites : ['weibo','qq', 'wechat','qzone','douban', 'facebook', 'twitter'],
-	  disabled: [ 'linkedin', 'diandian'],
-	  wechatQrcodeTitle: "微信扫一扫",
-	  wechatQrcodeHelper: '<p>微信扫一扫，右上角分享</p>',
-	  source: 'Marvin'
-	};
-
-
-	$('.post-spread').share($config);
-
-	function pjaxshare() {
-	  $('.post-spread').share($config);
-	}
-	</script>	
-	  
-    
-  </article>
-  
-  
-  
-
 
 
           </div>
@@ -448,7 +349,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
