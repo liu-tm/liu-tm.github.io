@@ -316,9 +316,14 @@
 	<script src="/js/jquery.qrcode.min.js"></script>
 
 	<script>
-	$('#quote').html("本文取自网络"
-	+( $('#quote').data('modify') ? "（已作部分改动及格式整理）":"")
-	+"，如有侵权请联系<a href='../../../../about/index'>我</a>改正。")
+	var statement = "本文取自网络"
+	+( $('#quote').data('modify') ? "（已作部分改动及格式整理），":"，")
+	+( $('#quote').data('source') ? "原文来自<a id='source_href' href='javascript:getSource()'>这里</a>，":"")
+	+"如有侵权请联系<a href='../../../../about/index'>我</a>改正。";
+	$('#quote').html(statement);
+	function getSource(){
+		window.open($('#quote').data('source'))
+	}
 	</script>
 	
 	<script>
@@ -417,7 +422,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
