@@ -369,10 +369,11 @@
 <li><p>内容溢出时自动换行（前提是文本区域高度足够），勾选<code>Properties -&gt; Appearance -&gt; Detail Overflows</code></p>
 <p><code>.jrxml</code>中配置如下<code>isPrintWhenDetailOverflows=&quot;true&quot;</code></p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">staticText</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">x</span>=<span class="string">&quot;307&quot;</span> <span class="attr">y</span>=<span class="string">&quot;51&quot;</span> <span class="attr">width</span>=<span class="string">&quot;100&quot;</span> <span class="attr">height</span>=<span class="string">&quot;30&quot;</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">&quot;true&quot;</span> <span class="attr">uuid</span>=<span class="string">&quot;f299c63b-b25d-44c4-8a23-210eed43f6d2&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">textElement</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">font</span> <span class="attr">pdfFontName</span>=<span class="string">&quot;STSong-Light&quot;</span> <span class="attr">pdfEncoding</span>=<span class="string">&quot;UniGB-UCS2-H&quot;</span> <span class="attr">isPdfEmbedded</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">textElement</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">text</span>&gt;</span>&lt;![CDATA[Static Text]]&gt;<span class="tag">&lt;/<span class="name">text</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">staticText</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h3></li>
+
+</li>
 </ul>
-<p>自定义字体解决方案出自：[博客园 Andy_alone](<a href="https://www.cnblogs.com/andy-alone/p/8202783.html">Jasperreports以及iReport4.5报表PDF导出字体完美解决方案 - Andy_alone - 博客园 (cnblogs.com)</a>)</p>
-<p>其它资料部分出自：<a href="%5BJasperReport%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B(%E9%99%84%E5%B8%A6%E5%B8%B8%E8%A7%81%E7%A9%BA%E7%99%BD%E9%A1%B5%E9%97%AE%E9%A2%98%E8%AF%B4%E6%98%8E">博客园 该昵称无法识别</a> - 该昵称无法识别 - 博客园 (cnblogs.com)](<a href="https://www.cnblogs.com/unrecognized/p/11585228.html">https://www.cnblogs.com/unrecognized/p/11585228.html</a>))</p>
+<h3 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h3><p>自定义字体解决方案出自：<a href="https://www.cnblogs.com/andy-alone/p/8202783.html">博客园 Andy_alone</a></p>
+<p>其它资料部分出自：<a href="https://www.cnblogs.com/unrecognized/p/11585228.html">博客园 该昵称无法识别</a></p>
 ]]></content>
       <tags>
         <tag>develop</tag>
