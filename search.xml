@@ -264,8 +264,8 @@
       </tags>
   </entry>
   <entry>
-    <title>JasperReport</title>
-    <url>/2021/01/21/JasperReport/</url>
+    <title>JasperReport全攻略</title>
+    <url>/2021/01/21/JasperReport%E5%85%A8%E6%94%BB%E7%95%A5/</url>
     <content><![CDATA[<h3 id="JasperReport生态"><a href="#JasperReport生态" class="headerlink" title="JasperReport生态"></a>JasperReport生态</h3><p>IReport、JasperStudio是jasper的辅助视觉设计工具，不用它也能设计Jasper报表（编码jrxml）。</p>
 <p>5.5之前这个工具叫ireport，5.5之后随着JasperStudio的出生，IReport就被完全替代了。</p>
 <p><strong>IReport支持jdk最高版本为1.7</strong>，在不修改系统环境变量的前提下，可以配置IReport根目录中etc目录下的<code>ireport.conf</code>，将<code>jdkhome</code>注释打开并配置jdk1.7版本位置。</p>
@@ -354,7 +354,8 @@
 <li><p>二维码设置<code>Margin = 0 px</code>可以清除白色空白区域</p>
 </li>
 </ul>
-<h3 id="JasperReport导出JavaBean列表"><a href="#JasperReport导出JavaBean列表" class="headerlink" title="JasperReport导出JavaBean列表"></a>JasperReport导出JavaBean列表</h3><ul>
+<h3 id="JasperReport导出JavaBean列表"><a href="#JasperReport导出JavaBean列表" class="headerlink" title="JasperReport导出JavaBean列表"></a>JasperReport导出JavaBean列表</h3><p><strong>重点</strong>：列表数据循环加载的关键在于<code>Fields</code>变量文本所在区域移除空白区域（双击区域），且模板文件中该区域留有空闲高度。例：文件可用高度为300px，<code>Page Header</code>和<code>Page Footer</code>总高度为100px（除<code>Detail</code>区域再无其它区域），若<code>Fields</code>变量文本高度为20px，则每页可循环10组列表数据。</p>
+<ul>
 <li><p>模板工具添加<code>Fields</code>变量（变量名称与Bean对象属性名称一致）</p>
 </li>
 <li><p>模板<code>Detail</code>区域插入<code>Fields</code>（根据需求设置样式及边框）</p>
