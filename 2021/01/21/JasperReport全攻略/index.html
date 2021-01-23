@@ -28,7 +28,7 @@
 <meta property="og:description" content="JasperReport生态IReport、JasperStudio是jasper的辅助视觉设计工具，不用它也能设计Jasper报表（编码jrxml）。 5.5之前这个工具叫ireport，5.5之后随着JasperStudio的出生，IReport就被完全替代了。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-01-21T01:31:53.000Z">
-<meta property="article:modified_time" content="2021-01-23T03:11:26.564Z">
+<meta property="article:modified_time" content="2021-01-23T08:43:32.716Z">
 <meta property="article:author" content="Marvin">
 <meta property="article:tag" content="develop">
 <meta property="article:tag" content="java">
@@ -223,7 +223,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-23 11:11:26" itemprop="dateModified" datetime="2021-01-23T11:11:26+08:00">2021-01-23</time>
+                <time title="修改时间：2021-01-23 16:43:32" itemprop="dateModified" datetime="2021-01-23T16:43:32+08:00">2021-01-23</time>
               </span>
 
           
@@ -345,7 +345,7 @@
 </ul>
 <h3 id="JasperReport结合数据库连接导出数据"><a href="#JasperReport结合数据库连接导出数据" class="headerlink" title="JasperReport结合数据库连接导出数据"></a>JasperReport结合数据库连接导出数据</h3><ul>
 <li><p>添加<code>Data Adapters</code></p>
-<p>在<code>Repository Explorer -&gt; Data Adapters</code>中右键选择<code>Create Data Adapter</code>，在弹出框中选择<code>Database JDBC Connection</code>后，进行常规JDBC配置。需要在<code>Driver Classpath</code>中添加对应的<strong>数据库连接驱动</strong>。</p>
+<p>在<code>Repository Explorer -&gt; Data Adapters</code>中右键选择<code>Create Data Adapter</code>，在弹出框中选择<code>Database JDBC Connection</code>后，进行常规JDBC配置（命名：<code>DemoData</code>）。需要在<code>Driver Classpath</code>中添加对应的<strong>数据库连接驱动</strong>。</p>
 <p>该配置或许不支持<code>useSSL</code>，JDBC URL配置常规路径既可<code>jdbc:mysql://localhost/database</code>。测试连接正常后继续往下操作</p>
 </li>
 <li><p>在<code>Outline</code>中右键模板文件选择<code>Dataset And Query ...</code>，在弹出框中配置数据库查询。</p>
@@ -358,6 +358,53 @@
 <li><p>编码导出（在线预览PDF模式）</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">String path = <span class="string">&quot;C:\\Users\\Administrator\\JaspersoftWorkspace\\MyReports\\userData.jrxml&quot;</span>;</span><br><span class="line"><span class="comment">//1.编译</span></span><br><span class="line">JasperReport jasperReport = JasperCompileManager.compileReport(path);</span><br><span class="line"><span class="comment">//2.构建Print对象，用于让模块结合数据</span></span><br><span class="line"><span class="comment">//第三个参数：如果是JDBC数据源，应该设置Connection对象</span></span><br><span class="line">Connection connection = dataSource.getConnection();</span><br><span class="line">JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, <span class="keyword">new</span> HashMap&lt;&gt;(), connection);</span><br><span class="line"><span class="comment">//3.PDF输出流</span></span><br><span class="line">response.setContentType(<span class="string">&quot;application/pdf&quot;</span>);</span><br><span class="line">response.setHeader(<span class="string">&quot;Content-Disposition&quot;</span>, <span class="string">&quot;inline;&quot;</span>);</span><br><span class="line"><span class="keyword">final</span> OutputStream outputStream = response.getOutputStream();</span><br><span class="line">JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);</span><br><span class="line"><span class="comment">//关闭连接和输出流</span></span><br><span class="line">connection.close();</span><br><span class="line">outputStream.close();</span><br></pre></td></tr></table></figure>
 
+</li>
+</ul>
+<h3 id="JasperReport制作表格"><a href="#JasperReport制作表格" class="headerlink" title="JasperReport制作表格"></a>JasperReport制作表格</h3><p>之前两节所涉及的集合数据均为普通的<code>Text Field</code>元素组成，表格制作方式与上面所述完全不同。</p>
+<ul>
+<li><p>结合数据源制作表格（数据源使用上文设置好的连接<code>DemoData</code>）</p>
+<ol>
+<li><p><code>Outline</code>面板右键选择<code>Dataset And Query ...</code>或者<code>Properties</code>面板点击<code>Edit query, filter and sort options</code>，在弹出框的右边编辑区域填入SQL查询语句，<code>Read Fidlds</code>获取字段（可省略）。</p>
+</li>
+<li><p>拖入<code>Table</code>组件，弹出框选择<code>Create a Table using a new dataset</code>新建<code>dataset</code>，名称自定义，选择<code>Create new dataset from a connection or Data Source</code>继续，<code>Data Adapter</code>选择<code>DemoData</code>，编辑区填入SQL查询语句，选择字段（必要），<code>Group By</code>（可选）。后续设置按需求，直至结束。</p>
+</li>
+<li><p>Java编码只需传入数据库<code>connection</code>即可。</p>
+<p><code>JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap&lt;&gt;(), connection);</code></p>
+</li>
+</ol>
+</li>
+<li><p>基于JavaBean集合数据制作表格（较为繁琐）</p>
+<ol>
+<li><p>新建<code>dataset</code>，<code>Data Source</code>选择<code>One Empty Record - Empty rows</code>后结束。</p>
+</li>
+<li><p><code>dataset</code>中的<code>Fields</code>按需建立与<code>JavaBean</code>对象同名的属性名称。</p>
+</li>
+<li><p><code>Outline</code>面板模板文件中的<code>Fields</code>中建立名为<code>dataList</code>的字段（该名称后续需要用到），<code>Class</code>填入<code>net.sf.jasperreports.engine.data.JRBeanCollectionDataSource</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">&quot;users&quot;</span> <span class="attr">class</span>=<span class="string">&quot;net.sf.jasperreports.engine.data.JRBeanCollectionDataSource&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>拖入<code>Table</code>组件，在弹出框选择<code>Create a Table using an existing dataset</code>并选择刚刚建立的<code>dataset</code>名称，<code>Connection</code>选择<code>Use a JRDatasource expression</code>后在编辑区填入<code>$F&#123;dataList&#125;</code>（上一步建立的字段名，后续仍会用到），后续操作与结合数据源制作方式类似。</p>
+</li>
+<li><p>Java编码</p>
+<ol>
+<li><p>新建类<code>TableDataSource</code>，其中<code>JRBeanCollectionDataSource</code>类型的属性名称与之前必须一致<code>dataList</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TableDataSource</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> JRBeanCollectionDataSource dataList;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> JRBeanCollectionDataSource <span class="title">getDataList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> dataList;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> TableDataSource <span class="title">setDataList</span><span class="params">(JRBeanCollectionDataSource dataList)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.dataList = dataList;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//其它属性值以及get()、set()、、、</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>封装数据，此时分三步封装</p>
+<ul>
+<li><p>封装底层结果集</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List&lt;User&gt; users = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">10</span>; i++) &#123;</span><br><span class="line">    users.add(<span class="keyword">new</span> User().setName(<span class="string">&quot;Name-&quot;</span> + i).setAge(<span class="number">10</span> + i).setSex(i));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">TableDataSource tableDataSource = <span class="keyword">new</span> TableDataSource();</span><br><span class="line">tableDataSource.setDataList(<span class="keyword">new</span> JRBeanCollectionDataSource(users));</span><br></pre></td></tr></table></figure></li>
+<li><p>封装用于后续操作的<code>Collection</code>对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;TableDataSource&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">list.add(tableDataSource);</span><br></pre></td></tr></table></figure></li>
+<li><p>封装模板数据源</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JRBeanCollectionDataSource dataSource = <span class="keyword">new</span> JRBeanCollectionDataSource(list);</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>结合模板导出</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">String jrxml = <span class="string">&quot;C:\\Users\\Administrator\\JaspersoftWorkspace\\MyReports\\&quot;</span> + sourceName + <span class="string">&quot;.jrxml&quot;</span>;</span><br><span class="line"><span class="comment">//编译</span></span><br><span class="line">JasperReport jasperReport = JasperCompileManager.compileReport(jrxml);</span><br><span class="line"><span class="comment">//填充</span></span><br><span class="line">JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, <span class="keyword">new</span> HashMap(), dataSource);</span><br><span class="line"><span class="comment">//导出PDF文件</span></span><br><span class="line">JasperExportManager.exportReportToPdfFile(jasperPrint, <span class="string">&quot;D:/test/report/&quot;</span> + jasperReport.getName() + <span class="string">&quot;.pdf&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+</li>
+</ol>
 </li>
 </ul>
 <h3 id="JasperReport其它配置"><a href="#JasperReport其它配置" class="headerlink" title="JasperReport其它配置"></a>JasperReport其它配置</h3><ul>
@@ -517,7 +564,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E7%94%9F%E6%80%81"><span class="nav-number">1.</span> <span class="nav-text">JasperReport生态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">JasperReport基本使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E5%AF%BC%E5%87%BA%E4%B8%AD%E6%96%87"><span class="nav-number">3.</span> <span class="nav-text">JasperReport导出中文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E4%BD%93"><span class="nav-number">4.</span> <span class="nav-text">JasperReport自定义字体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E5%8F%98%E9%87%8F"><span class="nav-number">5.</span> <span class="nav-text">JasperReport变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E5%9B%BE%E5%83%8F"><span class="nav-number">6.</span> <span class="nav-text">JasperReport图像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E6%9D%A1%E7%A0%81"><span class="nav-number">7.</span> <span class="nav-text">JasperReport条码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E5%AF%BC%E5%87%BAJavaBean%E5%88%97%E8%A1%A8"><span class="nav-number">8.</span> <span class="nav-text">JasperReport导出JavaBean列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E7%BB%93%E5%90%88%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE"><span class="nav-number">9.</span> <span class="nav-text">JasperReport结合数据库连接导出数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E5%85%B6%E5%AE%83%E9%85%8D%E7%BD%AE"><span class="nav-number">10.</span> <span class="nav-text">JasperReport其它配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%B4%E8%B0%A2"><span class="nav-number">11.</span> <span class="nav-text">致谢</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E7%94%9F%E6%80%81"><span class="nav-number">1.</span> <span class="nav-text">JasperReport生态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">JasperReport基本使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E5%AF%BC%E5%87%BA%E4%B8%AD%E6%96%87"><span class="nav-number">3.</span> <span class="nav-text">JasperReport导出中文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E4%BD%93"><span class="nav-number">4.</span> <span class="nav-text">JasperReport自定义字体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E5%8F%98%E9%87%8F"><span class="nav-number">5.</span> <span class="nav-text">JasperReport变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E5%9B%BE%E5%83%8F"><span class="nav-number">6.</span> <span class="nav-text">JasperReport图像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E6%9D%A1%E7%A0%81"><span class="nav-number">7.</span> <span class="nav-text">JasperReport条码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E5%AF%BC%E5%87%BAJavaBean%E5%88%97%E8%A1%A8"><span class="nav-number">8.</span> <span class="nav-text">JasperReport导出JavaBean列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E7%BB%93%E5%90%88%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE"><span class="nav-number">9.</span> <span class="nav-text">JasperReport结合数据库连接导出数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E5%88%B6%E4%BD%9C%E8%A1%A8%E6%A0%BC"><span class="nav-number">10.</span> <span class="nav-text">JasperReport制作表格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E5%85%B6%E5%AE%83%E9%85%8D%E7%BD%AE"><span class="nav-number">11.</span> <span class="nav-text">JasperReport其它配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%B4%E8%B0%A2"><span class="nav-number">12.</span> <span class="nav-text">致谢</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
