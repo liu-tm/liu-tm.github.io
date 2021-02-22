@@ -118,8 +118,88 @@
       </tags>
   </entry>
   <entry>
-    <title>JasperReport全攻略</title>
-    <url>/2021/01/21/JasperReport%E5%85%A8%E6%94%BB%E7%95%A5/</url>
+    <title>Java Compound</title>
+    <url>/2020/12/12/Java_Compound/</url>
+    <content><![CDATA[<h5 id="Http-Cros（跨域请求）"><a href="#Http-Cros（跨域请求）" class="headerlink" title="Http Cros（跨域请求）"></a>Http Cros（跨域请求）</h5><ul>
+<li>Get请求</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    url: <span class="string">&quot;http://192.168.1.240:8000/test/hello&quot;</span>,</span><br><span class="line">    dataType: <span class="string">&quot;jsonp&quot;</span>,<span class="comment">//必要</span></span><br><span class="line">    jsonp: <span class="string">&#x27;callbacks&#x27;</span>,<span class="comment">//非必要</span></span><br><span class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>非Get请求</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@CrossOrigin</span><span class="comment">//类级别配置跨域，允许所有端口以及所有方式</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestCtrl</span> </span>&#123;</span><br><span class="line">	<span class="comment">//...   </span></span><br><span class="line">    </span><br><span class="line">    <span class="meta">@GetMapping(&quot;/hello&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">hello</span><span class="params">(HttpServletResponse response)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//方法级别设置跨域</span></span><br><span class="line">        response.addHeader(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>, <span class="string">&quot;*&quot;</span>);</span><br><span class="line">        response.addHeader(<span class="string">&quot;Access-Control-Allow-Methods&quot;</span>, <span class="string">&quot;GET,PUT,POST,DELETE&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> (<span class="keyword">new</span> Date()) + <span class="string">&quot;Hello , Here is the api space .&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//以上两种方式不切实际，推荐使用以下两种方式</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//CORS全局配置跨域请求</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CorsConfig</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> WebMvcConfigurer <span class="title">corsConfigurer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> WebMvcConfigurer() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addCorsMappings</span><span class="params">(CorsRegistry registry)</span> </span>&#123;</span><br><span class="line">                registry.addMapping(<span class="string">&quot;/**&quot;</span>)</span><br><span class="line">                        <span class="comment">//允许跨域的域名，可以用*表示允许任何域名使用</span></span><br><span class="line">                        .allowedOrigins(<span class="string">&quot;http://192.168.1.240&quot;</span>, <span class="string">&quot;http://192.168.1.241&quot;</span>)</span><br><span class="line">                        <span class="comment">//允许任何方法（post、get等）</span></span><br><span class="line">                        .allowedMethods(<span class="string">&quot;POST&quot;</span>, <span class="string">&quot;PUT&quot;</span>, <span class="string">&quot;GET&quot;</span>)</span><br><span class="line">                        <span class="comment">//允许任何请求头</span></span><br><span class="line">                        .allowedHeaders(<span class="string">&quot;*&quot;</span>)</span><br><span class="line">                        <span class="comment">//带上cookie信息</span></span><br><span class="line">                        .allowCredentials(<span class="keyword">true</span>)</span><br><span class="line">                        <span class="comment">//maxAge(3600)表明在3600秒内，不需要再发送预检验请求，可以缓存该结果</span></span><br><span class="line">                        .exposedHeaders(HttpHeaders.SET_COOKIE).maxAge(<span class="number">3600L</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//拦截器实现跨域配置</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CorsFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">        HttpServletResponse res = (HttpServletResponse) response;</span><br><span class="line">        res.addHeader(<span class="string">&quot;Access-Control-Allow-Credentials&quot;</span>, <span class="string">&quot;true&quot;</span>);</span><br><span class="line">        res.addHeader(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>, <span class="string">&quot;*&quot;</span>);</span><br><span class="line">        res.addHeader(<span class="string">&quot;Access-Control-Allow-Methods&quot;</span>, <span class="string">&quot;GET, POST, DELETE, PUT&quot;</span>);</span><br><span class="line">        res.addHeader(<span class="string">&quot;Access-Control-Allow-Headers&quot;</span>, <span class="string">&quot;Content-Type,X-CAF-Authorization-Token,sessionToken,X-TOKEN&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (((HttpServletRequest) request).getMethod().equals(<span class="string">&quot;OPTIONS&quot;</span>)) &#123;</span><br><span class="line">            response.getWriter().println(<span class="string">&quot;ok&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        chain.doFilter(request, response);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="MySQL-5-7-解压版本安装"><a href="#MySQL-5-7-解压版本安装" class="headerlink" title="MySQL 5.7 解压版本安装"></a>MySQL 5.7 解压版本安装</h5><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="attr">basedir</span> =<span class="string">&quot;D:\mysql&quot;</span></span><br><span class="line"><span class="attr">datadir</span> =<span class="string">&quot;D:\mysql\data&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#my.ini配置文件可有可无</span></span><br><span class="line">mysqld -install MySQL  --defaults-file=<span class="string">&quot;D:\mysql\my.ini&quot;</span></span><br><span class="line">mysqld --initialize --user=mysql --console</span><br><span class="line"><span class="comment">#以下内容为初始化成功结束时控制台内容，需要记下最后的初始密码</span></span><br><span class="line"><span class="comment">#...</span></span><br><span class="line"><span class="comment">#2020-10-23T01:04:10.139593Z 0 [Warning] CA certificate ca.pem is self signed.</span></span><br><span class="line"><span class="comment">#2020-10-23T01:04:10.327391Z 1 [Note] A temporary password is generated for root@localhost: N2DwygNme,fi</span></span><br><span class="line"><span class="comment">#...</span></span><br><span class="line"><span class="comment">#启动服务</span></span><br><span class="line">net start mysql </span><br><span class="line"><span class="comment">#登陆服务器</span></span><br><span class="line">mysql -uroot -p</span><br><span class="line"><span class="comment">#初始密码：N2DwygNme,fi</span></span><br><span class="line"><span class="comment">#修改密码（必须）</span></span><br><span class="line">ALTER USER <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> IDENTIFIED BY <span class="string">&#x27;自定义密码&#x27;</span>; </span><br></pre></td></tr></table></figure>
+<h5 id="Spring-依赖注入"><a href="#Spring-依赖注入" class="headerlink" title="Spring 依赖注入"></a>Spring 依赖注入</h5><p>实现方式有三种：</p>
+<ul>
+<li><p>成员变量注入</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> IGyUserService userService;</span><br></pre></td></tr></table></figure>
+<p>优点：代码简洁    缺点：NullPointerException</p>
+</li>
+<li><p>构造器注入</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> IGyUserService userService;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">CustomUserDetailsService</span><span class="params">(IGyUserService userService)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.userService = userService;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>必须强制注入，通过强制指明依赖注入来保证这个类的运行。</p>
+</li>
+<li><p>set方法注入</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> UserDao userDao;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUserDao</span> <span class="params">(UserDao userDao)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.userDao = userDao;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是一种选择注入，可有可无，即使没有注入这个依赖，那么也不会影响整个类的运行。</p>
+</li>
+</ul>
+<blockquote>
+<p>理解：<br>依赖注入的核心思想之一就是被容器管理的类不应该依赖被容器管理的依赖，换成白话来说就是如果这个类使用了依赖注入的类，那么这个类摆脱了这几个依赖必须也能正常运行。然而使用变量注入的方式是不能保证这点的。<br>既然使用了依赖注入方式，那么就表明这个类不再对这些依赖负责，这些都由容器管理，那么如何清楚的知道这个类需要哪些依赖呢？它就要使用set方法方式注入或者构造器注入。</p>
+<p>总结<br>变量方式注入应该尽量避免，使用set方式注入或者构造器注入，这两种方式的选择就要看这个类是强制依赖的话就用构造器方式，选择依赖的话就用set方法注入。</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>develop</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java Print</title>
+    <url>/2020/12/12/Java_Print/</url>
+    <content><![CDATA[<h5 id="注册表修复USB端口"><a href="#注册表修复USB端口" class="headerlink" title="注册表修复USB端口"></a>注册表修复USB端口</h5><p><code>HKEY_LOCAL_MACHINE</code>=&gt;<code>SYSTEM</code>=&gt;<code>CurrentControlSet</code>=&gt;<code>Control</code>=&gt;<code>Print</code>=&gt;<code>Monitors</code></p>
+<a id="more"></a>
+<p>新建或者修复下列子项</p>
+<ul>
+<li><code>Epson Inbox Language Monitor01</code>=&gt;<code>Driver=EP0SLM01.DLL</code></li>
+<li><code>USB Monitor</code>=&gt;<code>Driver=usbmon.dll</code></li>
+</ul>
+<h5 id="Godex出纸异常"><a href="#Godex出纸异常" class="headerlink" title="Godex出纸异常"></a>Godex出纸异常</h5><p>使用Godex官方PDF制作软件生成打印指令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">^Q50,0,0</span><br><span class="line">^W80</span><br><span class="line">^H10</span><br><span class="line">^P1</span><br><span class="line">^S4</span><br><span class="line">^AD</span><br><span class="line">^C1</span><br><span class="line">^R0</span><br><span class="line">~Q+0</span><br><span class="line">^O0</span><br><span class="line">^D0</span><br><span class="line">^E19	&lt;==== 此项即为打印结束之后的停顿点，也是导致出纸异常的原因。</span><br><span class="line">~R200</span><br><span class="line">^L</span><br><span class="line">Dy2-me-dd</span><br><span class="line">Th:m:s</span><br><span class="line">E</span><br></pre></td></tr></table></figure>
+<p>在条码机设定中调整<code>停歇点设定</code>，或者直接在指定中修改调试至合适位置。</p>
+<h5 id="Java打印PDF"><a href="#Java打印PDF" class="headerlink" title="Java打印PDF"></a>Java打印PDF</h5><ul>
+<li><p>获取当前设备上的打印机服务列表</p>
+<p><code>PrintService[] printServices = PrinterJob.lookupPrintServices();</code></p>
+</li>
+<li><p>查找指定名称的打印机</p>
+<p>可以通过遍历打印机列表，组建以打印机名称为<code>key</code>的<code>Map</code>，<code>printMap.put(printService.getName(), printService);</code>，再通过接收到的打印机名称在<code>Map</code>找到对应的<code>PrintService</code>。</p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>develop</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Windows Mstsc</title>
+    <url>/2020/12/12/Windows_mstsc/</url>
+    <content><![CDATA[<h5 id="远程桌面提示：身份验证错误-要求的函数不受支持"><a href="#远程桌面提示：身份验证错误-要求的函数不受支持" class="headerlink" title="远程桌面提示：身份验证错误 要求的函数不受支持"></a>远程桌面提示：身份验证错误 要求的函数不受支持</h5><p> 这个解决方法来自微软官方，</p>
+<p> 按照此方法发现我的电脑中并没有“加密 Oracle 修正”这一项。</p>
+<p> 解决方法如下：</p>
+<p> 命令 regedit 打开注册表，找到路径 [HKEY_LOCAL_MACHINE]\Software\Microsoft\Windows\CurrentVersion\Policies\System\CredSSP\Parameters</p>
+<p> 一般情况下，到了System之后就没了，缺少的可以自己创建文件夹。</p>
+<p> 然后在最底部文件夹里面新建 DWORD（32）位的。文件名 “AllowEncryptionOracle”，值：2</p>
+<p><img src="https://ftp.bmp.ovh/imgs/2020/12/1cbd101e5ad76435.jpg" alt="如图所示"></p>
+]]></content>
+      <tags>
+        <tag>windows</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JasperReport 全攻略</title>
+    <url>/2021/01/21/JasperReport/</url>
     <content><![CDATA[<h3 id="JasperReport生态"><a href="#JasperReport生态" class="headerlink" title="JasperReport生态"></a>JasperReport生态</h3><p>IReport、JasperStudio是jasper的辅助视觉设计工具，不用它也能设计Jasper报表（编码jrxml）。</p>
 <p>5.5之前这个工具叫ireport，5.5之后随着JasperStudio的出生，IReport就被完全替代了。</p>
 <p><strong>IReport支持jdk最高版本为1.7</strong>，在不修改系统环境变量的前提下，可以配置IReport根目录中etc目录下的<code>ireport.conf</code>，将<code>jdkhome</code>注释打开并配置jdk1.7版本位置。</p>
@@ -302,73 +382,8 @@
       </tags>
   </entry>
   <entry>
-    <title>Java Compound</title>
-    <url>/2020/12/12/Java_Compound/</url>
-    <content><![CDATA[<h5 id="Http-Cros（跨域请求）"><a href="#Http-Cros（跨域请求）" class="headerlink" title="Http Cros（跨域请求）"></a>Http Cros（跨域请求）</h5><ul>
-<li>Get请求</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    url: <span class="string">&quot;http://192.168.1.240:8000/test/hello&quot;</span>,</span><br><span class="line">    dataType: <span class="string">&quot;jsonp&quot;</span>,<span class="comment">//必要</span></span><br><span class="line">    jsonp: <span class="string">&#x27;callbacks&#x27;</span>,<span class="comment">//非必要</span></span><br><span class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>非Get请求</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@CrossOrigin</span><span class="comment">//类级别配置跨域，允许所有端口以及所有方式</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestCtrl</span> </span>&#123;</span><br><span class="line">	<span class="comment">//...   </span></span><br><span class="line">    </span><br><span class="line">    <span class="meta">@GetMapping(&quot;/hello&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">hello</span><span class="params">(HttpServletResponse response)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//方法级别设置跨域</span></span><br><span class="line">        response.addHeader(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>, <span class="string">&quot;*&quot;</span>);</span><br><span class="line">        response.addHeader(<span class="string">&quot;Access-Control-Allow-Methods&quot;</span>, <span class="string">&quot;GET,PUT,POST,DELETE&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> (<span class="keyword">new</span> Date()) + <span class="string">&quot;Hello , Here is the api space .&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//以上两种方式不切实际，推荐使用以下两种方式</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//CORS全局配置跨域请求</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CorsConfig</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> WebMvcConfigurer <span class="title">corsConfigurer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> WebMvcConfigurer() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addCorsMappings</span><span class="params">(CorsRegistry registry)</span> </span>&#123;</span><br><span class="line">                registry.addMapping(<span class="string">&quot;/**&quot;</span>)</span><br><span class="line">                        <span class="comment">//允许跨域的域名，可以用*表示允许任何域名使用</span></span><br><span class="line">                        .allowedOrigins(<span class="string">&quot;http://192.168.1.240&quot;</span>, <span class="string">&quot;http://192.168.1.241&quot;</span>)</span><br><span class="line">                        <span class="comment">//允许任何方法（post、get等）</span></span><br><span class="line">                        .allowedMethods(<span class="string">&quot;POST&quot;</span>, <span class="string">&quot;PUT&quot;</span>, <span class="string">&quot;GET&quot;</span>)</span><br><span class="line">                        <span class="comment">//允许任何请求头</span></span><br><span class="line">                        .allowedHeaders(<span class="string">&quot;*&quot;</span>)</span><br><span class="line">                        <span class="comment">//带上cookie信息</span></span><br><span class="line">                        .allowCredentials(<span class="keyword">true</span>)</span><br><span class="line">                        <span class="comment">//maxAge(3600)表明在3600秒内，不需要再发送预检验请求，可以缓存该结果</span></span><br><span class="line">                        .exposedHeaders(HttpHeaders.SET_COOKIE).maxAge(<span class="number">3600L</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//拦截器实现跨域配置</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CorsFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">        HttpServletResponse res = (HttpServletResponse) response;</span><br><span class="line">        res.addHeader(<span class="string">&quot;Access-Control-Allow-Credentials&quot;</span>, <span class="string">&quot;true&quot;</span>);</span><br><span class="line">        res.addHeader(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>, <span class="string">&quot;*&quot;</span>);</span><br><span class="line">        res.addHeader(<span class="string">&quot;Access-Control-Allow-Methods&quot;</span>, <span class="string">&quot;GET, POST, DELETE, PUT&quot;</span>);</span><br><span class="line">        res.addHeader(<span class="string">&quot;Access-Control-Allow-Headers&quot;</span>, <span class="string">&quot;Content-Type,X-CAF-Authorization-Token,sessionToken,X-TOKEN&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (((HttpServletRequest) request).getMethod().equals(<span class="string">&quot;OPTIONS&quot;</span>)) &#123;</span><br><span class="line">            response.getWriter().println(<span class="string">&quot;ok&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        chain.doFilter(request, response);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="MySQL-5-7-解压版本安装"><a href="#MySQL-5-7-解压版本安装" class="headerlink" title="MySQL 5.7 解压版本安装"></a>MySQL 5.7 解压版本安装</h5><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="attr">basedir</span> =<span class="string">&quot;D:\mysql&quot;</span></span><br><span class="line"><span class="attr">datadir</span> =<span class="string">&quot;D:\mysql\data&quot;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#my.ini配置文件可有可无</span></span><br><span class="line">mysqld -install MySQL  --defaults-file=<span class="string">&quot;D:\mysql\my.ini&quot;</span></span><br><span class="line">mysqld --initialize --user=mysql --console</span><br><span class="line"><span class="comment">#以下内容为初始化成功结束时控制台内容，需要记下最后的初始密码</span></span><br><span class="line"><span class="comment">#...</span></span><br><span class="line"><span class="comment">#2020-10-23T01:04:10.139593Z 0 [Warning] CA certificate ca.pem is self signed.</span></span><br><span class="line"><span class="comment">#2020-10-23T01:04:10.327391Z 1 [Note] A temporary password is generated for root@localhost: N2DwygNme,fi</span></span><br><span class="line"><span class="comment">#...</span></span><br><span class="line"><span class="comment">#启动服务</span></span><br><span class="line">net start mysql </span><br><span class="line"><span class="comment">#登陆服务器</span></span><br><span class="line">mysql -uroot -p</span><br><span class="line"><span class="comment">#初始密码：N2DwygNme,fi</span></span><br><span class="line"><span class="comment">#修改密码（必须）</span></span><br><span class="line">ALTER USER <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> IDENTIFIED BY <span class="string">&#x27;自定义密码&#x27;</span>; </span><br></pre></td></tr></table></figure>
-<h5 id="Spring-依赖注入"><a href="#Spring-依赖注入" class="headerlink" title="Spring 依赖注入"></a>Spring 依赖注入</h5><p>实现方式有三种：</p>
-<ul>
-<li><p>成员变量注入</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> IGyUserService userService;</span><br></pre></td></tr></table></figure>
-<p>优点：代码简洁    缺点：NullPointerException</p>
-</li>
-<li><p>构造器注入</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> IGyUserService userService;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">CustomUserDetailsService</span><span class="params">(IGyUserService userService)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.userService = userService;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>必须强制注入，通过强制指明依赖注入来保证这个类的运行。</p>
-</li>
-<li><p>set方法注入</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> UserDao userDao;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUserDao</span> <span class="params">(UserDao userDao)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.userDao = userDao;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这是一种选择注入，可有可无，即使没有注入这个依赖，那么也不会影响整个类的运行。</p>
-</li>
-</ul>
-<blockquote>
-<p>理解：<br>依赖注入的核心思想之一就是被容器管理的类不应该依赖被容器管理的依赖，换成白话来说就是如果这个类使用了依赖注入的类，那么这个类摆脱了这几个依赖必须也能正常运行。然而使用变量注入的方式是不能保证这点的。<br>既然使用了依赖注入方式，那么就表明这个类不再对这些依赖负责，这些都由容器管理，那么如何清楚的知道这个类需要哪些依赖呢？它就要使用set方法方式注入或者构造器注入。</p>
-<p>总结<br>变量方式注入应该尽量避免，使用set方式注入或者构造器注入，这两种方式的选择就要看这个类是强制依赖的话就用构造器方式，选择依赖的话就用set方法注入。</p>
-</blockquote>
-]]></content>
-      <tags>
-        <tag>develop</tag>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java Print</title>
-    <url>/2020/12/12/Java_Print/</url>
-    <content><![CDATA[<h5 id="注册表修复USB端口"><a href="#注册表修复USB端口" class="headerlink" title="注册表修复USB端口"></a>注册表修复USB端口</h5><p><code>HKEY_LOCAL_MACHINE</code>=&gt;<code>SYSTEM</code>=&gt;<code>CurrentControlSet</code>=&gt;<code>Control</code>=&gt;<code>Print</code>=&gt;<code>Monitors</code></p>
-<a id="more"></a>
-<p>新建或者修复下列子项</p>
-<ul>
-<li><code>Epson Inbox Language Monitor01</code>=&gt;<code>Driver=EP0SLM01.DLL</code></li>
-<li><code>USB Monitor</code>=&gt;<code>Driver=usbmon.dll</code></li>
-</ul>
-<h5 id="Godex出纸异常"><a href="#Godex出纸异常" class="headerlink" title="Godex出纸异常"></a>Godex出纸异常</h5><p>使用Godex官方PDF制作软件生成打印指令</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">^Q50,0,0</span><br><span class="line">^W80</span><br><span class="line">^H10</span><br><span class="line">^P1</span><br><span class="line">^S4</span><br><span class="line">^AD</span><br><span class="line">^C1</span><br><span class="line">^R0</span><br><span class="line">~Q+0</span><br><span class="line">^O0</span><br><span class="line">^D0</span><br><span class="line">^E19	&lt;==== 此项即为打印结束之后的停顿点，也是导致出纸异常的原因。</span><br><span class="line">~R200</span><br><span class="line">^L</span><br><span class="line">Dy2-me-dd</span><br><span class="line">Th:m:s</span><br><span class="line">E</span><br></pre></td></tr></table></figure>
-<p>在条码机设定中调整<code>停歇点设定</code>，或者直接在指定中修改调试至合适位置。</p>
-<h5 id="Java打印PDF"><a href="#Java打印PDF" class="headerlink" title="Java打印PDF"></a>Java打印PDF</h5><ul>
-<li><p>获取当前设备上的打印机服务列表</p>
-<p><code>PrintService[] printServices = PrinterJob.lookupPrintServices();</code></p>
-</li>
-<li><p>查找指定名称的打印机</p>
-<p>可以通过遍历打印机列表，组建以打印机名称为<code>key</code>的<code>Map</code>，<code>printMap.put(printService.getName(), printService);</code>，再通过接收到的打印机名称在<code>Map</code>找到对应的<code>PrintService</code>。</p>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>develop</tag>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Maven</title>
-    <url>/2020/12/12/Maven/</url>
+    <title>Maven 循环依赖</title>
+    <url>/2020/12/12/Maven_Dependency_Cycle/</url>
     <content><![CDATA[<h5 id="循环依赖（低级错误）"><a href="#循环依赖（低级错误）" class="headerlink" title="循环依赖（低级错误）"></a>循环依赖（低级错误）</h5><p>错误信息如下：</p>
 <p><code>Error:java: Annotation processing is not supported for module cycles. Please ensure that all modules from cycle [erp-commons-entity,erp-commons-helper] are excluded from annotation processing</code></p>
 <p>POM配置如下：</p>
@@ -380,11 +395,10 @@
       </tags>
   </entry>
   <entry>
-    <title>MySql</title>
-    <url>/2020/12/12/Mysql/</url>
+    <title>MySql 分组错误</title>
+    <url>/2020/12/12/Mysql_Group_By/</url>
     <content><![CDATA[<h3 id="ONLY-FULL-GROUP-BY"><a href="#ONLY-FULL-GROUP-BY" class="headerlink" title="ONLY_FULL_GROUP_BY"></a>ONLY_FULL_GROUP_BY</h3><p><code>select * from cnarea_2019 group by parent_code;</code></p>
 <p><strong>含义</strong> sql中<code>group by</code>后面的字段必须出现在<code>select</code>后面，或者被聚合函数包裹，不然会抛出如下错误</p>
-<a id="more"></a>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">Error Code: <span class="number">1055.</span> Expression #<span class="number">3</span> <span class="keyword">of</span> <span class="keyword">SELECT</span> list <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">in</span> <span class="keyword">GROUP</span> <span class="keyword">BY</span> clause <span class="keyword">and</span> <span class="keyword">contains</span> nonaggregated <span class="keyword">column</span> ‘×××’ which <span class="keyword">is</span> <span class="keyword">not</span> functionally dependent <span class="keyword">on</span> columns <span class="keyword">in</span> <span class="keyword">GROUP</span> <span class="keyword">BY</span> clause; this <span class="keyword">is</span> incompatible <span class="keyword">with</span> sql_mode<span class="operator">=</span>only_full_group_by</span><br></pre></td></tr></table></figure>
 <h4 id="临时解决办法"><a href="#临时解决办法" class="headerlink" title="临时解决办法"></a>临时解决办法</h4><p>在查询前先执行下面任意一种：</p>
 <ul>
@@ -403,46 +417,8 @@
       </tags>
   </entry>
   <entry>
-    <title>MySql GROUP_BY 错误</title>
-    <url>/2020/12/12/SQL_MySql/</url>
-    <content><![CDATA[<h5 id="ONLY-FULL-GROUP-BY"><a href="#ONLY-FULL-GROUP-BY" class="headerlink" title="ONLY_FULL_GROUP_BY"></a>ONLY_FULL_GROUP_BY</h5><p><code>select * from cnarea_2019 group by parent_code;</code></p>
-<p><strong>含义</strong> sql中<code>group by</code>后面的字段必须出现在<code>select</code>后面，或者被聚合函数包裹，不然会抛出如下错误</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">Error Code: <span class="number">1055.</span> Expression #<span class="number">3</span> <span class="keyword">of</span> <span class="keyword">SELECT</span> list <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">in</span> <span class="keyword">GROUP</span> <span class="keyword">BY</span> clause <span class="keyword">and</span> <span class="keyword">contains</span> nonaggregated <span class="keyword">column</span> ‘×××’ which <span class="keyword">is</span> <span class="keyword">not</span> functionally dependent <span class="keyword">on</span> columns <span class="keyword">in</span> <span class="keyword">GROUP</span> <span class="keyword">BY</span> clause; this <span class="keyword">is</span> incompatible <span class="keyword">with</span> sql_mode<span class="operator">=</span>only_full_group_by</span><br></pre></td></tr></table></figure>
-<h5 id="临时解决办法"><a href="#临时解决办法" class="headerlink" title="临时解决办法"></a>临时解决办法</h5><p>在查询前先执行下面任意一种：</p>
-<ul>
-<li><code>SET sql_mode=(SELECT REPLACE(@@sql_mode,&#39;ONLY_FULL_GROUP_BY&#39;,&#39;&#39;));</code></li>
-<li><code>set global sql_mode=&#39;STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&#39;;</code></li>
-</ul>
-<p>此方案为会话级别，重新连接数据库时失效。</p>
-<h5 id="终极解决办法"><a href="#终极解决办法" class="headerlink" title="终极解决办法"></a>终极解决办法</h5><p>通过执行<code>mysql --help</code>可以获取配置文件读取路径</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">Default options are read from the following files <span class="keyword">in</span> the given order:</span><br><span class="line"><span class="function">C:\<span class="title">WINDOWS</span>\<span class="title">my.ini</span> <span class="title">C</span>:\<span class="title">WINDOWS</span>\<span class="title">my.cnf</span> <span class="title">C</span>:\<span class="title">my.ini</span> <span class="title">C</span>:\<span class="title">my.cnf</span> <span class="title">D</span>:\<span class="title">Marvin</span>\<span class="title">Data</span>\<span class="title">mysql_5</span>.7.30\<span class="title">my.ini</span> <span class="title">D</span>:\<span class="title">Marvin</span>\<span class="title">Data</span>\<span class="title">mysql_5</span>.7.30\<span class="title">my.cnf</span></span></span><br></pre></td></tr></table></figure>
-<p>即为以上任意位置建立<code>my.ini</code>配置文件都会被<code>mysql</code>服务读取。配置内容如下：</p>
-<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[mysql]</span></span><br><span class="line"><span class="comment"># 设置mysql客户端默认字符集</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8 </span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="comment">#设置3306端口</span></span><br><span class="line"><span class="attr">port</span> = <span class="number">3306</span></span><br><span class="line"><span class="comment"># 设置mysql的安装目录</span></span><br><span class="line"><span class="attr">basedir</span>=D:\Marvin\Data\mysql_5.<span class="number">7.30</span></span><br><span class="line"><span class="comment"># 允许最大连接数</span></span><br><span class="line"><span class="attr">max_connections</span>=<span class="number">200</span></span><br><span class="line"><span class="comment"># 服务端使用的字符集默认为8比特编码的latin1字符集</span></span><br><span class="line"><span class="attr">character-set-server</span>=utf8</span><br><span class="line"><span class="comment"># 创建新表时将使用的默认存储引擎</span></span><br><span class="line"><span class="attr">default-storage-engine</span>=INNODB</span><br><span class="line"><span class="comment"># 设置模式</span></span><br><span class="line"><span class="attr">sql_mode</span> =STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION</span><br><span class="line"><span class="attr">datadir</span> = D:\Marvin\Data\mysql_5.<span class="number">7.30</span>\data</span><br></pre></td></tr></table></figure>
-<p>重启<code>mysql</code>服务即可永久生效。</p>
-]]></content>
-      <tags>
-        <tag>develop</tag>
-        <tag>sql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Windows Mstsc</title>
-    <url>/2020/12/12/Windows_mstsc/</url>
-    <content><![CDATA[<h5 id="远程桌面提示：身份验证错误-要求的函数不受支持"><a href="#远程桌面提示：身份验证错误-要求的函数不受支持" class="headerlink" title="远程桌面提示：身份验证错误 要求的函数不受支持"></a>远程桌面提示：身份验证错误 要求的函数不受支持</h5><p> 这个解决方法来自微软官方，</p>
-<p> 按照此方法发现我的电脑中并没有“加密 Oracle 修正”这一项。</p>
-<p> 解决方法如下：</p>
-<p> 命令 regedit 打开注册表，找到路径 [HKEY_LOCAL_MACHINE]\Software\Microsoft\Windows\CurrentVersion\Policies\System\CredSSP\Parameters</p>
-<p> 一般情况下，到了System之后就没了，缺少的可以自己创建文件夹。</p>
-<p> 然后在最底部文件夹里面新建 DWORD（32）位的。文件名 “AllowEncryptionOracle”，值：2</p>
-<p><img src="https://ftp.bmp.ovh/imgs/2020/12/1cbd101e5ad76435.jpg" alt="如图所示"></p>
-]]></content>
-      <tags>
-        <tag>windows</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>started</title>
-    <url>/2020/12/30/started/</url>
+    <url>/2020/12/30/Started/</url>
     <content><![CDATA[<p>All the best will be come on 2021.</p>
 ]]></content>
       <tags>
