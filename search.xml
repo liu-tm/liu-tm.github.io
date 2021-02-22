@@ -1,13 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Started</title>
-    <url>/2020/12/30/Started/</url>
-    <content><![CDATA[<p>All the best will be come on 2021.</p>
+    <title>Android ADB</title>
+    <url>/2020/12/12/Android_ADB/</url>
+    <content><![CDATA[<p><i id="quote" data-modify="true"></i></p>
+<p>连接：<code>adb shell</code></p>
+<p>多个终端选择：<code>adb -s xiaomi shell:-s命令表示选择设备,这里是选择xiaomi设备进shell</code></p>
+<p>与终端成功建立连接后</p>
+<p>获取系统应用：<code>pm list packages -s &gt; list.txt</code></p>
+<p>禁用：<code>pm disable-user com.huawei.search</code></p>
+<p>删除：<code>pm uninstall -k --user 0 com.huawei.search</code>，**-k** 表示保存数据，如不需要，可去掉 -k。</p>
+<p><strong>系统自带软件说明</strong>：</p>
+<p><code>com.android.email</code>电子邮箱。我常用的就是qq邮箱，留它无用，我卸载了。<br><code>com.huawei.bone</code>华为穿戴。没什么华为穿戴，我卸载了。<br><code>com.huawei.himovie</code>华为视频。我常用的是MX player pro（版本1.9.0）播放器，强大得蔑视一切视频播放器，但是不要升级到最新，要不然一暂停就会弹出广告，看着烦。在线视频我用的爱奇艺视频破解版、腾讯视频WeTv无广告版，清爽得多。<br><code>com.huawei.KoBackup</code>备份。我还是保留了，虽然恢复时出现过无法恢复的情况（负责任的说，该软件不完善的地方，备份时老版本可以设置6位数密码或跳过不用设置密码，但如今必须用新版本恢复，原来未设置密码或设置的6位数密码的备份材料都无法恢复了），所以三管齐下，同时在云空间、电脑手机助手进行了备份，吃一堑长一智吧。<br><code>com.example.android.notepad</code>备忘录。我不用它，我喜欢用《随手写》，特别是其中的“涂鸦”功能。<br><code>com.android.browser</code>华为浏览器。很多人在吐槽不好用，反正我不用，我用360浏览器，电脑版我用习惯了。<br><code>com.vmall.client</code>华为商城。看你要不要在上面买东西了，我在上面买过两台荣誉9X，毕竟官方商城放心些。不用可以卸载，反正想用还可以安上。<br><code>com.android.printspooler</code>打印处理服务。你用手机直接联网打印吗，不用啊，不用你留它干嘛。<br><code>com.huawei.livewallpaper.artflower</code>繁花，自动壁纸。看你的运气了，可能卸载不了。<br><code>com.huawei.android.airsharing</code>多屏互动。原来还备了一根绿联的线，结果连电视、连电脑，没有一次成功过。<br><code>com.huawei.fans</code>花粉俱乐部。我现在兴趣很大，与花粉交流，帮花粉解决问题，发的帖子上好几万的浏览量，可以满足一下自己的虚荣心啊。<br><code>com.huawei.livewallpaper.naturalgarden</code>花园，壁纸。看你的运气了，可能卸载不了。<br><code>com.huawei.appmarket</code>华为应用市场。我几乎不用，我用豌豆荚，可以方便下载各种老版本软件。<br><code>com.huawei.gamebox</code>华为游戏中心。我不玩游戏。<br><code>com.huawei.hwireader</code>华为阅读。资源少了点，还是看纸质书有感觉。<br><code>com.huawei.vrinstaller</code>华为VR安装向导。我没有VR设备。<br><code>com.huawei.vrservice</code>华为VR服务。我没有VR设备。<br><code>com.android.dreams.basic</code>华为互动屏保。耗电，新鲜劲过了就没啥意思了。<br><code>com.huawei.vdrive</code>华为驾驶模式。看个人的需求了。<br><code>com.huawei.hifolder</code>华为精品推荐。我喜欢啥我自己清楚。<br><code>com.huawei.fastapp</code>华为快应用中心。“快应用”是啥？这都不知道啊。嘻嘻，我也是上网查的，所谓“快应用”就是免安装，类似微信的小程序。没这使用习惯，据说还弹广告。<br><code>com.android.bips</code>默认打印服务。你用手机打印吗？<br><code>com.huawei.hwvplayer.youku</code>视频-优酷版。我用破解版爱奇艺，用优酷我也找个免广告破解了的，8.1的操作系统就是好，不会像9.0以上版本用个软件还那么多限制，我的手机难道不能做主吗。<br><code>com.huawei.android.tips</code>玩机技巧。刚买手机时还可以参考一下，你都是老司机了还用得到吗。<br><code>com.huawei.hidisk</code>文件管理。我用“ES文件浏览器”，功能强大，特别是习惯电脑的，用它好得很。但是不要升级到最新版，新版本启动慢还有广告，我的是3.2.5.5版本，安装好后把弹出的升级框取消掉，然后在软件中找到“设置——更新设置——自动检测”后面的√去掉即可。<br><code>com.huawei.desktop.explorer</code>文件管理。如上，我用的是功能强大而小巧的“ES文件浏览器”。<br><code>com.android.mediacenter</code>音乐。我常用的是破解版的酷狗音乐，就是图它启动快操作简单，还备用了破解版的qq音乐、酷我音乐、懒人听说等。<br><code>com.huawei.gameassistant</code>游戏助手。我不玩游戏。<br><code>com.huawei.livewallpaper.flowersbloom</code>绽放-壁纸。看你的运气能否卸载了。<br><code>com.huawei.smarthome</code>智能家居。我只是用几个手机而已。<br><code>com.huawei.android.remotecontroller</code>智能遥控。试了没意思，有现成的遥控为什么不用。<br><code>com.android.htmlviewerHTML</code>查看器。查看网页源码的程序，其实这些用浏览器自带的就可以完成，意义不大，我默认用360浏览器，还被硬塞进了腾讯浏览器。<br><code>com.baidu.input_huawei</code>华为输入法。我反正不用，我用的是讯飞输入法。<br><code>com.huawei.livewallpaper.mountaincloud</code> 层峦。这是动态壁纸，省电的话你用着这个吗？<br><code>com.android.emergency</code> 个人紧急信息。遇到紧急事件，查看你的个人紧急信息。这玩意反正我用不着，我停用了。<br><code>com.android.keyguard</code> 杂志锁屏 。这东西看个人吧我不喜欢经常变换壁纸，要省电的话停用了就好。<br><code>com.huawei.videoeditor</code> 视频编辑。 编辑你拍好的视频。电脑的性能还不如手机吗？我没卸载停用了。<br><code>com.huawei.skytone</code> 天际通。你要是不知道天际通是做什么的你就停用。出国漫游费用高，不如直接换成当地卡上网。<br><code>com.huawei.android.hwouc</code> 系统更新。你想更新系统吗？你想天天接受华为的天天骚扰吗？如果想你就留着。我直接卸载了，当然哪天想升级了，还可以用手机助手或卡刷升级。我连电脑手机助手，显示可以由8.1.0.351升级到9.0.0.181，想用哪个版本，就可以一级级升级停在哪个版本。<br><code>com.huawei.parentcontrol</code> 学生模式。供家长设置手机各应用的可使用时间段功能。<br><code>com.huawei.android.FloatTasks</code> 悬浮导航。我一般用按键的，悬浮用不惯。<br><code>com.huawei.android.UEInfoCheck</code> 用户体验计划监控。停用<br><code>com.huawei.intelligent</code> 情景智能。 这是就是负一页的那个。我用不着，直接停用。<br><code>com.huawei.android.karaoke</code> 卡拉OK。在手机上唱卡拉OK是何等的窝槽。反正我没用过。<br><code>com.huawei.cryptosms.service</code> 信息加密。有啥用？你是特工人员？不是？那就赶紧停用。<br><code>com.android.exchange Exchange</code>服务。此apk是邮件exchange协议的控制部分。要是系统自带的电子邮件应用你删除了，那这个也停用。电子邮件可以用三方代替。<br><code>com.huawei.yellowpage</code> 黄页。联系人中的黄页功能。这个删除了黄页功能还是有的，我删除了。<br><code>com.huawei.rcsserviceapplication</code> 智能推荐系统。用于华为智能助手服务推荐，<a href="http://club.huawei.com/forum.php?gid=2867">EMUI</a> 亮点特性推荐以及智能通知管理。我删除了用不到。<br><code>com.huawei.wallet</code> 钱包。 我不用华为支付，我停用了。<br><code>com.huawei.android.hwpay</code> 华为支付。我不用，我停用了。<br><code>com.huawei.phoneservice</code> 会员服务。系统更新停用了。留着这个干什么？<br><code>com.android.stk</code> 顾名思义就是可以看你的sim卡上有啥玩意的。这玩意屁用无。停用！<br><code>com.huawei.hiview com.huawei.hiviewtunnel</code> 这俩玩意是<a href="https://club.huawei.com/forum.php?gid=2867">EMUI</a>日志上传功能，费电费流量。不是网上其他人所说的什么海信电视什么的，华为和海信难道有py？？<br><code>com.iflytek.speechsuite</code> 讯飞的语音输入。你要是用语音助手的话你就不要删了，不用的话你就停用。<br><code>com.huawei.vassistant</code> 语音输入都删除了，这个还留着干什么？还等着你好小E来给我精简一下手机？</p>
+<p><code>com.huawei.bd</code> 用户体验计划。说白了就是<a href="https://club.huawei.com/forum-gid-36.html">华为手机</a>窃取你干啥了的应用，直接停用。省电！<br><code>com.huawei.regservice</code> 运营商通过该应用获取您设备的相关信息。 想让运营商获取？不想的话那就停！<br><code>com.huawei.android.AutoRegSms</code> 电信短信自注册应用，开机通过后台短信方式自动上报手机的部分信息。 真的想让手机上报？不想的话那你就停。<br><code>com.huawei.android.chr</code> 通信协议可维可测apk，用于检测异常，收集异常关键信息等。 我的手机信息我让你给我收集？垃圾……停用！<br><code>com.huawei.indexsearch</code> <code>com.huawei.indexsearch.observer</code> 这两个玩意是为本地文件建立索引，用于本地搜索使用。手机搜索你的信息，然后……我停用了。<br><code>com.huawei.android.findmyphone</code> 手机掉了之后能找回？我不信，我停用了你们看着办。<br><code>com.android.bluetoothmidiservice</code> 蓝牙音乐服务。用蓝牙听歌的不要删除。我不用，我停用了。<br><code>com.android.cts.ctsshim</code>  <code>com.android.cts.priv.ctsshim</code> 这俩货是CTS环境运行辅助。要是你不知道cts是干什么的赶紧停用！<br><code>com.huawei.android.dsdscardmanager</code> 双卡管理。用双卡的别删，不用双卡的管理毛线的双卡，停用！<br><code>org.simalliance.openmobileapi.service</code> 支持钱包应用智能卡相关功能 前面你都删除华为支付了，还留着它过年吗？停用！<br><code>com.svox.pico</code> TTS文字转语音引擎 。前面你都删除语音输入了，还留着它干吗？停用！<br><code>com.huawei.android.pushagent</code> 推送服务。说白了就是推送广告的，停停停！<br><code>com.huawei.android.hsf</code> 华为框架。这货说白了就是支持他自家的系列软件的，就算删除了还是照样可以正常使用。停用。</p>
+<p><code>com.android.dreams.phototable</code> 动态屏保 这玩意除了耗电一无是处。删<br><code>com.huawei.wifiprobqeservice</code> 评估 WiFi 质量以及 Portal 检测的容错。我的wifi用着你来评估？？删！！<br><code>com.huawei.android.instantonline</code> 华为一键热点应用通过打开蓝牙和登录相同华为账户，实现无需输入密码即可共享热点的功能。 我删了，用不到。<br><code>com.huawei.hwstartupguide</code> 首次开机时、引导用户设置系列信息。你不是第一次开机了吧？删！<br><code>com.huawei.mmitest</code> 测试功能，保证发货手机基本器件功能正常。你手里面的手机就是正常的，因为已经卖出来了。删！<br><code>com.android.phone.recorder</code> 通话录音。用不着删了，用的话你保留。<br><code>com.huawei.watch.sync</code> 手表同步。没有<a href="https://club.huawei.com/forum-4301-1.html">华为手表</a>的删了吧。我删了。<br><code>com.huawei.iconnect</code> 扫描发现穿戴设备后进行连接提醒。用不着的话删<br><code>com.huawei.synergy</code> 可以帮您将手机端的消息同步到您的穿戴设备上。同上。<br><code>com.android.wallpaper.livepicker</code> 桌面动态壁纸。费电，删。<br><code>com.huawei.android.wfdft</code> WLAN 直连可支持华为设备之间数据传输。没用过，删了。</p>
+<p><strong>下面开始精简谷歌的系列服务</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">com.google.android.marvin.talkback </span><br><span class="line">com.google.android.syncadapters.calendar</span><br><span class="line">com.google.android.syncadapters.contacts</span><br><span class="line">com.android.vending</span><br><span class="line">com.google.android.gsf</span><br><span class="line">com.google.android.gms</span><br><span class="line">com.google.android.feedback</span><br><span class="line">com.google.android.backuptransport</span><br><span class="line">com.google.android.configupdater</span><br><span class="line">com.google.android.partnersetup</span><br><span class="line">com.google.android.onetimeinitializer</span><br><span class="line">com.android.sharedstoragebackup</span><br><span class="line">com.google.ar.core</span><br><span class="line">com.google.android.ext.services</span><br><span class="line">com.google.android.ext.shared</span><br></pre></td></tr></table></figure>
+<p><strong>下面开始停用华为所谓“智能AI”系列服务</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">com.huawei.decision</span><br><span class="line">com.huawei.contentsensor</span><br><span class="line">com.huawei.hwdetectrepair</span><br><span class="line">com.huawei.lbs</span><br><span class="line">com.huawei.pengine</span><br><span class="line">com.huawei.hitouch</span><br><span class="line">com.huawei.hiaction</span><br><span class="line">com.huawei.hiai</span><br><span class="line">com.huawei.recsys</span><br><span class="line">com.huawei.appmarket</span><br><span class="line">com.huawei.nlp</span><br><span class="line">com.huawei.hilink.framework</span><br></pre></td></tr></table></figure>
+<p>所有的程序，按照你个人的使用习惯来停用或卸载。<strong>重点提醒：**</strong>如果以上列举的应用你正用着，那就在名单里面把这一行英文删除即可。<strong>如果担心精简出错，且临时用不到，那就执行停用命令；如果你是个强迫症且不想在系统里面再看到它了，那就执行卸载命令。程序停用后，如果想恢复直接用启用程序命令即可。卸载了最干净，但卸载后是无法通过“启用命令”来重新启用的（特别提醒，特别提醒，特别提醒，一定要慎重）。一旦执行了卸载命令，但是确实后悔了，可以尝试用电子市场下载软件的形式重新安装试试，不行的话就用电脑手机助手或卡刷新系统来恢复（我卸载了手机更新程序，连手机助手“系统更新”同样可以找到升级的版本）；另外可通过恢复出厂设置来恢复程序（我折腾了好几次，确实有效），恢复出厂前一定要备份重要资料啊。<br>要修改命令，可以用鼠标右键单击选择“编辑”或“打开方式”选择“记事本”打开即可。</strong></p>
+<p>停用程序为<code>adb shell pm disable-user+空格+程序名</code>；</p>
+<p>启用程序为<code>db shell pm enable+空格+程序名</code>；</p>
+<p>删除程序为<code>db shell pm uninstall --user 0+空格+程序名</code>。</p>
 ]]></content>
       <tags>
-        <tag>begin</tag>
-        <tag>life</tag>
+        <tag>android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android Studio 控制台中文乱码</title>
+    <url>/2020/12/12/Android_Studio/</url>
+    <content><![CDATA[<p>IDE设置界面中所有与Encoding相关内容均为UTF-8，Build界面输出任然会中文乱码</p>
+<p>新版本（4.1） </p>
+<p><code>studio64.exe.vmoptions</code> 或者<code>studio.exe.vmoptions</code> </p>
+<p>配置文件中添加一行 <code>-Dfile.encoding=UTF-8</code></p>
+<p>旧版本（未经验证） <code>Help -&gt; Edit Custom VM Options</code> 执行修改操作</p>
+<p><em>PS</em>: 其它未经验证方法 <code>File -&gt; Settings -&gt; Appearence -&gt; Antialiasing</code>选项卡里，把<code>IDE</code>和<code>editor</code>都调成<code>Greyscale</code>即可。</p>
+]]></content>
+      <tags>
+        <tag>android</tag>
+        <tag>IDE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android Theme 相关</title>
+    <url>/2020/12/12/Android_Theme/</url>
+    <content><![CDATA[<p><i id="quote" data-modify="true"></i></p>
+<h5 id="什么是Style，什么是Theme？"><a href="#什么是Style，什么是Theme？" class="headerlink" title="什么是Style，什么是Theme？"></a>什么是Style，什么是Theme？</h5><ul>
+<li>1.1 联系     </li>
+</ul>
+<p>Style 和 theme：是一个包含一种 或者 多种格式化 属性 的集合  ，并且 style和theme都是资源，存放在res/values 文件夹下 </p>
+<ul>
+<li>1.2 区别：</li>
+</ul>
+<p>style：View级别的，只能在某个Activity的布局文件中使用<br>Theme：应用级别的，你必须在AndroidManifest.xml中 的<application>或者<activity>中使用</p>
+<h5 id="在定义Theme的时候-符号和？符号有何区别？"><a href="#在定义Theme的时候-符号和？符号有何区别？" class="headerlink" title="在定义Theme的时候@符号和？符号有何区别？"></a>在定义Theme的时候@符号和？符号有何区别？</h5><p>@符号 表明 我们引用的资源是前边定义过的(或者在前一个项目中或者在Android 框架中)。问号？表明 我们引用的资源的值在 当前的 主题当中定义过   </p>
+<h5 id="怎么通过代码给一个Activity设置主题"><a href="#怎么通过代码给一个Activity设置主题" class="headerlink" title="怎么通过代码给一个Activity设置主题?"></a>怎么通过代码给一个Activity设置主题?</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">super</span>.onCreate(savedInstanceState); </span><br><span class="line">     setTheme(android.R.style.Theme_Light); </span><br><span class="line">     setContentView(R.layout.linear_layout_3); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="AppTheme主题颜色colorPrimary，colorPrimaryDark，colorAccent都是什么的颜色？"><a href="#AppTheme主题颜色colorPrimary，colorPrimaryDark，colorAccent都是什么的颜色？" class="headerlink" title="AppTheme主题颜色colorPrimary，colorPrimaryDark，colorAccent都是什么的颜色？"></a>AppTheme主题颜色colorPrimary，colorPrimaryDark，colorAccent都是什么的颜色？</h5><p><img src="https://ftp.bmp.ovh/imgs/2020/12/b1610c7fe4084365.png"></p>
+<p><img src="https://ftp.bmp.ovh/imgs/2020/12/50b221d19ff0a3f0.jpg"></p>
+<ul>
+<li>4.1 colorPrimary</li>
+</ul>
+<p>App Bar 的背景色，即 ActionBar，通常也是一个 App 的主题色调。不过 ActionBar 已经退出历史舞台，由 Toolbar 代替使用，但是 Toolbar 需要在 layout 文件中单独使用 background 属性设置背景色，如：</p>
+<ul>
+<li>4.2 colorPrimaryDark</li>
+</ul>
+<p>status bar（状态栏）背景色。仅作用于 Lollipop 及更高版本。</p>
+<ul>
+<li>4.3 colorAccent</li>
+</ul>
+<p>许多控件在选中状态或获取焦点状态下使用这个颜色，常见有：</p>
+<ul>
+<li>CheckBox：checked 状态</li>
+<li>RadioButton：checked 状态</li>
+<li>SwitchCompat：checked 状态</li>
+<li>EditText：获取焦点时的 underline 和 cursor 颜色</li>
+<li>TextInputLayout：悬浮 label 字体颜色</li>
+</ul>
+<p>​    等等</p>
+<ul>
+<li>4.4 android:navigationBarColor</li>
+</ul>
+<p>navigation bar 背景色。仅作用于 Lollipop 及更高版本。</p>
+<ul>
+<li>4.5 colorControlNormal</li>
+</ul>
+<p>某些 Views “normal” 状态下的颜色，常见如：unselected CheckBox 和 RadioButton，失去焦点时的 EditText，Toolbar 溢出按钮颜色，等等。</p>
+<ul>
+<li>4.6 colorControlActivated</li>
+</ul>
+<p>某种程度上，是 colorAccent 的替代者，比如对于 CheckBox 和 RadioButton 的 checked 状态，colorControlActivated 属性会覆盖 colorAccent 属性的对应颜色。</p>
+<ul>
+<li>4.7 colorControlHighlight</li>
+</ul>
+<p>所有可点击 Views 触摸状态下的 Ripple（涟漪）效果。仅作用于 Lollipop 及更高版本。</p>
+<ul>
+<li>4.8 colorButtonNormal</li>
+</ul>
+<p>Button normal 状态下的背景色。注意，这种设置与 Button 的 android:background 属性改变背景色不同的是，前者在 Lollipop 及更高版本上会让 Button 依旧保持阴影和 Ripple 触摸效果。</p>
+<ul>
+<li>4.9 android:windowBackground</li>
+</ul>
+<p>窗口背景色，诸如此类的还有：android:background，android:colorBackground 等。</p>
+<ul>
+<li>4.10 android:textColorPrimary</li>
+</ul>
+<p>EditText 的 text color，等等文本颜色。</p>
+<ul>
+<li>4.11 navigationIcon</li>
+</ul>
+<p>返回按钮的图片</p>
+<h5 id="常见的主题风格都有哪些？"><a href="#常见的主题风格都有哪些？" class="headerlink" title="常见的主题风格都有哪些？"></a>常见的主题风格都有哪些？</h5><p>android:theme=”@android:style/Theme.Dialog”  将一个Activity显示为能话框模式<br>android:theme=”@android:style/Theme.NoTitleBar”  不显示应用程序标题栏<br>android:theme=”@android:style/Theme.NoTitleBar.Fullscreen”  不显示应用程序标题栏，并全屏<br>android:theme=”Theme.Light”  背景为白色<br>android:theme=”Theme.Light.NoTitleBar”  白色背景并无标题栏<br>android:theme=”Theme.Light.NoTitleBar.Fullscreen”  白色背景，无标题栏，全屏<br>android:theme=”Theme.Black”  背景黑色<br>android:theme=”Theme.Black.NoTitleBar”  黑色背景并无标题栏<br>android:theme=”Theme.Black.NoTitleBar.Fullscreen”   黑色背景，无标题栏，全屏<br>android:theme=”Theme.Wallpaper”  用系统桌面为应用程序背景<br>android:theme=”Theme.Wallpaper.NoTitleBar”  用系统桌面为应用程序背景，且无标题栏<br>android:theme=”Theme.Wallpaper.NoTitleBar.Fullscreen”  用系统桌面为应用程序背景，无标题栏，全屏<br>android:theme=”Translucent”  半透明<br>android:theme=”Theme.Translucent.NoTitleBar” 半透明、无标题栏<br>android:theme=”Theme.Translucent.NoTitleBar.Fullscreen” 半透明、无标题栏、全屏<br>android:theme=”Theme.Panel”<br>android:theme=”Theme.Light.Panel”  </p>
+]]></content>
+      <tags>
+        <tag>android</tag>
+        <tag>develop</tag>
       </tags>
   </entry>
   <entry>
@@ -195,123 +302,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Android ADB</title>
-    <url>/2020/12/12/Android_ADB/</url>
-    <content><![CDATA[<p><i id="quote" data-modify="true"></i></p>
-<p>连接：<code>adb shell</code></p>
-<p>多个终端选择：<code>adb -s xiaomi shell:-s命令表示选择设备,这里是选择xiaomi设备进shell</code></p>
-<p>与终端成功建立连接后</p>
-<p>获取系统应用：<code>pm list packages -s &gt; list.txt</code></p>
-<p>禁用：<code>pm disable-user com.huawei.search</code></p>
-<p>删除：<code>pm uninstall -k --user 0 com.huawei.search</code>，**-k** 表示保存数据，如不需要，可去掉 -k。</p>
-<p><strong>系统自带软件说明</strong>：</p>
-<p><code>com.android.email</code>电子邮箱。我常用的就是qq邮箱，留它无用，我卸载了。<br><code>com.huawei.bone</code>华为穿戴。没什么华为穿戴，我卸载了。<br><code>com.huawei.himovie</code>华为视频。我常用的是MX player pro（版本1.9.0）播放器，强大得蔑视一切视频播放器，但是不要升级到最新，要不然一暂停就会弹出广告，看着烦。在线视频我用的爱奇艺视频破解版、腾讯视频WeTv无广告版，清爽得多。<br><code>com.huawei.KoBackup</code>备份。我还是保留了，虽然恢复时出现过无法恢复的情况（负责任的说，该软件不完善的地方，备份时老版本可以设置6位数密码或跳过不用设置密码，但如今必须用新版本恢复，原来未设置密码或设置的6位数密码的备份材料都无法恢复了），所以三管齐下，同时在云空间、电脑手机助手进行了备份，吃一堑长一智吧。<br><code>com.example.android.notepad</code>备忘录。我不用它，我喜欢用《随手写》，特别是其中的“涂鸦”功能。<br><code>com.android.browser</code>华为浏览器。很多人在吐槽不好用，反正我不用，我用360浏览器，电脑版我用习惯了。<br><code>com.vmall.client</code>华为商城。看你要不要在上面买东西了，我在上面买过两台荣誉9X，毕竟官方商城放心些。不用可以卸载，反正想用还可以安上。<br><code>com.android.printspooler</code>打印处理服务。你用手机直接联网打印吗，不用啊，不用你留它干嘛。<br><code>com.huawei.livewallpaper.artflower</code>繁花，自动壁纸。看你的运气了，可能卸载不了。<br><code>com.huawei.android.airsharing</code>多屏互动。原来还备了一根绿联的线，结果连电视、连电脑，没有一次成功过。<br><code>com.huawei.fans</code>花粉俱乐部。我现在兴趣很大，与花粉交流，帮花粉解决问题，发的帖子上好几万的浏览量，可以满足一下自己的虚荣心啊。<br><code>com.huawei.livewallpaper.naturalgarden</code>花园，壁纸。看你的运气了，可能卸载不了。<br><code>com.huawei.appmarket</code>华为应用市场。我几乎不用，我用豌豆荚，可以方便下载各种老版本软件。<br><code>com.huawei.gamebox</code>华为游戏中心。我不玩游戏。<br><code>com.huawei.hwireader</code>华为阅读。资源少了点，还是看纸质书有感觉。<br><code>com.huawei.vrinstaller</code>华为VR安装向导。我没有VR设备。<br><code>com.huawei.vrservice</code>华为VR服务。我没有VR设备。<br><code>com.android.dreams.basic</code>华为互动屏保。耗电，新鲜劲过了就没啥意思了。<br><code>com.huawei.vdrive</code>华为驾驶模式。看个人的需求了。<br><code>com.huawei.hifolder</code>华为精品推荐。我喜欢啥我自己清楚。<br><code>com.huawei.fastapp</code>华为快应用中心。“快应用”是啥？这都不知道啊。嘻嘻，我也是上网查的，所谓“快应用”就是免安装，类似微信的小程序。没这使用习惯，据说还弹广告。<br><code>com.android.bips</code>默认打印服务。你用手机打印吗？<br><code>com.huawei.hwvplayer.youku</code>视频-优酷版。我用破解版爱奇艺，用优酷我也找个免广告破解了的，8.1的操作系统就是好，不会像9.0以上版本用个软件还那么多限制，我的手机难道不能做主吗。<br><code>com.huawei.android.tips</code>玩机技巧。刚买手机时还可以参考一下，你都是老司机了还用得到吗。<br><code>com.huawei.hidisk</code>文件管理。我用“ES文件浏览器”，功能强大，特别是习惯电脑的，用它好得很。但是不要升级到最新版，新版本启动慢还有广告，我的是3.2.5.5版本，安装好后把弹出的升级框取消掉，然后在软件中找到“设置——更新设置——自动检测”后面的√去掉即可。<br><code>com.huawei.desktop.explorer</code>文件管理。如上，我用的是功能强大而小巧的“ES文件浏览器”。<br><code>com.android.mediacenter</code>音乐。我常用的是破解版的酷狗音乐，就是图它启动快操作简单，还备用了破解版的qq音乐、酷我音乐、懒人听说等。<br><code>com.huawei.gameassistant</code>游戏助手。我不玩游戏。<br><code>com.huawei.livewallpaper.flowersbloom</code>绽放-壁纸。看你的运气能否卸载了。<br><code>com.huawei.smarthome</code>智能家居。我只是用几个手机而已。<br><code>com.huawei.android.remotecontroller</code>智能遥控。试了没意思，有现成的遥控为什么不用。<br><code>com.android.htmlviewerHTML</code>查看器。查看网页源码的程序，其实这些用浏览器自带的就可以完成，意义不大，我默认用360浏览器，还被硬塞进了腾讯浏览器。<br><code>com.baidu.input_huawei</code>华为输入法。我反正不用，我用的是讯飞输入法。<br><code>com.huawei.livewallpaper.mountaincloud</code> 层峦。这是动态壁纸，省电的话你用着这个吗？<br><code>com.android.emergency</code> 个人紧急信息。遇到紧急事件，查看你的个人紧急信息。这玩意反正我用不着，我停用了。<br><code>com.android.keyguard</code> 杂志锁屏 。这东西看个人吧我不喜欢经常变换壁纸，要省电的话停用了就好。<br><code>com.huawei.videoeditor</code> 视频编辑。 编辑你拍好的视频。电脑的性能还不如手机吗？我没卸载停用了。<br><code>com.huawei.skytone</code> 天际通。你要是不知道天际通是做什么的你就停用。出国漫游费用高，不如直接换成当地卡上网。<br><code>com.huawei.android.hwouc</code> 系统更新。你想更新系统吗？你想天天接受华为的天天骚扰吗？如果想你就留着。我直接卸载了，当然哪天想升级了，还可以用手机助手或卡刷升级。我连电脑手机助手，显示可以由8.1.0.351升级到9.0.0.181，想用哪个版本，就可以一级级升级停在哪个版本。<br><code>com.huawei.parentcontrol</code> 学生模式。供家长设置手机各应用的可使用时间段功能。<br><code>com.huawei.android.FloatTasks</code> 悬浮导航。我一般用按键的，悬浮用不惯。<br><code>com.huawei.android.UEInfoCheck</code> 用户体验计划监控。停用<br><code>com.huawei.intelligent</code> 情景智能。 这是就是负一页的那个。我用不着，直接停用。<br><code>com.huawei.android.karaoke</code> 卡拉OK。在手机上唱卡拉OK是何等的窝槽。反正我没用过。<br><code>com.huawei.cryptosms.service</code> 信息加密。有啥用？你是特工人员？不是？那就赶紧停用。<br><code>com.android.exchange Exchange</code>服务。此apk是邮件exchange协议的控制部分。要是系统自带的电子邮件应用你删除了，那这个也停用。电子邮件可以用三方代替。<br><code>com.huawei.yellowpage</code> 黄页。联系人中的黄页功能。这个删除了黄页功能还是有的，我删除了。<br><code>com.huawei.rcsserviceapplication</code> 智能推荐系统。用于华为智能助手服务推荐，<a href="http://club.huawei.com/forum.php?gid=2867">EMUI</a> 亮点特性推荐以及智能通知管理。我删除了用不到。<br><code>com.huawei.wallet</code> 钱包。 我不用华为支付，我停用了。<br><code>com.huawei.android.hwpay</code> 华为支付。我不用，我停用了。<br><code>com.huawei.phoneservice</code> 会员服务。系统更新停用了。留着这个干什么？<br><code>com.android.stk</code> 顾名思义就是可以看你的sim卡上有啥玩意的。这玩意屁用无。停用！<br><code>com.huawei.hiview com.huawei.hiviewtunnel</code> 这俩玩意是<a href="https://club.huawei.com/forum.php?gid=2867">EMUI</a>日志上传功能，费电费流量。不是网上其他人所说的什么海信电视什么的，华为和海信难道有py？？<br><code>com.iflytek.speechsuite</code> 讯飞的语音输入。你要是用语音助手的话你就不要删了，不用的话你就停用。<br><code>com.huawei.vassistant</code> 语音输入都删除了，这个还留着干什么？还等着你好小E来给我精简一下手机？</p>
-<p><code>com.huawei.bd</code> 用户体验计划。说白了就是<a href="https://club.huawei.com/forum-gid-36.html">华为手机</a>窃取你干啥了的应用，直接停用。省电！<br><code>com.huawei.regservice</code> 运营商通过该应用获取您设备的相关信息。 想让运营商获取？不想的话那就停！<br><code>com.huawei.android.AutoRegSms</code> 电信短信自注册应用，开机通过后台短信方式自动上报手机的部分信息。 真的想让手机上报？不想的话那你就停。<br><code>com.huawei.android.chr</code> 通信协议可维可测apk，用于检测异常，收集异常关键信息等。 我的手机信息我让你给我收集？垃圾……停用！<br><code>com.huawei.indexsearch</code> <code>com.huawei.indexsearch.observer</code> 这两个玩意是为本地文件建立索引，用于本地搜索使用。手机搜索你的信息，然后……我停用了。<br><code>com.huawei.android.findmyphone</code> 手机掉了之后能找回？我不信，我停用了你们看着办。<br><code>com.android.bluetoothmidiservice</code> 蓝牙音乐服务。用蓝牙听歌的不要删除。我不用，我停用了。<br><code>com.android.cts.ctsshim</code>  <code>com.android.cts.priv.ctsshim</code> 这俩货是CTS环境运行辅助。要是你不知道cts是干什么的赶紧停用！<br><code>com.huawei.android.dsdscardmanager</code> 双卡管理。用双卡的别删，不用双卡的管理毛线的双卡，停用！<br><code>org.simalliance.openmobileapi.service</code> 支持钱包应用智能卡相关功能 前面你都删除华为支付了，还留着它过年吗？停用！<br><code>com.svox.pico</code> TTS文字转语音引擎 。前面你都删除语音输入了，还留着它干吗？停用！<br><code>com.huawei.android.pushagent</code> 推送服务。说白了就是推送广告的，停停停！<br><code>com.huawei.android.hsf</code> 华为框架。这货说白了就是支持他自家的系列软件的，就算删除了还是照样可以正常使用。停用。</p>
-<p><code>com.android.dreams.phototable</code> 动态屏保 这玩意除了耗电一无是处。删<br><code>com.huawei.wifiprobqeservice</code> 评估 WiFi 质量以及 Portal 检测的容错。我的wifi用着你来评估？？删！！<br><code>com.huawei.android.instantonline</code> 华为一键热点应用通过打开蓝牙和登录相同华为账户，实现无需输入密码即可共享热点的功能。 我删了，用不到。<br><code>com.huawei.hwstartupguide</code> 首次开机时、引导用户设置系列信息。你不是第一次开机了吧？删！<br><code>com.huawei.mmitest</code> 测试功能，保证发货手机基本器件功能正常。你手里面的手机就是正常的，因为已经卖出来了。删！<br><code>com.android.phone.recorder</code> 通话录音。用不着删了，用的话你保留。<br><code>com.huawei.watch.sync</code> 手表同步。没有<a href="https://club.huawei.com/forum-4301-1.html">华为手表</a>的删了吧。我删了。<br><code>com.huawei.iconnect</code> 扫描发现穿戴设备后进行连接提醒。用不着的话删<br><code>com.huawei.synergy</code> 可以帮您将手机端的消息同步到您的穿戴设备上。同上。<br><code>com.android.wallpaper.livepicker</code> 桌面动态壁纸。费电，删。<br><code>com.huawei.android.wfdft</code> WLAN 直连可支持华为设备之间数据传输。没用过，删了。</p>
-<p><strong>下面开始精简谷歌的系列服务</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">com.google.android.marvin.talkback </span><br><span class="line">com.google.android.syncadapters.calendar</span><br><span class="line">com.google.android.syncadapters.contacts</span><br><span class="line">com.android.vending</span><br><span class="line">com.google.android.gsf</span><br><span class="line">com.google.android.gms</span><br><span class="line">com.google.android.feedback</span><br><span class="line">com.google.android.backuptransport</span><br><span class="line">com.google.android.configupdater</span><br><span class="line">com.google.android.partnersetup</span><br><span class="line">com.google.android.onetimeinitializer</span><br><span class="line">com.android.sharedstoragebackup</span><br><span class="line">com.google.ar.core</span><br><span class="line">com.google.android.ext.services</span><br><span class="line">com.google.android.ext.shared</span><br></pre></td></tr></table></figure>
-<p><strong>下面开始停用华为所谓“智能AI”系列服务</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">com.huawei.decision</span><br><span class="line">com.huawei.contentsensor</span><br><span class="line">com.huawei.hwdetectrepair</span><br><span class="line">com.huawei.lbs</span><br><span class="line">com.huawei.pengine</span><br><span class="line">com.huawei.hitouch</span><br><span class="line">com.huawei.hiaction</span><br><span class="line">com.huawei.hiai</span><br><span class="line">com.huawei.recsys</span><br><span class="line">com.huawei.appmarket</span><br><span class="line">com.huawei.nlp</span><br><span class="line">com.huawei.hilink.framework</span><br></pre></td></tr></table></figure>
-<p>所有的程序，按照你个人的使用习惯来停用或卸载。<strong>重点提醒：**</strong>如果以上列举的应用你正用着，那就在名单里面把这一行英文删除即可。<strong>如果担心精简出错，且临时用不到，那就执行停用命令；如果你是个强迫症且不想在系统里面再看到它了，那就执行卸载命令。程序停用后，如果想恢复直接用启用程序命令即可。卸载了最干净，但卸载后是无法通过“启用命令”来重新启用的（特别提醒，特别提醒，特别提醒，一定要慎重）。一旦执行了卸载命令，但是确实后悔了，可以尝试用电子市场下载软件的形式重新安装试试，不行的话就用电脑手机助手或卡刷新系统来恢复（我卸载了手机更新程序，连手机助手“系统更新”同样可以找到升级的版本）；另外可通过恢复出厂设置来恢复程序（我折腾了好几次，确实有效），恢复出厂前一定要备份重要资料啊。<br>要修改命令，可以用鼠标右键单击选择“编辑”或“打开方式”选择“记事本”打开即可。</strong></p>
-<p>停用程序为<code>adb shell pm disable-user+空格+程序名</code>；</p>
-<p>启用程序为<code>db shell pm enable+空格+程序名</code>；</p>
-<p>删除程序为<code>db shell pm uninstall --user 0+空格+程序名</code>。</p>
-]]></content>
-      <tags>
-        <tag>android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Android Studio 控制台中文乱码</title>
-    <url>/2020/12/12/Android_Studio/</url>
-    <content><![CDATA[<p>IDE设置界面中所有与Encoding相关内容均为UTF-8，Build界面输出任然会中文乱码</p>
-<p>新版本（4.1） </p>
-<p><code>studio64.exe.vmoptions</code> 或者<code>studio.exe.vmoptions</code> </p>
-<p>配置文件中添加一行 <code>-Dfile.encoding=UTF-8</code></p>
-<p>旧版本（未经验证） <code>Help -&gt; Edit Custom VM Options</code> 执行修改操作</p>
-<p><em>PS</em>: 其它未经验证方法 <code>File -&gt; Settings -&gt; Appearence -&gt; Antialiasing</code>选项卡里，把<code>IDE</code>和<code>editor</code>都调成<code>Greyscale</code>即可。</p>
-]]></content>
-      <tags>
-        <tag>android</tag>
-        <tag>IDE</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Android Theme 相关</title>
-    <url>/2020/12/12/Android_Theme/</url>
-    <content><![CDATA[<p><i id="quote" data-modify="true"></i></p>
-<h5 id="什么是Style，什么是Theme？"><a href="#什么是Style，什么是Theme？" class="headerlink" title="什么是Style，什么是Theme？"></a>什么是Style，什么是Theme？</h5><ul>
-<li>1.1 联系     </li>
-</ul>
-<p>Style 和 theme：是一个包含一种 或者 多种格式化 属性 的集合  ，并且 style和theme都是资源，存放在res/values 文件夹下 </p>
-<ul>
-<li>1.2 区别：</li>
-</ul>
-<p>style：View级别的，只能在某个Activity的布局文件中使用<br>Theme：应用级别的，你必须在AndroidManifest.xml中 的<application>或者<activity>中使用</p>
-<h5 id="在定义Theme的时候-符号和？符号有何区别？"><a href="#在定义Theme的时候-符号和？符号有何区别？" class="headerlink" title="在定义Theme的时候@符号和？符号有何区别？"></a>在定义Theme的时候@符号和？符号有何区别？</h5><p>@符号 表明 我们引用的资源是前边定义过的(或者在前一个项目中或者在Android 框架中)。问号？表明 我们引用的资源的值在 当前的 主题当中定义过   </p>
-<h5 id="怎么通过代码给一个Activity设置主题"><a href="#怎么通过代码给一个Activity设置主题" class="headerlink" title="怎么通过代码给一个Activity设置主题?"></a>怎么通过代码给一个Activity设置主题?</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">super</span>.onCreate(savedInstanceState); </span><br><span class="line">     setTheme(android.R.style.Theme_Light); </span><br><span class="line">     setContentView(R.layout.linear_layout_3); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="AppTheme主题颜色colorPrimary，colorPrimaryDark，colorAccent都是什么的颜色？"><a href="#AppTheme主题颜色colorPrimary，colorPrimaryDark，colorAccent都是什么的颜色？" class="headerlink" title="AppTheme主题颜色colorPrimary，colorPrimaryDark，colorAccent都是什么的颜色？"></a>AppTheme主题颜色colorPrimary，colorPrimaryDark，colorAccent都是什么的颜色？</h5><p><img src="https://ftp.bmp.ovh/imgs/2020/12/b1610c7fe4084365.png"></p>
-<p><img src="https://ftp.bmp.ovh/imgs/2020/12/50b221d19ff0a3f0.jpg"></p>
-<ul>
-<li>4.1 colorPrimary</li>
-</ul>
-<p>App Bar 的背景色，即 ActionBar，通常也是一个 App 的主题色调。不过 ActionBar 已经退出历史舞台，由 Toolbar 代替使用，但是 Toolbar 需要在 layout 文件中单独使用 background 属性设置背景色，如：</p>
-<ul>
-<li>4.2 colorPrimaryDark</li>
-</ul>
-<p>status bar（状态栏）背景色。仅作用于 Lollipop 及更高版本。</p>
-<ul>
-<li>4.3 colorAccent</li>
-</ul>
-<p>许多控件在选中状态或获取焦点状态下使用这个颜色，常见有：</p>
-<ul>
-<li>CheckBox：checked 状态</li>
-<li>RadioButton：checked 状态</li>
-<li>SwitchCompat：checked 状态</li>
-<li>EditText：获取焦点时的 underline 和 cursor 颜色</li>
-<li>TextInputLayout：悬浮 label 字体颜色</li>
-</ul>
-<p>​    等等</p>
-<ul>
-<li>4.4 android:navigationBarColor</li>
-</ul>
-<p>navigation bar 背景色。仅作用于 Lollipop 及更高版本。</p>
-<ul>
-<li>4.5 colorControlNormal</li>
-</ul>
-<p>某些 Views “normal” 状态下的颜色，常见如：unselected CheckBox 和 RadioButton，失去焦点时的 EditText，Toolbar 溢出按钮颜色，等等。</p>
-<ul>
-<li>4.6 colorControlActivated</li>
-</ul>
-<p>某种程度上，是 colorAccent 的替代者，比如对于 CheckBox 和 RadioButton 的 checked 状态，colorControlActivated 属性会覆盖 colorAccent 属性的对应颜色。</p>
-<ul>
-<li>4.7 colorControlHighlight</li>
-</ul>
-<p>所有可点击 Views 触摸状态下的 Ripple（涟漪）效果。仅作用于 Lollipop 及更高版本。</p>
-<ul>
-<li>4.8 colorButtonNormal</li>
-</ul>
-<p>Button normal 状态下的背景色。注意，这种设置与 Button 的 android:background 属性改变背景色不同的是，前者在 Lollipop 及更高版本上会让 Button 依旧保持阴影和 Ripple 触摸效果。</p>
-<ul>
-<li>4.9 android:windowBackground</li>
-</ul>
-<p>窗口背景色，诸如此类的还有：android:background，android:colorBackground 等。</p>
-<ul>
-<li>4.10 android:textColorPrimary</li>
-</ul>
-<p>EditText 的 text color，等等文本颜色。</p>
-<ul>
-<li>4.11 navigationIcon</li>
-</ul>
-<p>返回按钮的图片</p>
-<h5 id="常见的主题风格都有哪些？"><a href="#常见的主题风格都有哪些？" class="headerlink" title="常见的主题风格都有哪些？"></a>常见的主题风格都有哪些？</h5><p>android:theme=”@android:style/Theme.Dialog”  将一个Activity显示为能话框模式<br>android:theme=”@android:style/Theme.NoTitleBar”  不显示应用程序标题栏<br>android:theme=”@android:style/Theme.NoTitleBar.Fullscreen”  不显示应用程序标题栏，并全屏<br>android:theme=”Theme.Light”  背景为白色<br>android:theme=”Theme.Light.NoTitleBar”  白色背景并无标题栏<br>android:theme=”Theme.Light.NoTitleBar.Fullscreen”  白色背景，无标题栏，全屏<br>android:theme=”Theme.Black”  背景黑色<br>android:theme=”Theme.Black.NoTitleBar”  黑色背景并无标题栏<br>android:theme=”Theme.Black.NoTitleBar.Fullscreen”   黑色背景，无标题栏，全屏<br>android:theme=”Theme.Wallpaper”  用系统桌面为应用程序背景<br>android:theme=”Theme.Wallpaper.NoTitleBar”  用系统桌面为应用程序背景，且无标题栏<br>android:theme=”Theme.Wallpaper.NoTitleBar.Fullscreen”  用系统桌面为应用程序背景，无标题栏，全屏<br>android:theme=”Translucent”  半透明<br>android:theme=”Theme.Translucent.NoTitleBar” 半透明、无标题栏<br>android:theme=”Theme.Translucent.NoTitleBar.Fullscreen” 半透明、无标题栏、全屏<br>android:theme=”Theme.Panel”<br>android:theme=”Theme.Light.Panel”  </p>
-]]></content>
-      <tags>
-        <tag>android</tag>
-        <tag>develop</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java Compound</title>
     <url>/2020/12/12/Java_Compound/</url>
     <content><![CDATA[<h5 id="Http-Cros（跨域请求）"><a href="#Http-Cros（跨域请求）" class="headerlink" title="Http Cros（跨域请求）"></a>Http Cros（跨域请求）</h5><ul>
@@ -424,6 +414,16 @@
 ]]></content>
       <tags>
         <tag>windows</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Started</title>
+    <url>/2020/12/30/Started/</url>
+    <content><![CDATA[<p>All the best will be come on 2021.</p>
+]]></content>
+      <tags>
+        <tag>begin</tag>
+        <tag>life</tag>
       </tags>
   </entry>
 </search>
