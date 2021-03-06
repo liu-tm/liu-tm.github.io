@@ -23,27 +23,27 @@
   <meta name="description" content="博闻天地">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Marvin&#39;s Blog">
-<meta property="og:url" content="https://blog.liu-tm.cn/archives/2020/12/index.html">
+<meta property="og:url" content="https://blog.liu-tm.cn/page/2/index.html">
 <meta property="og:site_name" content="Marvin&#39;s Blog">
 <meta property="og:description" content="博闻天地">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="Marvin">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://blog.liu-tm.cn/archives/2020/12/">
+<link rel="canonical" href="https://blog.liu-tm.cn/page/2/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : false,
+    isHome : true,
     isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>归档 | Marvin's Blog</title>
+  <title>Marvin's Blog</title>
   
 
 
@@ -182,211 +182,268 @@
         <div class="content-wrap">
           
 
-          <div class="content archive">
+          <div class="content index posts-expand">
             
+	
+	<article class="jrsc">
+	<div  id="jinrishici-sentence"></div>
+	<div  id="jinrishici-origin"></div>
+	</article>
+	<script src="/js/jquery-1.10.2.min.js" charset="utf-8"></script>
+	<script>
+    var flyword = function (elem, txt, time) {
+        var _elem = document.getElementById(elem),
+            _timer = null,
+            _index = 0,
+            _array = [];
+        for (var i = 0, len = txt.length; i < len; i++) {
+            var span = document.createElement("span");
+            span.style.fontSize = "1.5em";
+            span.innerHTML = txt[i];
+            _elem.appendChild(span);
+            _array.push(span);
+        }
+        ;
+        _timer = setInterval(animate, time || 40);
 
+        function animate() {
+            var len = _array.length, ind = _index++, st = 1;
+            for (var i = 0; i < len; i++) {
+                var span = _array[i], e = Math.max(0, Math.min(1, (ind - 1) / 10));
+                if (span.tear) {
+                    continue;
+                }
+                st = 0;
+                span.style.color = ["rgb(", [parseInt(255 - 192 * e), parseInt(255 - 192 * e), parseInt(255 - 192 * e)], ")"].join("");
+                if (e == 1) {
+                    span.style.marginLeft = "auto";
+                } else if (e > 0) {
+                    span.style.marginLeft = [3 * (1 - e), "em"].join("");
+                }
+                if (st) {
+                    clearInterval(_timer);
+                }
+                _elem.style.visibility = "visible";
+            }
+        }
+    };
+
+    $.get("https://v2.jinrishici.com/one.json", function (res) {
+        if (res.status) {
+            flyword("jinrishici-sentence", res.data.content, 80);
+			$("#jinrishici-origin").html(res.data.origin.dynasty 
+			+ ' · '
+			+ res.data.origin.author)
+        }
+    })
+	</script>
+      
   
   
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.liu-tm.cn/2020/12/12/Mysql_Group_By/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Marvin">
+      <meta itemprop="description" content="博闻天地">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Marvin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/12/Mysql_Group_By/" class="post-title-link" itemprop="url">MySql 分组错误</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-12-12 15:59:03" itemprop="dateCreated datePublished" datetime="2020-12-12T15:59:03+08:00">2020-12-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-22 08:32:37" itemprop="dateModified" datetime="2021-02-22T08:32:37+08:00">2021-02-22</time>
+              </span>
+
+          
   
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 12 篇日志。 继续努力。</span>
-      </div>
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/12/12/Mysql_Group_By/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/12/12/Mysql_Group_By/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2020</span>
+          <h3 id="ONLY-FULL-GROUP-BY"><a href="#ONLY-FULL-GROUP-BY" class="headerlink" title="ONLY_FULL_GROUP_BY"></a>ONLY_FULL_GROUP_BY</h3><p><code>select * from cnarea_2019 group by parent_code;</code></p>
+<p><strong>含义</strong> sql中<code>group by</code>后面的字段必须出现在<code>select</code>后面，或者被聚合函数包裹，不然会抛出如下错误</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/12/Mysql_Group_By/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-12-30T15:59:03+08:00"
-              content="2020-12-30">
-          12-30
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/12/30/Started/" itemprop="url">
-            <span itemprop="name">Started</span>
-          </a>
-      </div>
-
-    </header>
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
   </article>
+  
+  
+  
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.liu-tm.cn/2020/12/12/Windows_mstsc/">
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-12-12T15:59:03+08:00"
-              content="2020-12-12">
-          12-12
-        </time>
-      </div>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Marvin">
+      <meta itemprop="description" content="博闻天地">
+    </span>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/12/12/Android_ADB/" itemprop="url">
-            <span itemprop="name">Android ADB</span>
-          </a>
-      </div>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Marvin's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/12/Windows_mstsc/" class="post-title-link" itemprop="url">Windows Mstsc</a>
+        </h2>
 
-    </header>
-  </article>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+              <time title="创建时间：2020-12-12 15:59:03" itemprop="dateCreated datePublished" datetime="2020-12-12T15:59:03+08:00">2020-12-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-16 16:09:56" itemprop="dateModified" datetime="2021-01-16T16:09:56+08:00">2021-01-16</time>
+              </span>
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-12-12T15:59:03+08:00"
-              content="2020-12-12">
-          12-12
-        </time>
-      </div>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/12/12/Windows_mstsc/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/12/12/Windows_mstsc/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>277</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/12/12/Android_Studio/" itemprop="url">
-            <span itemprop="name">Android Studio 控制台中文乱码</span>
-          </a>
-      </div>
+        </div>
+      </header>
 
-    </header>
-  </article>
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-12-12T15:59:03+08:00"
-              content="2020-12-12">
-          12-12
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/12/12/Android_Theme/" itemprop="url">
-            <span itemprop="name">Android Theme 相关</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-12-12T15:59:03+08:00"
-              content="2020-12-12">
-          12-12
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/12/12/Java_Compound/" itemprop="url">
-            <span itemprop="name">Java Compound</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-12-12T15:59:03+08:00"
-              content="2020-12-12">
-          12-12
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/12/12/Java_Print/" itemprop="url">
-            <span itemprop="name">Java Print</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-12-12T15:59:03+08:00"
-              content="2020-12-12">
-          12-12
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/12/12/Maven_Dependency_Cycle/" itemprop="url">
-            <span itemprop="name">Maven 循环依赖</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-12-12T15:59:03+08:00"
-              content="2020-12-12">
-          12-12
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/12/12/Mysql_Group_By/" itemprop="url">
-            <span itemprop="name">MySql 分组错误</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-12-12T15:59:03+08:00"
-              content="2020-12-12">
-          12-12
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/12/12/Windows_mstsc/" itemprop="url">
-            <span itemprop="name">Windows Mstsc</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+          <h5 id="远程桌面提示：身份验证错误-要求的函数不受支持"><a href="#远程桌面提示：身份验证错误-要求的函数不受支持" class="headerlink" title="远程桌面提示：身份验证错误 要求的函数不受支持"></a>远程桌面提示：身份验证错误 要求的函数不受支持</h5><p> 这个解决方法来自微软官方，</p>
+<p> 按照此方法发现我的电脑中并没有“加密 Oracle 修正”这一项。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/12/Windows_mstsc/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
     </div>
-  </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
   
   
   
 
+
   
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
 
 
 
