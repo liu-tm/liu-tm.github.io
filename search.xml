@@ -118,6 +118,37 @@
       </tags>
   </entry>
   <entry>
+    <title>Http Cross</title>
+    <url>/2021/03/05/Http_Cross/</url>
+    <content><![CDATA[<p>Http跨域请求及HttpSession同步终极手册</p>
+<h3 id="后端配置"><a href="#后端配置" class="headerlink" title="后端配置"></a>后端配置</h3><p>继承<code>org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport</code>或者实现<code>javax.servlet.Filter</code>接口两种方式，<code>springboot2.0</code>以上才有<code>WebMvcConfigurationSupport</code>，之前为<code>WebMvcConfigurerAdapter</code>。</p>
+<p>实现<code>Filter</code>接口后跨域配置的核心代码如下，其中<code>HttpSession</code>同步的重点在于<code>response.setHeader(&quot;Access-Control-Allow-Credentials&quot;, &quot;true&quot;);</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line"></span><br><span class="line">        HttpServletRequest request = (HttpServletRequest) servletRequest;</span><br><span class="line">        HttpServletResponse response = (HttpServletResponse) servletResponse;</span><br><span class="line"></span><br><span class="line">        String[] allowDomain = &#123;<span class="string">&quot;http://127.0.0.1:8848&quot;</span>, <span class="string">&quot;http://localhost:8848&quot;</span>&#125;;</span><br><span class="line">        Set&lt;String&gt; allowedOrigins = <span class="keyword">new</span> HashSet&lt;String&gt;(Arrays.asList(allowDomain));</span><br><span class="line">        log.info(<span class="string">&quot;&#123;&#125;&quot;</span>, request.getRequestURI());</span><br><span class="line">        String originHeader = request.getHeader(<span class="string">&quot;Origin&quot;</span>);</span><br><span class="line">        <span class="comment">// response.setHeader(&quot;Access-Control-Allow-Origin&quot;,request.getHeader(&quot;Origin&quot;));</span></span><br><span class="line">        <span class="comment">//注意重点:Access-Control-Allow-Origin不可以写*通配，需要明确写出请求方的IP地址及端口</span></span><br><span class="line">        <span class="keyword">if</span> (allowedOrigins.contains(originHeader)) &#123;</span><br><span class="line">            response.setHeader(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>, originHeader);</span><br><span class="line">            <span class="comment">//HttpSession同步重点，允许携带Cookie</span></span><br><span class="line">            response.setHeader(<span class="string">&quot;Access-Control-Allow-Credentials&quot;</span>, <span class="string">&quot;true&quot;</span>);</span><br><span class="line">            response.setHeader(<span class="string">&quot;Access-Control-Allow-Methods&quot;</span>, <span class="string">&quot;POST, GET, PATCH, DELETE, PUT&quot;</span>);</span><br><span class="line">            response.setHeader(<span class="string">&quot;Access-Control-Max-Age&quot;</span>, <span class="string">&quot;3600&quot;</span>);</span><br><span class="line">            response.setHeader(<span class="string">&quot;Access-Control-Allow-Headers&quot;</span>, <span class="string">&quot;Origin, X-Requested-With, Content-Type, Accept&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        filterChain.doFilter(servletRequest, servletResponse);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>继承<code>WebMvcConfigurationSupport</code>后，跨域配置应当重写<code>addCorsMappings</code>，同步<code>HttpSession</code>的重点在于<code>allowCredentials(true)</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span>  <span class="title">_addCorsMappings</span><span class="params">(CorsRegistry registry)</span> </span>&#123;</span><br><span class="line">	registry.addMapping(<span class="string">&quot;/**&quot;</span>) <span class="comment">// 允许跨域访问的路径</span></span><br><span class="line">                .allowedOrigins(<span class="string">&quot;&quot;</span>)<span class="comment">//允许跨域访问的源</span></span><br><span class="line">                .allowedMethods(<span class="string">&quot;&quot;</span>)<span class="comment">//允许请求方法</span></span><br><span class="line">                .allowedHeaders(<span class="string">&quot;&quot;</span>)<span class="comment">//允许头部设置</span></span><br><span class="line">                .allowCredentials(<span class="keyword">true</span>)<span class="comment">//允许请求携带Cookie</span></span><br><span class="line">                .maxAge(<span class="number">3600</span>);<span class="comment">//是否发送cookie，预检间隔时间</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>继承<code>WebMvcConfigurationSupport</code>后，同时可以配置拦截器，其中自定义拦截器<code>MyInterceptor</code>需要实现接口<code>HandlerInterceptor</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// registry.addInterceptor(new TestInterceptor()).addPathPatterns(&quot;/**&quot;);  //  /**下的每一个接口都要有&quot;登录&quot;的校验</span></span><br><span class="line">    registry.addInterceptor(<span class="keyword">new</span> MyInterceptor()).addPathPatterns(<span class="string">&quot;/interceptor/test&quot;</span>);<span class="comment">//mes下的接口都要被拦截</span></span><br><span class="line">    <span class="keyword">super</span>.addInterceptors(registry);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="前端请求"><a href="#前端请求" class="headerlink" title="前端请求"></a>前端请求</h3><p>前端请求代码如下，根据前端框架配置可能有所不同，但是<code>HttpSession</code>同步的关键在于<code>xhrFields: &#123;withCredentials: true&#125;</code>，既为允许<code>Http</code>请求携带Cookie</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    <span class="comment">// 同步请求是为让WebSocket连接之前可以从配置中拿到HttpSession</span></span><br><span class="line">    <span class="keyword">async</span>:<span class="literal">false</span>,</span><br><span class="line">    url: <span class="string">&#x27;http://192.168.1.10:9119/session/test&#x27;</span>,</span><br><span class="line">    data: &#123;</span><br><span class="line">        value: <span class="string">&#x27;admin&#x27;</span>,</span><br><span class="line">        key: <span class="string">&quot;123456&quot;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 下列两项配置为跨域请求HttpSession同步的关键，允许Http请求携带Cookie</span></span><br><span class="line">    xhrFields: &#123;</span><br><span class="line">        withCredentials: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    crossDomain: <span class="literal">true</span>,</span><br><span class="line">    success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// setCookie(data.name,data.value,data.time/1000);</span></span><br><span class="line">        <span class="built_in">console</span>.log(data)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="浏览器设置"><a href="#浏览器设置" class="headerlink" title="浏览器设置"></a>浏览器设置</h3><p><strong>重点：</strong>以上配置全部正确无误后，<code>HttpSession</code>还是不能同步，这是因为浏览器限制。</p>
+<p><code>Chrome</code>与<code>Edgd</code>配置相似，因为同核。其它浏览器有待研究</p>
+<ol>
+<li>在地址栏输入<code>chrome://flags</code>、<code>edge://flags</code></li>
+<li>搜索<code>cookies</code></li>
+<li>禁用下列两项<ul>
+<li><code>SameSite by default cookies</code> = <code>Disabled</code></li>
+<li><code>Cookies without SameSite must be secure</code> = <code>Disabled</code></li>
+</ul>
+</li>
+</ol>
+<p>至止，前后端分离跨域请求<code>HttpSession</code>同步实现成功。</p>
+]]></content>
+      <tags>
+        <tag>develop</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JasperReport 全攻略</title>
     <url>/2021/01/21/JasperReport/</url>
     <content><![CDATA[<h3 id="JasperReport生态"><a href="#JasperReport生态" class="headerlink" title="JasperReport生态"></a>JasperReport生态</h3><p>IReport、JasperStudio是jasper的辅助视觉设计工具，不用它也能设计Jasper报表（编码jrxml）。</p>
@@ -412,52 +443,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Windows Mstsc</title>
-    <url>/2020/12/12/Windows_mstsc/</url>
-    <content><![CDATA[<h5 id="远程桌面提示：身份验证错误-要求的函数不受支持"><a href="#远程桌面提示：身份验证错误-要求的函数不受支持" class="headerlink" title="远程桌面提示：身份验证错误 要求的函数不受支持"></a>远程桌面提示：身份验证错误 要求的函数不受支持</h5><p> 这个解决方法来自微软官方，</p>
-<p> 按照此方法发现我的电脑中并没有“加密 Oracle 修正”这一项。</p>
-<p> 解决方法如下：</p>
-<p> 命令 regedit 打开注册表，找到路径 [HKEY_LOCAL_MACHINE]\Software\Microsoft\Windows\CurrentVersion\Policies\System\CredSSP\Parameters</p>
-<p> 一般情况下，到了System之后就没了，缺少的可以自己创建文件夹。</p>
-<p> 然后在最底部文件夹里面新建 DWORD（32）位的。文件名 “AllowEncryptionOracle”，值：2</p>
-<p><img src="https://ftp.bmp.ovh/imgs/2020/12/1cbd101e5ad76435.jpg" alt="如图所示"></p>
-]]></content>
-      <tags>
-        <tag>windows</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Http Cross</title>
-    <url>/2021/03/05/Http_Cross/</url>
-    <content><![CDATA[<p>Http跨域请求及HttpSession同步终极手册</p>
-<h3 id="后端配置"><a href="#后端配置" class="headerlink" title="后端配置"></a>后端配置</h3><p>继承<code>org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport</code>或者实现<code>javax.servlet.Filter</code>接口两种方式，<code>springboot2.0</code>以上才有<code>WebMvcConfigurationSupport</code>，之前为<code>WebMvcConfigurerAdapter</code>。</p>
-<p>实现<code>Filter</code>接口后跨域配置的核心代码如下，其中<code>HttpSession</code>同步的重点在于<code>response.setHeader(&quot;Access-Control-Allow-Credentials&quot;, &quot;true&quot;);</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line"></span><br><span class="line">        HttpServletRequest request = (HttpServletRequest) servletRequest;</span><br><span class="line">        HttpServletResponse response = (HttpServletResponse) servletResponse;</span><br><span class="line"></span><br><span class="line">        String[] allowDomain = &#123;<span class="string">&quot;http://127.0.0.1:8848&quot;</span>, <span class="string">&quot;http://localhost:8848&quot;</span>&#125;;</span><br><span class="line">        Set&lt;String&gt; allowedOrigins = <span class="keyword">new</span> HashSet&lt;String&gt;(Arrays.asList(allowDomain));</span><br><span class="line">        log.info(<span class="string">&quot;&#123;&#125;&quot;</span>, request.getRequestURI());</span><br><span class="line">        String originHeader = request.getHeader(<span class="string">&quot;Origin&quot;</span>);</span><br><span class="line">        <span class="comment">// response.setHeader(&quot;Access-Control-Allow-Origin&quot;,request.getHeader(&quot;Origin&quot;));</span></span><br><span class="line">        <span class="comment">//注意重点:Access-Control-Allow-Origin不可以写*通配，需要明确写出请求方的IP地址及端口</span></span><br><span class="line">        <span class="keyword">if</span> (allowedOrigins.contains(originHeader)) &#123;</span><br><span class="line">            response.setHeader(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>, originHeader);</span><br><span class="line">            <span class="comment">//HttpSession同步重点，允许携带Cookie</span></span><br><span class="line">            response.setHeader(<span class="string">&quot;Access-Control-Allow-Credentials&quot;</span>, <span class="string">&quot;true&quot;</span>);</span><br><span class="line">            response.setHeader(<span class="string">&quot;Access-Control-Allow-Methods&quot;</span>, <span class="string">&quot;POST, GET, PATCH, DELETE, PUT&quot;</span>);</span><br><span class="line">            response.setHeader(<span class="string">&quot;Access-Control-Max-Age&quot;</span>, <span class="string">&quot;3600&quot;</span>);</span><br><span class="line">            response.setHeader(<span class="string">&quot;Access-Control-Allow-Headers&quot;</span>, <span class="string">&quot;Origin, X-Requested-With, Content-Type, Accept&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        filterChain.doFilter(servletRequest, servletResponse);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>继承<code>WebMvcConfigurationSupport</code>后，跨域配置应当重写<code>addCorsMappings</code>，同步<code>HttpSession</code>的重点在于<code>allowCredentials(true)</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span>  <span class="title">_addCorsMappings</span><span class="params">(CorsRegistry registry)</span> </span>&#123;</span><br><span class="line">	registry.addMapping(<span class="string">&quot;/**&quot;</span>) <span class="comment">// 允许跨域访问的路径</span></span><br><span class="line">                .allowedOrigins(<span class="string">&quot;&quot;</span>)<span class="comment">//允许跨域访问的源</span></span><br><span class="line">                .allowedMethods(<span class="string">&quot;&quot;</span>)<span class="comment">//允许请求方法</span></span><br><span class="line">                .allowedHeaders(<span class="string">&quot;&quot;</span>)<span class="comment">//允许头部设置</span></span><br><span class="line">                .allowCredentials(<span class="keyword">true</span>)<span class="comment">//允许请求携带Cookie</span></span><br><span class="line">                .maxAge(<span class="number">3600</span>);<span class="comment">//是否发送cookie，预检间隔时间</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>继承<code>WebMvcConfigurationSupport</code>后，同时可以配置拦截器，其中自定义拦截器<code>MyInterceptor</code>需要实现接口<code>HandlerInterceptor</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// registry.addInterceptor(new TestInterceptor()).addPathPatterns(&quot;/**&quot;);  //  /**下的每一个接口都要有&quot;登录&quot;的校验</span></span><br><span class="line">    registry.addInterceptor(<span class="keyword">new</span> MyInterceptor()).addPathPatterns(<span class="string">&quot;/interceptor/test&quot;</span>);<span class="comment">//mes下的接口都要被拦截</span></span><br><span class="line">    <span class="keyword">super</span>.addInterceptors(registry);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="前端请求"><a href="#前端请求" class="headerlink" title="前端请求"></a>前端请求</h3><p>前端请求代码如下，根据前端框架配置可能有所不同，但是<code>HttpSession</code>同步的关键在于<code>xhrFields: &#123;withCredentials: true&#125;</code>，既为允许<code>Http</code>请求携带Cookie</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    <span class="comment">// 同步请求是为让WebSocket连接之前可以从配置中拿到HttpSession</span></span><br><span class="line">    <span class="keyword">async</span>:<span class="literal">false</span>,</span><br><span class="line">    url: <span class="string">&#x27;http://192.168.1.10:9119/session/test&#x27;</span>,</span><br><span class="line">    data: &#123;</span><br><span class="line">        value: <span class="string">&#x27;admin&#x27;</span>,</span><br><span class="line">        key: <span class="string">&quot;123456&quot;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 下列两项配置为跨域请求HttpSession同步的关键，允许Http请求携带Cookie</span></span><br><span class="line">    xhrFields: &#123;</span><br><span class="line">        withCredentials: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    crossDomain: <span class="literal">true</span>,</span><br><span class="line">    success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// setCookie(data.name,data.value,data.time/1000);</span></span><br><span class="line">        <span class="built_in">console</span>.log(data)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="浏览器设置"><a href="#浏览器设置" class="headerlink" title="浏览器设置"></a>浏览器设置</h3><p><strong>重点：</strong>以上配置全部正确无误后，<code>HttpSession</code>还是不能同步，这是因为浏览器限制。</p>
-<p><code>Chrome</code>与<code>Edgd</code>配置相似，因为同核。其它浏览器有待研究</p>
-<ol>
-<li>在地址栏输入<code>chrome://flags</code>、<code>edge://flags</code></li>
-<li>搜索<code>cookies</code></li>
-<li>禁用下列两项<ul>
-<li><code>SameSite by default cookies</code> = <code>Disabled</code></li>
-<li><code>Cookies without SameSite must be secure</code> = <code>Disabled</code></li>
-</ul>
-</li>
-</ol>
-<p>至止，前后端分离跨域请求<code>HttpSession</code>同步实现成功。</p>
-]]></content>
-      <tags>
-        <tag>develop</tag>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>WebSocket</title>
     <url>/2021/03/05/WebSocket/</url>
     <content><![CDATA[<p>WebSocket 是 HTML5 开始提供的一种在单个 TCP 连接上进行全双工通讯的协议。</p>
@@ -496,6 +481,21 @@
       <tags>
         <tag>develop</tag>
         <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Windows Mstsc</title>
+    <url>/2020/12/12/Windows_mstsc/</url>
+    <content><![CDATA[<h5 id="远程桌面提示：身份验证错误-要求的函数不受支持"><a href="#远程桌面提示：身份验证错误-要求的函数不受支持" class="headerlink" title="远程桌面提示：身份验证错误 要求的函数不受支持"></a>远程桌面提示：身份验证错误 要求的函数不受支持</h5><p> 这个解决方法来自微软官方，</p>
+<p> 按照此方法发现我的电脑中并没有“加密 Oracle 修正”这一项。</p>
+<p> 解决方法如下：</p>
+<p> 命令 regedit 打开注册表，找到路径 [HKEY_LOCAL_MACHINE]\Software\Microsoft\Windows\CurrentVersion\Policies\System\CredSSP\Parameters</p>
+<p> 一般情况下，到了System之后就没了，缺少的可以自己创建文件夹。</p>
+<p> 然后在最底部文件夹里面新建 DWORD（32）位的。文件名 “AllowEncryptionOracle”，值：2</p>
+<p><img src="https://ftp.bmp.ovh/imgs/2020/12/1cbd101e5ad76435.jpg" alt="如图所示"></p>
+]]></content>
+      <tags>
+        <tag>windows</tag>
       </tags>
   </entry>
 </search>
