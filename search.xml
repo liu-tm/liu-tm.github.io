@@ -1,0 +1,923 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Android Studio 控制台中文乱码</title>
+    <url>/2020/12/12/Android_Studio/</url>
+    <content><![CDATA[<p>IDE设置界面中所有与Encoding相关内容均为UTF-8，Build界面输出任然会中文乱码</p>
+<p>新版本（4.1） </p>
+<p><code>studio64.exe.vmoptions</code> 或者<code>studio.exe.vmoptions</code> </p>
+<p>配置文件中添加一行 <code>-Dfile.encoding=UTF-8</code></p>
+<p>旧版本（未经验证） <code>Help -&gt; Edit Custom VM Options</code> 执行修改操作</p>
+<p><em>PS</em>: 其它未经验证方法 <code>File -&gt; Settings -&gt; Appearence -&gt; Antialiasing</code>选项卡里，把<code>IDE</code>和<code>editor</code>都调成<code>Greyscale</code>即可。</p>
+]]></content>
+      <tags>
+        <tag>IDE</tag>
+        <tag>android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android Theme 相关</title>
+    <url>/2020/12/12/Android_Theme/</url>
+    <content><![CDATA[<p><i id="quote" data-modify="true"></i></p>
+<h5 id="什么是Style，什么是Theme？"><a href="#什么是Style，什么是Theme？" class="headerlink" title="什么是Style，什么是Theme？"></a>什么是Style，什么是Theme？</h5><ul>
+<li>1.1 联系     </li>
+</ul>
+<p>Style 和 theme：是一个包含一种 或者 多种格式化 属性 的集合  ，并且 style和theme都是资源，存放在res/values 文件夹下 </p>
+<ul>
+<li>1.2 区别：</li>
+</ul>
+<p>style：View级别的，只能在某个Activity的布局文件中使用<br>Theme：应用级别的，你必须在AndroidManifest.xml中 的<application>或者<activity>中使用</p>
+<h5 id="在定义Theme的时候-符号和？符号有何区别？"><a href="#在定义Theme的时候-符号和？符号有何区别？" class="headerlink" title="在定义Theme的时候@符号和？符号有何区别？"></a>在定义Theme的时候@符号和？符号有何区别？</h5><p>@符号 表明 我们引用的资源是前边定义过的(或者在前一个项目中或者在Android 框架中)。问号？表明 我们引用的资源的值在 当前的 主题当中定义过   </p>
+<h5 id="怎么通过代码给一个Activity设置主题"><a href="#怎么通过代码给一个Activity设置主题" class="headerlink" title="怎么通过代码给一个Activity设置主题?"></a>怎么通过代码给一个Activity设置主题?</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">super</span>.onCreate(savedInstanceState); </span><br><span class="line">     setTheme(android.R.style.Theme_Light); </span><br><span class="line">     setContentView(R.layout.linear_layout_3); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="AppTheme主题颜色colorPrimary，colorPrimaryDark，colorAccent都是什么的颜色？"><a href="#AppTheme主题颜色colorPrimary，colorPrimaryDark，colorAccent都是什么的颜色？" class="headerlink" title="AppTheme主题颜色colorPrimary，colorPrimaryDark，colorAccent都是什么的颜色？"></a>AppTheme主题颜色colorPrimary，colorPrimaryDark，colorAccent都是什么的颜色？</h5><p><img src="https://ftp.bmp.ovh/imgs/2020/12/b1610c7fe4084365.png"></p>
+<p><img src="https://ftp.bmp.ovh/imgs/2020/12/50b221d19ff0a3f0.jpg"></p>
+<ul>
+<li>4.1 colorPrimary</li>
+</ul>
+<p>App Bar 的背景色，即 ActionBar，通常也是一个 App 的主题色调。不过 ActionBar 已经退出历史舞台，由 Toolbar 代替使用，但是 Toolbar 需要在 layout 文件中单独使用 background 属性设置背景色，如：</p>
+<ul>
+<li>4.2 colorPrimaryDark</li>
+</ul>
+<p>status bar（状态栏）背景色。仅作用于 Lollipop 及更高版本。</p>
+<ul>
+<li>4.3 colorAccent</li>
+</ul>
+<p>许多控件在选中状态或获取焦点状态下使用这个颜色，常见有：</p>
+<ul>
+<li>CheckBox：checked 状态</li>
+<li>RadioButton：checked 状态</li>
+<li>SwitchCompat：checked 状态</li>
+<li>EditText：获取焦点时的 underline 和 cursor 颜色</li>
+<li>TextInputLayout：悬浮 label 字体颜色</li>
+</ul>
+<p>​    等等</p>
+<ul>
+<li>4.4 android:navigationBarColor</li>
+</ul>
+<p>navigation bar 背景色。仅作用于 Lollipop 及更高版本。</p>
+<ul>
+<li>4.5 colorControlNormal</li>
+</ul>
+<p>某些 Views “normal” 状态下的颜色，常见如：unselected CheckBox 和 RadioButton，失去焦点时的 EditText，Toolbar 溢出按钮颜色，等等。</p>
+<ul>
+<li>4.6 colorControlActivated</li>
+</ul>
+<p>某种程度上，是 colorAccent 的替代者，比如对于 CheckBox 和 RadioButton 的 checked 状态，colorControlActivated 属性会覆盖 colorAccent 属性的对应颜色。</p>
+<ul>
+<li>4.7 colorControlHighlight</li>
+</ul>
+<p>所有可点击 Views 触摸状态下的 Ripple（涟漪）效果。仅作用于 Lollipop 及更高版本。</p>
+<ul>
+<li>4.8 colorButtonNormal</li>
+</ul>
+<p>Button normal 状态下的背景色。注意，这种设置与 Button 的 android:background 属性改变背景色不同的是，前者在 Lollipop 及更高版本上会让 Button 依旧保持阴影和 Ripple 触摸效果。</p>
+<ul>
+<li>4.9 android:windowBackground</li>
+</ul>
+<p>窗口背景色，诸如此类的还有：android:background，android:colorBackground 等。</p>
+<ul>
+<li>4.10 android:textColorPrimary</li>
+</ul>
+<p>EditText 的 text color，等等文本颜色。</p>
+<ul>
+<li>4.11 navigationIcon</li>
+</ul>
+<p>返回按钮的图片</p>
+<h5 id="常见的主题风格都有哪些？"><a href="#常见的主题风格都有哪些？" class="headerlink" title="常见的主题风格都有哪些？"></a>常见的主题风格都有哪些？</h5><p>android:theme=”@android:style/Theme.Dialog”  将一个Activity显示为能话框模式<br>android:theme=”@android:style/Theme.NoTitleBar”  不显示应用程序标题栏<br>android:theme=”@android:style/Theme.NoTitleBar.Fullscreen”  不显示应用程序标题栏，并全屏<br>android:theme=”Theme.Light”  背景为白色<br>android:theme=”Theme.Light.NoTitleBar”  白色背景并无标题栏<br>android:theme=”Theme.Light.NoTitleBar.Fullscreen”  白色背景，无标题栏，全屏<br>android:theme=”Theme.Black”  背景黑色<br>android:theme=”Theme.Black.NoTitleBar”  黑色背景并无标题栏<br>android:theme=”Theme.Black.NoTitleBar.Fullscreen”   黑色背景，无标题栏，全屏<br>android:theme=”Theme.Wallpaper”  用系统桌面为应用程序背景<br>android:theme=”Theme.Wallpaper.NoTitleBar”  用系统桌面为应用程序背景，且无标题栏<br>android:theme=”Theme.Wallpaper.NoTitleBar.Fullscreen”  用系统桌面为应用程序背景，无标题栏，全屏<br>android:theme=”Translucent”  半透明<br>android:theme=”Theme.Translucent.NoTitleBar” 半透明、无标题栏<br>android:theme=”Theme.Translucent.NoTitleBar.Fullscreen” 半透明、无标题栏、全屏<br>android:theme=”Theme.Panel”<br>android:theme=”Theme.Light.Panel”  </p>
+]]></content>
+      <tags>
+        <tag>android</tag>
+        <tag>develop</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android ADB</title>
+    <url>/2020/12/12/Android_ADB/</url>
+    <content><![CDATA[<p><i id="quote" data-modify="true"></i></p>
+<p>连接：<code>adb shell</code></p>
+<p>多个终端选择：<code>adb -s xiaomi shell:-s命令表示选择设备,这里是选择xiaomi设备进shell</code></p>
+<p>与终端成功建立连接后</p>
+<p>获取系统应用：<code>pm list packages -s &gt; list.txt</code></p>
+<p>禁用：<code>pm disable-user com.huawei.search</code></p>
+<p>删除：<code>pm uninstall -k --user 0 com.huawei.search</code>，**-k** 表示保存数据，如不需要，可去掉 -k。</p>
+<p><strong>系统自带软件说明</strong>：</p>
+<p><code>com.android.email</code>电子邮箱。我常用的就是qq邮箱，留它无用，我卸载了。<br><code>com.huawei.bone</code>华为穿戴。没什么华为穿戴，我卸载了。<br><code>com.huawei.himovie</code>华为视频。我常用的是MX player pro（版本1.9.0）播放器，强大得蔑视一切视频播放器，但是不要升级到最新，要不然一暂停就会弹出广告，看着烦。在线视频我用的爱奇艺视频破解版、腾讯视频WeTv无广告版，清爽得多。<br><code>com.huawei.KoBackup</code>备份。我还是保留了，虽然恢复时出现过无法恢复的情况（负责任的说，该软件不完善的地方，备份时老版本可以设置6位数密码或跳过不用设置密码，但如今必须用新版本恢复，原来未设置密码或设置的6位数密码的备份材料都无法恢复了），所以三管齐下，同时在云空间、电脑手机助手进行了备份，吃一堑长一智吧。<br><code>com.example.android.notepad</code>备忘录。我不用它，我喜欢用《随手写》，特别是其中的“涂鸦”功能。<br><code>com.android.browser</code>华为浏览器。很多人在吐槽不好用，反正我不用，我用360浏览器，电脑版我用习惯了。<br><code>com.vmall.client</code>华为商城。看你要不要在上面买东西了，我在上面买过两台荣誉9X，毕竟官方商城放心些。不用可以卸载，反正想用还可以安上。<br><code>com.android.printspooler</code>打印处理服务。你用手机直接联网打印吗，不用啊，不用你留它干嘛。<br><code>com.huawei.livewallpaper.artflower</code>繁花，自动壁纸。看你的运气了，可能卸载不了。<br><code>com.huawei.android.airsharing</code>多屏互动。原来还备了一根绿联的线，结果连电视、连电脑，没有一次成功过。<br><code>com.huawei.fans</code>花粉俱乐部。我现在兴趣很大，与花粉交流，帮花粉解决问题，发的帖子上好几万的浏览量，可以满足一下自己的虚荣心啊。<br><code>com.huawei.livewallpaper.naturalgarden</code>花园，壁纸。看你的运气了，可能卸载不了。<br><code>com.huawei.appmarket</code>华为应用市场。我几乎不用，我用豌豆荚，可以方便下载各种老版本软件。<br><code>com.huawei.gamebox</code>华为游戏中心。我不玩游戏。<br><code>com.huawei.hwireader</code>华为阅读。资源少了点，还是看纸质书有感觉。<br><code>com.huawei.vrinstaller</code>华为VR安装向导。我没有VR设备。<br><code>com.huawei.vrservice</code>华为VR服务。我没有VR设备。<br><code>com.android.dreams.basic</code>华为互动屏保。耗电，新鲜劲过了就没啥意思了。<br><code>com.huawei.vdrive</code>华为驾驶模式。看个人的需求了。<br><code>com.huawei.hifolder</code>华为精品推荐。我喜欢啥我自己清楚。<br><code>com.huawei.fastapp</code>华为快应用中心。“快应用”是啥？这都不知道啊。嘻嘻，我也是上网查的，所谓“快应用”就是免安装，类似微信的小程序。没这使用习惯，据说还弹广告。<br><code>com.android.bips</code>默认打印服务。你用手机打印吗？<br><code>com.huawei.hwvplayer.youku</code>视频-优酷版。我用破解版爱奇艺，用优酷我也找个免广告破解了的，8.1的操作系统就是好，不会像9.0以上版本用个软件还那么多限制，我的手机难道不能做主吗。<br><code>com.huawei.android.tips</code>玩机技巧。刚买手机时还可以参考一下，你都是老司机了还用得到吗。<br><code>com.huawei.hidisk</code>文件管理。我用“ES文件浏览器”，功能强大，特别是习惯电脑的，用它好得很。但是不要升级到最新版，新版本启动慢还有广告，我的是3.2.5.5版本，安装好后把弹出的升级框取消掉，然后在软件中找到“设置——更新设置——自动检测”后面的√去掉即可。<br><code>com.huawei.desktop.explorer</code>文件管理。如上，我用的是功能强大而小巧的“ES文件浏览器”。<br><code>com.android.mediacenter</code>音乐。我常用的是破解版的酷狗音乐，就是图它启动快操作简单，还备用了破解版的qq音乐、酷我音乐、懒人听说等。<br><code>com.huawei.gameassistant</code>游戏助手。我不玩游戏。<br><code>com.huawei.livewallpaper.flowersbloom</code>绽放-壁纸。看你的运气能否卸载了。<br><code>com.huawei.smarthome</code>智能家居。我只是用几个手机而已。<br><code>com.huawei.android.remotecontroller</code>智能遥控。试了没意思，有现成的遥控为什么不用。<br><code>com.android.htmlviewerHTML</code>查看器。查看网页源码的程序，其实这些用浏览器自带的就可以完成，意义不大，我默认用360浏览器，还被硬塞进了腾讯浏览器。<br><code>com.baidu.input_huawei</code>华为输入法。我反正不用，我用的是讯飞输入法。<br><code>com.huawei.livewallpaper.mountaincloud</code> 层峦。这是动态壁纸，省电的话你用着这个吗？<br><code>com.android.emergency</code> 个人紧急信息。遇到紧急事件，查看你的个人紧急信息。这玩意反正我用不着，我停用了。<br><code>com.android.keyguard</code> 杂志锁屏 。这东西看个人吧我不喜欢经常变换壁纸，要省电的话停用了就好。<br><code>com.huawei.videoeditor</code> 视频编辑。 编辑你拍好的视频。电脑的性能还不如手机吗？我没卸载停用了。<br><code>com.huawei.skytone</code> 天际通。你要是不知道天际通是做什么的你就停用。出国漫游费用高，不如直接换成当地卡上网。<br><code>com.huawei.android.hwouc</code> 系统更新。你想更新系统吗？你想天天接受华为的天天骚扰吗？如果想你就留着。我直接卸载了，当然哪天想升级了，还可以用手机助手或卡刷升级。我连电脑手机助手，显示可以由8.1.0.351升级到9.0.0.181，想用哪个版本，就可以一级级升级停在哪个版本。<br><code>com.huawei.parentcontrol</code> 学生模式。供家长设置手机各应用的可使用时间段功能。<br><code>com.huawei.android.FloatTasks</code> 悬浮导航。我一般用按键的，悬浮用不惯。<br><code>com.huawei.android.UEInfoCheck</code> 用户体验计划监控。停用<br><code>com.huawei.intelligent</code> 情景智能。 这是就是负一页的那个。我用不着，直接停用。<br><code>com.huawei.android.karaoke</code> 卡拉OK。在手机上唱卡拉OK是何等的窝槽。反正我没用过。<br><code>com.huawei.cryptosms.service</code> 信息加密。有啥用？你是特工人员？不是？那就赶紧停用。<br><code>com.android.exchange Exchange</code>服务。此apk是邮件exchange协议的控制部分。要是系统自带的电子邮件应用你删除了，那这个也停用。电子邮件可以用三方代替。<br><code>com.huawei.yellowpage</code> 黄页。联系人中的黄页功能。这个删除了黄页功能还是有的，我删除了。<br><code>com.huawei.rcsserviceapplication</code> 智能推荐系统。用于华为智能助手服务推荐，<a href="http://club.huawei.com/forum.php?gid=2867">EMUI</a> 亮点特性推荐以及智能通知管理。我删除了用不到。<br><code>com.huawei.wallet</code> 钱包。 我不用华为支付，我停用了。<br><code>com.huawei.android.hwpay</code> 华为支付。我不用，我停用了。<br><code>com.huawei.phoneservice</code> 会员服务。系统更新停用了。留着这个干什么？<br><code>com.android.stk</code> 顾名思义就是可以看你的sim卡上有啥玩意的。这玩意屁用无。停用！<br><code>com.huawei.hiview com.huawei.hiviewtunnel</code> 这俩玩意是<a href="https://club.huawei.com/forum.php?gid=2867">EMUI</a>日志上传功能，费电费流量。不是网上其他人所说的什么海信电视什么的，华为和海信难道有py？？<br><code>com.iflytek.speechsuite</code> 讯飞的语音输入。你要是用语音助手的话你就不要删了，不用的话你就停用。<br><code>com.huawei.vassistant</code> 语音输入都删除了，这个还留着干什么？还等着你好小E来给我精简一下手机？</p>
+<p><code>com.huawei.bd</code> 用户体验计划。说白了就是<a href="https://club.huawei.com/forum-gid-36.html">华为手机</a>窃取你干啥了的应用，直接停用。省电！<br><code>com.huawei.regservice</code> 运营商通过该应用获取您设备的相关信息。 想让运营商获取？不想的话那就停！<br><code>com.huawei.android.AutoRegSms</code> 电信短信自注册应用，开机通过后台短信方式自动上报手机的部分信息。 真的想让手机上报？不想的话那你就停。<br><code>com.huawei.android.chr</code> 通信协议可维可测apk，用于检测异常，收集异常关键信息等。 我的手机信息我让你给我收集？垃圾……停用！<br><code>com.huawei.indexsearch</code> <code>com.huawei.indexsearch.observer</code> 这两个玩意是为本地文件建立索引，用于本地搜索使用。手机搜索你的信息，然后……我停用了。<br><code>com.huawei.android.findmyphone</code> 手机掉了之后能找回？我不信，我停用了你们看着办。<br><code>com.android.bluetoothmidiservice</code> 蓝牙音乐服务。用蓝牙听歌的不要删除。我不用，我停用了。<br><code>com.android.cts.ctsshim</code>  <code>com.android.cts.priv.ctsshim</code> 这俩货是CTS环境运行辅助。要是你不知道cts是干什么的赶紧停用！<br><code>com.huawei.android.dsdscardmanager</code> 双卡管理。用双卡的别删，不用双卡的管理毛线的双卡，停用！<br><code>org.simalliance.openmobileapi.service</code> 支持钱包应用智能卡相关功能 前面你都删除华为支付了，还留着它过年吗？停用！<br><code>com.svox.pico</code> TTS文字转语音引擎 。前面你都删除语音输入了，还留着它干吗？停用！<br><code>com.huawei.android.pushagent</code> 推送服务。说白了就是推送广告的，停停停！<br><code>com.huawei.android.hsf</code> 华为框架。这货说白了就是支持他自家的系列软件的，就算删除了还是照样可以正常使用。停用。</p>
+<p><code>com.android.dreams.phototable</code> 动态屏保 这玩意除了耗电一无是处。删<br><code>com.huawei.wifiprobqeservice</code> 评估 WiFi 质量以及 Portal 检测的容错。我的wifi用着你来评估？？删！！<br><code>com.huawei.android.instantonline</code> 华为一键热点应用通过打开蓝牙和登录相同华为账户，实现无需输入密码即可共享热点的功能。 我删了，用不到。<br><code>com.huawei.hwstartupguide</code> 首次开机时、引导用户设置系列信息。你不是第一次开机了吧？删！<br><code>com.huawei.mmitest</code> 测试功能，保证发货手机基本器件功能正常。你手里面的手机就是正常的，因为已经卖出来了。删！<br><code>com.android.phone.recorder</code> 通话录音。用不着删了，用的话你保留。<br><code>com.huawei.watch.sync</code> 手表同步。没有<a href="https://club.huawei.com/forum-4301-1.html">华为手表</a>的删了吧。我删了。<br><code>com.huawei.iconnect</code> 扫描发现穿戴设备后进行连接提醒。用不着的话删<br><code>com.huawei.synergy</code> 可以帮您将手机端的消息同步到您的穿戴设备上。同上。<br><code>com.android.wallpaper.livepicker</code> 桌面动态壁纸。费电，删。<br><code>com.huawei.android.wfdft</code> WLAN 直连可支持华为设备之间数据传输。没用过，删了。</p>
+<p><strong>下面开始精简谷歌的系列服务</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">com.google.android.marvin.talkback </span><br><span class="line">com.google.android.syncadapters.calendar</span><br><span class="line">com.google.android.syncadapters.contacts</span><br><span class="line">com.android.vending</span><br><span class="line">com.google.android.gsf</span><br><span class="line">com.google.android.gms</span><br><span class="line">com.google.android.feedback</span><br><span class="line">com.google.android.backuptransport</span><br><span class="line">com.google.android.configupdater</span><br><span class="line">com.google.android.partnersetup</span><br><span class="line">com.google.android.onetimeinitializer</span><br><span class="line">com.android.sharedstoragebackup</span><br><span class="line">com.google.ar.core</span><br><span class="line">com.google.android.ext.services</span><br><span class="line">com.google.android.ext.shared</span><br></pre></td></tr></table></figure>
+<p><strong>下面开始停用华为所谓“智能AI”系列服务</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">com.huawei.decision</span><br><span class="line">com.huawei.contentsensor</span><br><span class="line">com.huawei.hwdetectrepair</span><br><span class="line">com.huawei.lbs</span><br><span class="line">com.huawei.pengine</span><br><span class="line">com.huawei.hitouch</span><br><span class="line">com.huawei.hiaction</span><br><span class="line">com.huawei.hiai</span><br><span class="line">com.huawei.recsys</span><br><span class="line">com.huawei.appmarket</span><br><span class="line">com.huawei.nlp</span><br><span class="line">com.huawei.hilink.framework</span><br></pre></td></tr></table></figure>
+<p>所有的程序，按照你个人的使用习惯来停用或卸载。<strong>重点提醒：**</strong>如果以上列举的应用你正用着，那就在名单里面把这一行英文删除即可。<strong>如果担心精简出错，且临时用不到，那就执行停用命令；如果你是个强迫症且不想在系统里面再看到它了，那就执行卸载命令。程序停用后，如果想恢复直接用启用程序命令即可。卸载了最干净，但卸载后是无法通过“启用命令”来重新启用的（特别提醒，特别提醒，特别提醒，一定要慎重）。一旦执行了卸载命令，但是确实后悔了，可以尝试用电子市场下载软件的形式重新安装试试，不行的话就用电脑手机助手或卡刷新系统来恢复（我卸载了手机更新程序，连手机助手“系统更新”同样可以找到升级的版本）；另外可通过恢复出厂设置来恢复程序（我折腾了好几次，确实有效），恢复出厂前一定要备份重要资料啊。<br>要修改命令，可以用鼠标右键单击选择“编辑”或“打开方式”选择“记事本”打开即可。</strong></p>
+<p>停用程序为<code>adb shell pm disable-user+空格+程序名</code>；</p>
+<p>启用程序为<code>db shell pm enable+空格+程序名</code>；</p>
+<p>删除程序为<code>db shell pm uninstall --user 0+空格+程序名</code>。</p>
+]]></content>
+      <tags>
+        <tag>android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JasperReport 全攻略</title>
+    <url>/2021/01/21/JasperReport/</url>
+    <content><![CDATA[<h3 id="JasperReport生态"><a href="#JasperReport生态" class="headerlink" title="JasperReport生态"></a>JasperReport生态</h3><p>IReport、JasperStudio是jasper的辅助视觉设计工具，不用它也能设计Jasper报表（编码jrxml）。</p>
+<p>5.5之前这个工具叫ireport，5.5之后随着JasperStudio的出生，IReport就被完全替代了。</p>
+<p><strong>IReport支持jdk最高版本为1.7</strong>，在不修改系统环境变量的前提下，可以配置IReport根目录中etc目录下的<code>ireport.conf</code>，将<code>jdkhome</code>注释打开并配置jdk1.7版本位置。</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.codehaus.groovy<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>groovy-all<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.4.7<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Groovy是Java虚拟机的敏捷和动态语言，以Java语言的优势为基础，添加了从Python、Ruby和Smalltalk等语言中借鉴的特性。提供流行的编程语言特性，学习成本几乎为零。提供静态类型检查的能力，并静态地编译成java字节码，以获得健壮性和性能，与所有现有的Java类和库无缝集成，可以在任何可以使用java的地方使用它。通过其强大的处理原语、OO能力和Ant DSL使编写shell和构建脚本变得容易。</p>
+<p><code>Report -&gt; Language -&gt; java</code>选择语言为<code>java</code>后无需引入<code>groovy</code>，IReport可以设置全局语言模式，JasperStudio暂未发现。</p>
+<h3 id="JasperReport基本使用"><a href="#JasperReport基本使用" class="headerlink" title="JasperReport基本使用"></a>JasperReport基本使用</h3><ol>
+<li><p>使用可视化工具制作<code>.jrxml</code>报表模板</p>
+</li>
+<li><p>Java工程引入<code>jasperreports</code>（Language设置为java，若为groovy也要引入）</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>net.sf.jasperreports<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jasperreports<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.6.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编码导出</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//指定模板文件位置</span></span><br><span class="line">String jrxml = <span class="string">&quot;C:\\Users\\Administrator\\JaspersoftWorkspace\\MyReports\\test.jrxml&quot;</span>;</span><br><span class="line"><span class="comment">//设定报表所需要的外部参数内容</span></span><br><span class="line">Map parameters = <span class="keyword">new</span> HashMap();</span><br><span class="line">parameters.put(<span class="string">&quot;company&quot;</span>, <span class="string">&quot;XXXXX有限公司&quot;</span>);</span><br><span class="line"><span class="comment">//编译模板文件</span></span><br><span class="line">JasperReport jasperReport = JasperCompileManager.compileReport(jrxml);</span><br><span class="line"><span class="comment">//填充数据，生成文件输出流</span></span><br><span class="line">JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, <span class="keyword">new</span> JREmptyDataSource());</span><br><span class="line"><span class="comment">//导出PDF文件</span></span><br><span class="line">JasperExportManager.exportReportToPdfFile(jasperPrint, <span class="string">&quot;D:/test/report/&quot;</span> + jasperReport.getName() + <span class="string">&quot;.pdf&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>其中<code>JasperReport</code>对象也可以由视图工具中编译好的<code>.jasper</code>文件加载</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//直接加载视图工具中编译好的.jasper文件</span></span><br><span class="line">String jasper = ReportPDF.class.getResource(<span class="string">&quot;/&quot;</span>).getPath() + <span class="string">&quot;template/test.jasper&quot;</span>;</span><br><span class="line">InputStream inputStream = <span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(jasper));</span><br><span class="line">JasperReport _jasperReport = (JasperReport) JRLoader.loadObject(inputStream);</span><br></pre></td></tr></table></figure></li>
+<li><p>疑难杂症</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">jasperReport</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://jasperreports.sourceforge.net/jasperreports&quot;</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd&quot;</span> <span class="attr">name</span>=<span class="string">&quot;test&quot;</span> <span class="attr">pageWidth</span>=<span class="string">&quot;686&quot;</span> <span class="attr">pageHeight</span>=<span class="string">&quot;397&quot;</span> <span class="attr">orientation</span>=<span class="string">&quot;Landscape&quot;</span> </span></span><br><span class="line"><span class="tag">              <span class="attr">whenNoDataType</span>=<span class="string">&quot;AllSectionsNoDetail&quot;</span> <span class="attr">columnWidth</span>=<span class="string">&quot;646&quot;</span> <span class="attr">leftMargin</span>=<span class="string">&quot;20&quot;</span> <span class="attr">rightMargin</span>=<span class="string">&quot;20&quot;</span> <span class="attr">topMargin</span>=<span class="string">&quot;20&quot;</span> <span class="attr">bottomMargin</span>=<span class="string">&quot;20&quot;</span> <span class="attr">uuid</span>=<span class="string">&quot;1d450a83-6e0f-4885-a0f1-979eaf18bf08&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">jasperReport</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>填充数据<code>fillReport(JasperReport report, Map parameters, JRDataSource datasource)</code>时<code>datasource</code>为可选参数。若无<code>new JREmptyDataSource()</code>，且模板文件中无<code>whenNoDataType=&quot;AllSectionsNoDetail&quot;</code>，则导出的文件内容为<strong>空白</strong>。</p>
+<p>其中IReport工具中该选项为<code>属性 -&gt; More -&gt; When No Data</code>，JasperStudio为<code>Properties -&gt; Report -&gt; When No Data Type</code>。</p>
+</li>
+</ol>
+<h3 id="JasperReport导出中文"><a href="#JasperReport导出中文" class="headerlink" title="JasperReport导出中文"></a>JasperReport导出中文</h3><p>在<code>.jrxml</code>模板文件中，所有涉及中文的<code>element</code>，需要设置如下</p>
+  <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">textElement</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">font</span> <span class="attr">pdfFontName</span>=<span class="string">&quot;STSong-Light&quot;</span> <span class="attr">pdfEncoding</span>=<span class="string">&quot;UniGB-UCS2-H&quot;</span> <span class="attr">isPdfEmbedded</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">textElement</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以上配置在JasperStudio中操作为<code>Properties -&gt; Advanced -&gt; PDF</code></p>
+<ul>
+<li>PDF Embedded = true</li>
+<li>PDF Encoding = UniGB-UCS2-H (Chinese Simplified)</li>
+<li>PDF Font Name = STSong-Light</li>
+</ul>
+<p>在Java工程中编码前，需要引入以下<code>jar</code>包<br>输出文件时</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.lowagie<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>itext-asian<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.7<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>system<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>$&#123;basedir&#125;/src/main/res/lib/iTextAsian.jar<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>输出流时</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.lowagie<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>itext<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.7.js4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>system<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>$&#123;basedir&#125;/src/main/res/lib/itext-2.1.7.js4.jar<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="JasperReport自定义字体"><a href="#JasperReport自定义字体" class="headerlink" title="JasperReport自定义字体"></a>JasperReport自定义字体</h3><ul>
+<li><p>JasperStudio中安装字体</p>
+<p><code>Window -&gt; Preperences -&gt; Jaspersoft Studio -&gt; Fonts -&gt; Add From Path</code>选择字体文件位置导入，导入成功之后选中字体点击<code>Edit</code>，<code>PDF Encoding</code>选择<code>Identity-H (Unicode with horizontal writing)</code>并勾选<code>Embed this font in PDF document</code>。</p>
+</li>
+<li><p>完成上一步之后，在字体编辑界面点击<code>Export</code>导出<code>zip</code>压缩文件</p>
+</li>
+<li><p>文本元素字体设置为自定义的字体，此时是文本元素的常规字体设置，并非<code>导出中文</code>中提及的<code>PDF Font Name</code></p>
+</li>
+<li><p>将从JasperStudio中导出的<code>zip／jar</code>文件解压并复制到Java工程中的<code>resources</code>下即可完成自定义字体</p>
+</li>
+</ul>
+<p>总结：通过上述步骤实操得知</p>
+<ul>
+<li><p>Java工程Classpath下需要有名为<code>jasperreports_extension.properties</code>的配置文件</p>
+<p>该配置文件内容如下：</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">net.sf.jasperreports.extension.registry.factory.fonts</span>=<span class="string">net.sf.jasperreports.engine.fonts.SimpleFontExtensionsRegistryFactory</span></span><br><span class="line"><span class="meta">net.sf.jasperreports.extension.simple.font.families.ireportfamily1611215772940</span>=<span class="string">fonts/fontsfamily1611215772940.xml</span></span><br></pre></td></tr></table></figure></li>
+<li><p>其中<code>fontsfamily1611215772940.xml</code>即为字体实际配置</p>
+<p>编辑此配置，并在指定位置放置字体文件，即可省略JasperStudio中的字体安装／导出操作</p>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">fontFamilies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">fontFamily</span> <span class="attr">name</span>=<span class="string">&quot;阿里巴巴普惠体 R&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">normal</span>&gt;</span>&lt;![CDATA[fonts/阿里巴巴普惠体R/Alibaba-PuHuiTi-Regular.ttf]]&gt;<span class="tag">&lt;/<span class="name">normal</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">pdfEncoding</span>&gt;</span>&lt;![CDATA[Identity-H]]&gt;<span class="tag">&lt;/<span class="name">pdfEncoding</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">pdfEmbedded</span>&gt;</span>&lt;![CDATA[true]]&gt;<span class="tag">&lt;/<span class="name">pdfEmbedded</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">exportFonts</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">fontFamily</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">fontFamily</span> <span class="attr">name</span>=<span class="string">&quot;Mono&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">normal</span>&gt;</span>&lt;![CDATA[fonts/JetBrains/JetBrainsMono-Regular.ttf]]&gt;<span class="tag">&lt;/<span class="name">normal</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">pdfEncoding</span>&gt;</span>&lt;![CDATA[Identity-H]]&gt;<span class="tag">&lt;/<span class="name">pdfEncoding</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">pdfEmbedded</span>&gt;</span>&lt;![CDATA[true]]&gt;<span class="tag">&lt;/<span class="name">pdfEmbedded</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">exportFonts</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">fontFamily</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">fontFamilies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="JasperReport变量"><a href="#JasperReport变量" class="headerlink" title="JasperReport变量"></a>JasperReport变量</h3><ul>
+<li><p>Parameters</p>
+<p>JasperStudio中该配置位于<code>Outline</code>中，此面板显示设置方式为<code>Window &gt; Show View &gt; Other &gt; General &gt; Outline</code>（<code>hele -&gt; search</code>可以查找到此设置方式）</p>
+<p><code>右键此项选择Create Parameter</code>可以新建参数，参数可用于单次出现的可变数据，如公司名称、表单名称、、、</p>
+</li>
+<li><p>Fields</p>
+<p><code>右键此项选择Create Fedld</code>可以新建字段，字段可用于重复多次的列表数据，置于模板<code>Detail</code>详情区域。</p>
+</li>
+</ul>
+<h3 id="JasperReport图像"><a href="#JasperReport图像" class="headerlink" title="JasperReport图像"></a>JasperReport图像</h3><ul>
+<li><p>新建参数<code>Properties -&gt; Object -&gt; Name = img &amp; Class = java.io.InputStream</code></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">parameter</span> <span class="attr">name</span>=<span class="string">&quot;img&quot;</span> <span class="attr">class</span>=<span class="string">&quot;java.io.InputStream&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>插入图像<code>Image -&gt; Expression = $P&#123;img&#125;</code></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">image</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">x</span>=<span class="string">&quot;0&quot;</span> <span class="attr">y</span>=<span class="string">&quot;0&quot;</span> <span class="attr">width</span>=<span class="string">&quot;100&quot;</span> <span class="attr">height</span>=<span class="string">&quot;100&quot;</span> <span class="attr">uuid</span>=<span class="string">&quot;8b2bbc27-43a6-49f6-a79a-e8417ad20d8f&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">imageExpression</span>&gt;</span>&lt;![CDATA[$P&#123;img&#125;]]&gt;<span class="tag">&lt;/<span class="name">imageExpression</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">image</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>编码时参数中添加图片输出流</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String img = <span class="string">&quot;D:/Test/zxing.png&quot;</span>;</span><br><span class="line">parameters.put(<span class="string">&quot;img&quot;</span>, <span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(img)));</span><br></pre></td></tr></table></figure></li>
+<li><p>导出完成</p>
+</li>
+</ul>
+<h3 id="JasperReport条码"><a href="#JasperReport条码" class="headerlink" title="JasperReport条码"></a>JasperReport条码</h3><p>Java工程填充条码时需要导入以下两组插件</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>net.sf.barcode4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>barcode4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.xmlgraphics<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>batik-bridge<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.11<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>条形码放大</p>
+<p><code>Module Width = 2.0</code></p>
+<p><code>Quiet Zone = 2.0</code></p>
+<p><code>Vertical Quiet Zone = 2.0</code></p>
+</li>
+<li><p>条形码上层放置文本内容设置背景色后还需取消勾选<code>Transparent</code></p>
+</li>
+<li><p>二维码设置<code>Margin = 0 px</code>可以清除白色空白区域</p>
+</li>
+</ul>
+<h3 id="JasperReport导出JavaBean列表"><a href="#JasperReport导出JavaBean列表" class="headerlink" title="JasperReport导出JavaBean列表"></a>JasperReport导出JavaBean列表</h3><p><strong>重点</strong>：列表数据循环加载的关键在于<code>Fields</code>变量文本所在区域移除空白区域（双击区域），且模板文件中该区域留有空闲高度。例：文件可用高度为300px，<code>Page Header</code>和<code>Page Footer</code>总高度为100px（除<code>Detail</code>区域再无其它区域），若<code>Fields</code>变量文本高度为20px，则每页可循环10组列表数据。</p>
+<ul>
+<li><p>模板工具添加<code>Fields</code>变量（变量名称与Bean对象属性名称一致）</p>
+</li>
+<li><p>模板<code>Detail</code>区域插入<code>Fields</code>（根据需求设置样式及边框）</p>
+</li>
+<li><p>编码添加数据并导出</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;User&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">10</span>; i++) &#123;</span><br><span class="line">    <span class="comment">//注意：JavaBean的属性名称和模版的Fileds的名称一致的</span></span><br><span class="line">    list.add(<span class="keyword">new</span> User().setName(<span class="string">&quot;张三-&quot;</span> + i).setAge(<span class="number">10</span> + i).setSex(i));</span><br><span class="line">&#125;</span><br><span class="line">String jrxml = <span class="string">&quot;C:\\Users\\Administrator\\JaspersoftWorkspace\\MyReports\\userList.jrxml&quot;</span>;</span><br><span class="line">JRBeanCollectionDataSource dataSource = <span class="keyword">new</span> JRBeanCollectionDataSource(list);</span><br><span class="line">JasperReport jasperReport = JasperCompileManager.compileReport(jrxml);</span><br><span class="line">JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, <span class="keyword">new</span> HashMap&lt;&gt;(), dataSource);</span><br><span class="line"><span class="comment">//导出PDF文件</span></span><br><span class="line">JasperExportManager.exportReportToPdfFile(jasperPrint, <span class="string">&quot;D:/test/report/&quot;</span> + jasperReport.getName() + <span class="string">&quot;.pdf&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="JasperReport结合数据库连接导出数据"><a href="#JasperReport结合数据库连接导出数据" class="headerlink" title="JasperReport结合数据库连接导出数据"></a>JasperReport结合数据库连接导出数据</h3><ul>
+<li><p>添加<code>Data Adapters</code></p>
+<p>在<code>Repository Explorer -&gt; Data Adapters</code>中右键选择<code>Create Data Adapter</code>，在弹出框中选择<code>Database JDBC Connection</code>后，进行常规JDBC配置（命名：<code>DemoData</code>）。需要在<code>Driver Classpath</code>中添加对应的<strong>数据库连接驱动</strong>。</p>
+<p>该配置或许不支持<code>useSSL</code>，JDBC URL配置常规路径既可<code>jdbc:mysql://localhost/database</code>。测试连接正常后继续往下操作</p>
+</li>
+<li><p>在<code>Outline</code>中右键模板文件选择<code>Dataset And Query ...</code>，在弹出框中配置数据库查询。</p>
+<p>首先在数据库图标右侧选择上一步配置好的数据库连接，然后在右侧输入区域填入查询语句，点击<code>Read Fields</code>按钮。若无特殊情况，到此即可，也可以根据实际情况编辑字段列表。</p>
+</li>
+<li><p><code>Fields</code>添加字段</p>
+</li>
+<li><p><code>Detail</code>区域插入字段</p>
+</li>
+<li><p>编码导出（在线预览PDF模式）</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String path = <span class="string">&quot;C:\\Users\\Administrator\\JaspersoftWorkspace\\MyReports\\userData.jrxml&quot;</span>;</span><br><span class="line"><span class="comment">//1.编译</span></span><br><span class="line">JasperReport jasperReport = JasperCompileManager.compileReport(path);</span><br><span class="line"><span class="comment">//2.构建Print对象，用于让模块结合数据</span></span><br><span class="line"><span class="comment">//第三个参数：如果是JDBC数据源，应该设置Connection对象</span></span><br><span class="line">Connection connection = dataSource.getConnection();</span><br><span class="line">JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, <span class="keyword">new</span> HashMap&lt;&gt;(), connection);</span><br><span class="line"><span class="comment">//3.PDF输出流</span></span><br><span class="line">response.setContentType(<span class="string">&quot;application/pdf&quot;</span>);</span><br><span class="line">response.setHeader(<span class="string">&quot;Content-Disposition&quot;</span>, <span class="string">&quot;inline;&quot;</span>);</span><br><span class="line"><span class="keyword">final</span> OutputStream outputStream = response.getOutputStream();</span><br><span class="line">JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);</span><br><span class="line"><span class="comment">//关闭连接和输出流</span></span><br><span class="line">connection.close();</span><br><span class="line">outputStream.close();</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="JasperReport制作表格"><a href="#JasperReport制作表格" class="headerlink" title="JasperReport制作表格"></a>JasperReport制作表格</h3><p>之前两节所涉及的集合数据均为普通的<code>Text Field</code>元素组成，表格制作方式与上面所述完全不同。</p>
+<ul>
+<li><p>结合数据源制作表格（数据源使用上文设置好的连接<code>DemoData</code>）</p>
+<ol>
+<li><p><code>Outline</code>面板右键选择<code>Dataset And Query ...</code>或者<code>Properties</code>面板点击<code>Edit query, filter and sort options</code>，在弹出框的右边编辑区域填入SQL查询语句，<code>Read Fidlds</code>获取字段（可省略）。</p>
+</li>
+<li><p>拖入<code>Table</code>组件，弹出框选择<code>Create a Table using a new dataset</code>新建<code>dataset</code>，名称自定义，选择<code>Create new dataset from a connection or Data Source</code>继续，<code>Data Adapter</code>选择<code>DemoData</code>，编辑区填入SQL查询语句，选择字段（必要），<code>Group By</code>（可选）。后续设置按需求，直至结束。</p>
+</li>
+<li><p>Java编码只需传入数据库<code>connection</code>即可。</p>
+<p><code>JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap&lt;&gt;(), connection);</code></p>
+</li>
+</ol>
+</li>
+<li><p>基于JavaBean集合数据制作表格（较为繁琐）</p>
+<ol>
+<li><p>新建<code>dataset</code>，<code>Data Source</code>选择<code>One Empty Record - Empty rows</code>后结束。</p>
+</li>
+<li><p><code>dataset</code>中的<code>Fields</code>按需建立与<code>JavaBean</code>对象同名的属性名称。</p>
+</li>
+<li><p><code>Outline</code>面板模板文件中的<code>Fields</code>中建立名为<code>dataList</code>的字段（该名称后续需要用到），<code>Class</code>填入<code>net.sf.jasperreports.engine.data.JRBeanCollectionDataSource</code></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">&quot;users&quot;</span> <span class="attr">class</span>=<span class="string">&quot;net.sf.jasperreports.engine.data.JRBeanCollectionDataSource&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>拖入<code>Table</code>组件，在弹出框选择<code>Create a Table using an existing dataset</code>并选择刚刚建立的<code>dataset</code>名称，<code>Connection</code>选择<code>Use a JRDatasource expression</code>后在编辑区填入<code>$F&#123;dataList&#125;</code>（上一步建立的字段名，后续仍会用到），后续操作与结合数据源制作方式类似。</p>
+</li>
+<li><p>Java编码</p>
+<ol>
+<li><p>新建类<code>TableDataSource</code>，其中<code>JRBeanCollectionDataSource</code>类型的属性名称与之前必须一致<code>dataList</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TableDataSource</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> JRBeanCollectionDataSource dataList;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> JRBeanCollectionDataSource <span class="title">getDataList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> dataList;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> TableDataSource <span class="title">setDataList</span><span class="params">(JRBeanCollectionDataSource dataList)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.dataList = dataList;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//其它属性值以及get()、set()、、、</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>封装数据，此时分三步封装</p>
+<ul>
+<li><p>封装底层结果集</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;User&gt; users = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">10</span>; i++) &#123;</span><br><span class="line">    users.add(<span class="keyword">new</span> User().setName(<span class="string">&quot;Name-&quot;</span> + i).setAge(<span class="number">10</span> + i).setSex(i));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">TableDataSource tableDataSource = <span class="keyword">new</span> TableDataSource();</span><br><span class="line">tableDataSource.setDataList(<span class="keyword">new</span> JRBeanCollectionDataSource(users));</span><br></pre></td></tr></table></figure></li>
+<li><p>封装用于后续操作的<code>Collection</code>对象</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;TableDataSource&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">list.add(tableDataSource);</span><br></pre></td></tr></table></figure></li>
+<li><p>封装模板数据源</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">JRBeanCollectionDataSource dataSource = <span class="keyword">new</span> JRBeanCollectionDataSource(list);</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>结合模板导出</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String jrxml = <span class="string">&quot;C:\\Users\\Administrator\\JaspersoftWorkspace\\MyReports\\&quot;</span> + sourceName + <span class="string">&quot;.jrxml&quot;</span>;</span><br><span class="line"><span class="comment">//编译</span></span><br><span class="line">JasperReport jasperReport = JasperCompileManager.compileReport(jrxml);</span><br><span class="line"><span class="comment">//填充</span></span><br><span class="line">JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, <span class="keyword">new</span> HashMap(), dataSource);</span><br><span class="line"><span class="comment">//导出PDF文件</span></span><br><span class="line">JasperExportManager.exportReportToPdfFile(jasperPrint, <span class="string">&quot;D:/test/report/&quot;</span> + jasperReport.getName() + <span class="string">&quot;.pdf&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="JasperReport其它配置"><a href="#JasperReport其它配置" class="headerlink" title="JasperReport其它配置"></a>JasperReport其它配置</h3><ul>
+<li><p>本文所涉及到的配置未提及IReport时，均为JasperStudio的配置。</p>
+</li>
+<li><p>内容溢出时自动换行（前提是文本区域高度足够），勾选<code>Properties -&gt; Appearance -&gt; Detail Overflows</code></p>
+<p><code>.jrxml</code>中配置如下<code>isPrintWhenDetailOverflows=&quot;true&quot;</code></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">staticText</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">x</span>=<span class="string">&quot;307&quot;</span> <span class="attr">y</span>=<span class="string">&quot;51&quot;</span> <span class="attr">width</span>=<span class="string">&quot;100&quot;</span> <span class="attr">height</span>=<span class="string">&quot;30&quot;</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">&quot;true&quot;</span> <span class="attr">uuid</span>=<span class="string">&quot;f299c63b-b25d-44c4-8a23-210eed43f6d2&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">textElement</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">font</span> <span class="attr">pdfFontName</span>=<span class="string">&quot;STSong-Light&quot;</span> <span class="attr">pdfEncoding</span>=<span class="string">&quot;UniGB-UCS2-H&quot;</span> <span class="attr">isPdfEmbedded</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">textElement</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">text</span>&gt;</span>&lt;![CDATA[Static Text]]&gt;<span class="tag">&lt;/<span class="name">text</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">staticText</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h3><p>自定义字体解决方案出自：<a href="https://www.cnblogs.com/andy-alone/p/8202783.html"> 博客园 Andy_alone </a></p>
+<p>表格制作出自：<a href="https://blog.csdn.net/qq_43563538/article/details/100095261"> CSDN ゛Smlie。</a></p>
+<p>其它资料部分出自：<a href="https://www.cnblogs.com/unrecognized/p/11585228.html"> 博客园 该昵称无法识别 </a></p>
+]]></content>
+      <tags>
+        <tag>develop</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java Compound</title>
+    <url>/2020/12/12/Java_Compound/</url>
+    <content><![CDATA[<h5 id="Http-Cros（跨域请求）"><a href="#Http-Cros（跨域请求）" class="headerlink" title="Http Cros（跨域请求）"></a>Http Cros（跨域请求）</h5><ul>
+<li>Get请求</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    url: <span class="string">&quot;http://192.168.1.240:8000/test/hello&quot;</span>,</span><br><span class="line">    dataType: <span class="string">&quot;jsonp&quot;</span>,<span class="comment">//必要</span></span><br><span class="line">    jsonp: <span class="string">&#x27;callbacks&#x27;</span>,<span class="comment">//非必要</span></span><br><span class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>非Get请求</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@CrossOrigin</span><span class="comment">//类级别配置跨域，允许所有端口以及所有方式</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestCtrl</span> </span>&#123;</span><br><span class="line">	<span class="comment">//...   </span></span><br><span class="line">    </span><br><span class="line">    <span class="meta">@GetMapping(&quot;/hello&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">hello</span><span class="params">(HttpServletResponse response)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//方法级别设置跨域</span></span><br><span class="line">        response.addHeader(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>, <span class="string">&quot;*&quot;</span>);</span><br><span class="line">        response.addHeader(<span class="string">&quot;Access-Control-Allow-Methods&quot;</span>, <span class="string">&quot;GET,PUT,POST,DELETE&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> (<span class="keyword">new</span> Date()) + <span class="string">&quot;Hello , Here is the api space .&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//以上两种方式不切实际，推荐使用以下两种方式</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//CORS全局配置跨域请求</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CorsConfig</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> WebMvcConfigurer <span class="title">corsConfigurer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> WebMvcConfigurer() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addCorsMappings</span><span class="params">(CorsRegistry registry)</span> </span>&#123;</span><br><span class="line">                registry.addMapping(<span class="string">&quot;/**&quot;</span>)</span><br><span class="line">                        <span class="comment">//允许跨域的域名，可以用*表示允许任何域名使用</span></span><br><span class="line">                        .allowedOrigins(<span class="string">&quot;http://192.168.1.240&quot;</span>, <span class="string">&quot;http://192.168.1.241&quot;</span>)</span><br><span class="line">                        <span class="comment">//允许任何方法（post、get等）</span></span><br><span class="line">                        .allowedMethods(<span class="string">&quot;POST&quot;</span>, <span class="string">&quot;PUT&quot;</span>, <span class="string">&quot;GET&quot;</span>)</span><br><span class="line">                        <span class="comment">//允许任何请求头</span></span><br><span class="line">                        .allowedHeaders(<span class="string">&quot;*&quot;</span>)</span><br><span class="line">                        <span class="comment">//带上cookie信息</span></span><br><span class="line">                        .allowCredentials(<span class="keyword">true</span>)</span><br><span class="line">                        <span class="comment">//maxAge(3600)表明在3600秒内，不需要再发送预检验请求，可以缓存该结果</span></span><br><span class="line">                        .exposedHeaders(HttpHeaders.SET_COOKIE).maxAge(<span class="number">3600L</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//拦截器实现跨域配置</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CorsFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">        HttpServletResponse res = (HttpServletResponse) response;</span><br><span class="line">        res.addHeader(<span class="string">&quot;Access-Control-Allow-Credentials&quot;</span>, <span class="string">&quot;true&quot;</span>);</span><br><span class="line">        res.addHeader(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>, <span class="string">&quot;*&quot;</span>);</span><br><span class="line">        res.addHeader(<span class="string">&quot;Access-Control-Allow-Methods&quot;</span>, <span class="string">&quot;GET, POST, DELETE, PUT&quot;</span>);</span><br><span class="line">        res.addHeader(<span class="string">&quot;Access-Control-Allow-Headers&quot;</span>, <span class="string">&quot;Content-Type,X-CAF-Authorization-Token,sessionToken,X-TOKEN&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (((HttpServletRequest) request).getMethod().equals(<span class="string">&quot;OPTIONS&quot;</span>)) &#123;</span><br><span class="line">            response.getWriter().println(<span class="string">&quot;ok&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        chain.doFilter(request, response);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="MySQL-5-7-解压版本安装"><a href="#MySQL-5-7-解压版本安装" class="headerlink" title="MySQL 5.7 解压版本安装"></a>MySQL 5.7 解压版本安装</h5><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="attr">basedir</span> =<span class="string">&quot;D:\mysql&quot;</span></span><br><span class="line"><span class="attr">datadir</span> =<span class="string">&quot;D:\mysql\data&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#my.ini配置文件可有可无</span></span><br><span class="line">mysqld -install MySQL  --defaults-file=<span class="string">&quot;D:\mysql\my.ini&quot;</span></span><br><span class="line">mysqld --initialize --user=mysql --console</span><br><span class="line"><span class="comment">#以下内容为初始化成功结束时控制台内容，需要记下最后的初始密码</span></span><br><span class="line"><span class="comment">#...</span></span><br><span class="line"><span class="comment">#2020-10-23T01:04:10.139593Z 0 [Warning] CA certificate ca.pem is self signed.</span></span><br><span class="line"><span class="comment">#2020-10-23T01:04:10.327391Z 1 [Note] A temporary password is generated for root@localhost: N2DwygNme,fi</span></span><br><span class="line"><span class="comment">#...</span></span><br><span class="line"><span class="comment">#启动服务</span></span><br><span class="line">net start mysql </span><br><span class="line"><span class="comment">#登陆服务器</span></span><br><span class="line">mysql -uroot -p</span><br><span class="line"><span class="comment">#初始密码：N2DwygNme,fi</span></span><br><span class="line"><span class="comment">#修改密码（必须）</span></span><br><span class="line">ALTER USER <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> IDENTIFIED BY <span class="string">&#x27;自定义密码&#x27;</span>; </span><br></pre></td></tr></table></figure>
+<h5 id="Spring-依赖注入"><a href="#Spring-依赖注入" class="headerlink" title="Spring 依赖注入"></a>Spring 依赖注入</h5><p>实现方式有三种：</p>
+<ul>
+<li><p>成员变量注入</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> IGyUserService userService;</span><br></pre></td></tr></table></figure>
+<p>优点：代码简洁    缺点：NullPointerException</p>
+</li>
+<li><p>构造器注入</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> IGyUserService userService;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">CustomUserDetailsService</span><span class="params">(IGyUserService userService)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.userService = userService;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>必须强制注入，通过强制指明依赖注入来保证这个类的运行。</p>
+</li>
+<li><p>set方法注入</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> UserDao userDao;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUserDao</span> <span class="params">(UserDao userDao)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.userDao = userDao;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是一种选择注入，可有可无，即使没有注入这个依赖，那么也不会影响整个类的运行。</p>
+</li>
+</ul>
+<blockquote>
+<p>理解：<br>依赖注入的核心思想之一就是被容器管理的类不应该依赖被容器管理的依赖，换成白话来说就是如果这个类使用了依赖注入的类，那么这个类摆脱了这几个依赖必须也能正常运行。然而使用变量注入的方式是不能保证这点的。<br>既然使用了依赖注入方式，那么就表明这个类不再对这些依赖负责，这些都由容器管理，那么如何清楚的知道这个类需要哪些依赖呢？它就要使用set方法方式注入或者构造器注入。</p>
+<p>总结<br>变量方式注入应该尽量避免，使用set方式注入或者构造器注入，这两种方式的选择就要看这个类是强制依赖的话就用构造器方式，选择依赖的话就用set方法注入。</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>develop</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Http Cross</title>
+    <url>/2021/03/05/Http_Cross/</url>
+    <content><![CDATA[<p>Http跨域请求及HttpSession同步终极手册</p>
+<h3 id="后端配置"><a href="#后端配置" class="headerlink" title="后端配置"></a>后端配置</h3><p>继承<code>org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport</code>或者实现<code>javax.servlet.Filter</code>接口两种方式，<code>springboot2.0</code>以上才有<code>WebMvcConfigurationSupport</code>，之前为<code>WebMvcConfigurerAdapter</code>。</p>
+<p>实现<code>Filter</code>接口后跨域配置的核心代码如下，其中<code>HttpSession</code>同步的重点在于<code>response.setHeader(&quot;Access-Control-Allow-Credentials&quot;, &quot;true&quot;);</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line"></span><br><span class="line">        HttpServletRequest request = (HttpServletRequest) servletRequest;</span><br><span class="line">        HttpServletResponse response = (HttpServletResponse) servletResponse;</span><br><span class="line"></span><br><span class="line">        String[] allowDomain = &#123;<span class="string">&quot;http://127.0.0.1:8848&quot;</span>, <span class="string">&quot;http://localhost:8848&quot;</span>&#125;;</span><br><span class="line">        Set&lt;String&gt; allowedOrigins = <span class="keyword">new</span> HashSet&lt;String&gt;(Arrays.asList(allowDomain));</span><br><span class="line">        log.info(<span class="string">&quot;&#123;&#125;&quot;</span>, request.getRequestURI());</span><br><span class="line">        String originHeader = request.getHeader(<span class="string">&quot;Origin&quot;</span>);</span><br><span class="line">        <span class="comment">// response.setHeader(&quot;Access-Control-Allow-Origin&quot;,request.getHeader(&quot;Origin&quot;));</span></span><br><span class="line">        <span class="comment">//注意重点:Access-Control-Allow-Origin不可以写*通配，需要明确写出请求方的IP地址及端口</span></span><br><span class="line">        <span class="keyword">if</span> (allowedOrigins.contains(originHeader)) &#123;</span><br><span class="line">            response.setHeader(<span class="string">&quot;Access-Control-Allow-Origin&quot;</span>, originHeader);</span><br><span class="line">            <span class="comment">//HttpSession同步重点，允许携带Cookie</span></span><br><span class="line">            response.setHeader(<span class="string">&quot;Access-Control-Allow-Credentials&quot;</span>, <span class="string">&quot;true&quot;</span>);</span><br><span class="line">            response.setHeader(<span class="string">&quot;Access-Control-Allow-Methods&quot;</span>, <span class="string">&quot;POST, GET, PATCH, DELETE, PUT&quot;</span>);</span><br><span class="line">            response.setHeader(<span class="string">&quot;Access-Control-Max-Age&quot;</span>, <span class="string">&quot;3600&quot;</span>);</span><br><span class="line">            response.setHeader(<span class="string">&quot;Access-Control-Allow-Headers&quot;</span>, <span class="string">&quot;Origin, X-Requested-With, Content-Type, Accept&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        filterChain.doFilter(servletRequest, servletResponse);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>继承<code>WebMvcConfigurationSupport</code>后，跨域配置应当重写<code>addCorsMappings</code>，同步<code>HttpSession</code>的重点在于<code>allowCredentials(true)</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span>  <span class="title">_addCorsMappings</span><span class="params">(CorsRegistry registry)</span> </span>&#123;</span><br><span class="line">	registry.addMapping(<span class="string">&quot;/**&quot;</span>) <span class="comment">// 允许跨域访问的路径</span></span><br><span class="line">                .allowedOrigins(<span class="string">&quot;&quot;</span>)<span class="comment">//允许跨域访问的源</span></span><br><span class="line">                .allowedMethods(<span class="string">&quot;&quot;</span>)<span class="comment">//允许请求方法</span></span><br><span class="line">                .allowedHeaders(<span class="string">&quot;&quot;</span>)<span class="comment">//允许头部设置</span></span><br><span class="line">                .allowCredentials(<span class="keyword">true</span>)<span class="comment">//允许请求携带Cookie</span></span><br><span class="line">                .maxAge(<span class="number">3600</span>);<span class="comment">//是否发送cookie，预检间隔时间</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>继承<code>WebMvcConfigurationSupport</code>后，同时可以配置拦截器，其中自定义拦截器<code>MyInterceptor</code>需要实现接口<code>HandlerInterceptor</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// registry.addInterceptor(new TestInterceptor()).addPathPatterns(&quot;/**&quot;);  //  /**下的每一个接口都要有&quot;登录&quot;的校验</span></span><br><span class="line">    registry.addInterceptor(<span class="keyword">new</span> MyInterceptor()).addPathPatterns(<span class="string">&quot;/interceptor/test&quot;</span>);<span class="comment">//mes下的接口都要被拦截</span></span><br><span class="line">    <span class="keyword">super</span>.addInterceptors(registry);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="前端请求"><a href="#前端请求" class="headerlink" title="前端请求"></a>前端请求</h3><p>前端请求代码如下，根据前端框架配置可能有所不同，但是<code>HttpSession</code>同步的关键在于<code>xhrFields: &#123;withCredentials: true&#125;</code>，既为允许<code>Http</code>请求携带Cookie</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    <span class="comment">// 同步请求是为让WebSocket连接之前可以从配置中拿到HttpSession</span></span><br><span class="line">    <span class="keyword">async</span>:<span class="literal">false</span>,</span><br><span class="line">    url: <span class="string">&#x27;http://192.168.1.10:9119/session/test&#x27;</span>,</span><br><span class="line">    data: &#123;</span><br><span class="line">        value: <span class="string">&#x27;admin&#x27;</span>,</span><br><span class="line">        key: <span class="string">&quot;123456&quot;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 下列两项配置为跨域请求HttpSession同步的关键，允许Http请求携带Cookie</span></span><br><span class="line">    xhrFields: &#123;</span><br><span class="line">        withCredentials: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    crossDomain: <span class="literal">true</span>,</span><br><span class="line">    success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// setCookie(data.name,data.value,data.time/1000);</span></span><br><span class="line">        <span class="built_in">console</span>.log(data)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="浏览器设置"><a href="#浏览器设置" class="headerlink" title="浏览器设置"></a>浏览器设置</h3><p><strong>重点：</strong>以上配置全部正确无误后，<code>HttpSession</code>还是不能同步，这是因为浏览器限制。</p>
+<p><code>Chrome</code>与<code>Edgd</code>配置相似，因为同核。其它浏览器有待研究</p>
+<ol>
+<li>在地址栏输入<code>chrome://flags</code>、<code>edge://flags</code></li>
+<li>搜索<code>cookies</code></li>
+<li>禁用下列两项<ul>
+<li><code>SameSite by default cookies</code> = <code>Disabled</code></li>
+<li><code>Cookies without SameSite must be secure</code> = <code>Disabled</code></li>
+</ul>
+</li>
+</ol>
+<p>至止，前后端分离跨域请求<code>HttpSession</code>同步实现成功。</p>
+]]></content>
+      <tags>
+        <tag>develop</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java Print</title>
+    <url>/2020/12/12/Java_Print/</url>
+    <content><![CDATA[<h5 id="注册表修复USB端口"><a href="#注册表修复USB端口" class="headerlink" title="注册表修复USB端口"></a>注册表修复USB端口</h5><p><code>HKEY_LOCAL_MACHINE</code>=&gt;<code>SYSTEM</code>=&gt;<code>CurrentControlSet</code>=&gt;<code>Control</code>=&gt;<code>Print</code>=&gt;<code>Monitors</code></p>
+<a id="more"></a>
+<p>新建或者修复下列子项</p>
+<ul>
+<li><code>Epson Inbox Language Monitor01</code>=&gt;<code>Driver=EP0SLM01.DLL</code></li>
+<li><code>USB Monitor</code>=&gt;<code>Driver=usbmon.dll</code></li>
+</ul>
+<h5 id="Godex出纸异常"><a href="#Godex出纸异常" class="headerlink" title="Godex出纸异常"></a>Godex出纸异常</h5><p>使用Godex官方PDF制作软件生成打印指令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">^Q50,0,0</span><br><span class="line">^W80</span><br><span class="line">^H10</span><br><span class="line">^P1</span><br><span class="line">^S4</span><br><span class="line">^AD</span><br><span class="line">^C1</span><br><span class="line">^R0</span><br><span class="line">~Q+0</span><br><span class="line">^O0</span><br><span class="line">^D0</span><br><span class="line">^E19	&lt;==== 此项即为打印结束之后的停顿点，也是导致出纸异常的原因。</span><br><span class="line">~R200</span><br><span class="line">^L</span><br><span class="line">Dy2-me-dd</span><br><span class="line">Th:m:s</span><br><span class="line">E</span><br></pre></td></tr></table></figure>
+<p>在条码机设定中调整<code>停歇点设定</code>，或者直接在指定中修改调试至合适位置。</p>
+<h5 id="Java打印PDF"><a href="#Java打印PDF" class="headerlink" title="Java打印PDF"></a>Java打印PDF</h5><ul>
+<li><p>获取当前设备上的打印机服务列表</p>
+<p><code>PrintService[] printServices = PrinterJob.lookupPrintServices();</code></p>
+</li>
+<li><p>查找指定名称的打印机</p>
+<p>可以通过遍历打印机列表，组建以打印机名称为<code>key</code>的<code>Map</code>，<code>printMap.put(printService.getName(), printService);</code>，再通过接收到的打印机名称在<code>Map</code>找到对应的<code>PrintService</code>。</p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>develop</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Maven 循环依赖</title>
+    <url>/2020/12/12/Maven_Dependency_Cycle/</url>
+    <content><![CDATA[<p>错误信息如下（低级错误）：</p>
+<p><code>Error:java: Annotation processing is not supported for module cycles. Please ensure that all modules from cycle [erp-commons-entity,erp-commons-helper] are excluded from annotation processing</code></p>
+<p>POM配置如下：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-------------------POM A--------------------&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>erp-commons-entity<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">name</span>&gt;</span>entity<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>top.orientexpress.erp<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>erp-commons-helper<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-------------------POM B--------------------&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>erp-commons-helper<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">name</span>&gt;</span>helper<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>top.orientexpress.erp<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>erp-commons-entity<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>develop</tag>
+        <tag>mvn</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mysql5.7 解压版安装全过程</title>
+    <url>/2021/03/31/MySQL5.7/</url>
+    <content><![CDATA[<p>[Mysql5.7](<a href="https://downloads.mysql.com/archives/community/">MySQL :: Download MySQL Community Server (Archived Versions)</a>)</p>
+<p>MSVCR120.dll文件丢失 <a href="https://www.microsoft.com/zh-cn/download/confirmation.aspx?id=40784">C++ 2013</a></p>
+<p>mysql目录下新建my.ini</p>
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="attr">basedir</span>=D:\mysql-<span class="number">5.7</span>.<span class="number">17</span>-winx64</span><br><span class="line"><span class="attr">datadir</span>=D:\mysql-<span class="number">5.7</span>.<span class="number">17</span>-winx64\data</span><br><span class="line"><span class="attr">port</span>=<span class="number">3306</span></span><br><span class="line"></span><br><span class="line"><span class="attr">character-set-server</span>=utf8</span><br><span class="line"><span class="attr">collation-server</span>=utf8_general_ci</span><br></pre></td></tr></table></figure>
+<p>管理员运行CMD</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysqld --initialize --user=mysql --console</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">A temporary password is generated <span class="keyword">for</span> root@localhost: wdu*Ye&lt;vW25)</span><br></pre></td></tr></table></figure>
+<p>原始密码：<code>wdu*Ye&lt;vW25)</code></p>
+<p>修改密码</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysqld --install MySQL</span><br><span class="line"><span class="comment">#......</span></span><br><span class="line">net start MySQL</span><br><span class="line"><span class="comment">#......</span></span><br><span class="line">mysql -u root -p</span><br><span class="line">wdu*Ye&lt;vW25)</span><br><span class="line"><span class="comment">#......</span></span><br><span class="line"><span class="built_in">set</span> password <span class="keyword">for</span> root@localhost = password(‘123’);</span><br></pre></td></tr></table></figure>
+<p>忘记密码</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">net stop MySQL</span><br><span class="line"><span class="comment">#修改 my.ini 文件，加一条:	skip-grant-tables</span></span><br><span class="line">net start MySQL</span><br><span class="line">mysql -u root -p</span><br><span class="line"><span class="comment">#不需要输入密码，直接输入回车，进入 MySQL 的控制台</span></span><br><span class="line">UPDATE user SET authentication_string=password(‘123456’) WHERE user=‘root’;</span><br><span class="line"><span class="comment">#修改 my.ini 文件	#skip-grant-tables</span></span><br><span class="line"><span class="comment">#重新启动 MySQL 服务</span></span><br><span class="line">net stop MySQL</span><br><span class="line">net start MySQL</span><br><span class="line"></span><br><span class="line">mysql -u root -p</span><br><span class="line">输入123456登录到 MySQL</span><br></pre></td></tr></table></figure>
+<p>开启远程访问</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#登录MySQL</span></span><br><span class="line">GRANT ALL PRIVILEGES ON *.* TO <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED BY <span class="string">&#x27;密码&#x27;</span> WITH GRANT OPTION;</span><br><span class="line"><span class="comment">#刷新权限</span></span><br><span class="line">FLUSH PRIVILEGES;</span><br><span class="line"><span class="comment">#重启服务</span></span><br></pre></td></tr></table></figure>
+<p>关闭远程访问</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">update user <span class="built_in">set</span> host = <span class="string">&quot;%&quot;</span> <span class="built_in">where</span> user = <span class="string">&quot;root&quot;</span>;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+<p>新建用户及授权</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span>  <span class="string">&#x27;remote_user&#x27;</span>@<span class="string">&#x27;%&#x27;</span>  IDENTIFIED <span class="keyword">BY</span>  <span class="string">&#x27;remote@hzcio&#x27;</span>;</span><br><span class="line"><span class="comment">--SELECT,INSERT,UPDATE,DELETE | ALL PRIVILEGES</span></span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">SELECT</span>,<span class="keyword">INSERT</span>,<span class="keyword">UPDATE</span>,<span class="keyword">DELETE</span> <span class="keyword">ON</span> hzcio.<span class="operator">*</span> <span class="keyword">TO</span> <span class="string">&#x27;remote_user&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>sql</tag>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySql 分组错误</title>
+    <url>/2020/12/12/Mysql_Group_By/</url>
+    <content><![CDATA[<h3 id="ONLY-FULL-GROUP-BY"><a href="#ONLY-FULL-GROUP-BY" class="headerlink" title="ONLY_FULL_GROUP_BY"></a>ONLY_FULL_GROUP_BY</h3><p><code>select * from cnarea_2019 group by parent_code;</code></p>
+<p><strong>含义</strong> sql中<code>group by</code>后面的字段必须出现在<code>select</code>后面，或者被聚合函数包裹，不然会抛出如下错误</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">Error Code: <span class="number">1055.</span> Expression #<span class="number">3</span> <span class="keyword">of</span> <span class="keyword">SELECT</span> list <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">in</span> <span class="keyword">GROUP</span> <span class="keyword">BY</span> clause <span class="keyword">and</span> <span class="keyword">contains</span> nonaggregated <span class="keyword">column</span> ‘×××’ which <span class="keyword">is</span> <span class="keyword">not</span> functionally dependent <span class="keyword">on</span> columns <span class="keyword">in</span> <span class="keyword">GROUP</span> <span class="keyword">BY</span> clause; this <span class="keyword">is</span> incompatible <span class="keyword">with</span> sql_mode<span class="operator">=</span>only_full_group_by</span><br></pre></td></tr></table></figure>
+<h4 id="临时解决办法"><a href="#临时解决办法" class="headerlink" title="临时解决办法"></a>临时解决办法</h4><p>在查询前先执行下面任意一种：</p>
+<ul>
+<li><code>SET sql_mode=(SELECT REPLACE(@@sql_mode,&#39;ONLY_FULL_GROUP_BY&#39;,&#39;&#39;));</code></li>
+<li><code>set global sql_mode=&#39;STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&#39;;</code></li>
+</ul>
+<p>此方案为会话级别，重新连接数据库时失效。</p>
+<h4 id="终极解决办法"><a href="#终极解决办法" class="headerlink" title="终极解决办法"></a>终极解决办法</h4><p>通过执行<code>mysql --help</code>可以获取配置文件读取路径</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">Default options are read from the following files <span class="keyword">in</span> the given order:</span><br><span class="line"><span class="function">C:\<span class="title">WINDOWS</span>\<span class="title">my.ini</span> <span class="title">C</span>:\<span class="title">WINDOWS</span>\<span class="title">my.cnf</span> <span class="title">C</span>:\<span class="title">my.ini</span> <span class="title">C</span>:\<span class="title">my.cnf</span> <span class="title">D</span>:\<span class="title">Marvin</span>\<span class="title">Data</span>\<span class="title">mysql_5</span>.7.30\<span class="title">my.ini</span> <span class="title">D</span>:\<span class="title">Marvin</span>\<span class="title">Data</span>\<span class="title">mysql_5</span>.7.30\<span class="title">my.cnf</span></span></span><br></pre></td></tr></table></figure>
+<p>即为以上任意位置建立<code>my.ini</code>配置文件都会被<code>mysql</code>服务读取。配置内容如下：</p>
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[mysql]</span></span><br><span class="line"><span class="comment"># 设置mysql客户端默认字符集</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8 </span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="comment">#设置3306端口</span></span><br><span class="line"><span class="attr">port</span> = <span class="number">3306</span></span><br><span class="line"><span class="comment"># 设置mysql的安装目录</span></span><br><span class="line"><span class="attr">basedir</span>=D:\Marvin\Data\mysql_5.<span class="number">7.30</span></span><br><span class="line"><span class="comment"># 允许最大连接数</span></span><br><span class="line"><span class="attr">max_connections</span>=<span class="number">200</span></span><br><span class="line"><span class="comment"># 服务端使用的字符集默认为8比特编码的latin1字符集</span></span><br><span class="line"><span class="attr">character-set-server</span>=utf8</span><br><span class="line"><span class="comment"># 创建新表时将使用的默认存储引擎</span></span><br><span class="line"><span class="attr">default-storage-engine</span>=INNODB</span><br><span class="line"><span class="comment"># 设置模式</span></span><br><span class="line"><span class="attr">sql_mode</span> =STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION</span><br><span class="line"><span class="attr">datadir</span> = D:\Marvin\Data\mysql_5.<span class="number">7.30</span>\data</span><br></pre></td></tr></table></figure>
+<p>重启<code>mysql</code>服务即可永久生效。</p>
+]]></content>
+      <tags>
+        <tag>sql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring 问答</title>
+    <url>/2018/10/05/Spring_Interview/</url>
+    <content><![CDATA[<h5 id=""><a href="#" class="headerlink" title=""></a></h5><p>[TOC]</p>
+<h2 id="Spring-A"><a href="#Spring-A" class="headerlink" title="Spring A"></a>Spring A</h2><h3 id="Bean的作用域"><a href="#Bean的作用域" class="headerlink" title="Bean的作用域 "></a><a href="#">Bean的作用域 </a></h3><p>**<code>singleton</code>**Spring IoC容器中只会存在一个共享的Bean实例，无论有多少个Bean引用它，始终指向同一对象。Singleton作用域是Spring中的缺省作用域。</p>
+<p>**<code>prototype</code>**每次通过Spring容器获取prototype定义的bean时，容器都将创建一个新的Bean实例，每个Bean实例都有自己的属性和状态，而singleton全局只有一个对象。</p>
+<p>**<code>request</code>**在一次Http请求中，容器会返回该Bean的同一实例。而对不同的Http请求则会产生新的Bean，而且该bean仅在当前Http Request内有效。</p>
+<p>**<code>session</code>**在一次Http Session中，容器会返回该Bean的同一实例。而对不同的Session请求则会创建新的实例，该bean实例仅在当前Session内有效。</p>
+<p>**<code>global Session</code>**在一个全局的Http Session中，容器会返回该Bean的同一个实例，仅在使用portlet context时有效。</p>
+<h3 id="Bean的生命周期"><a href="#Bean的生命周期" class="headerlink" title="Bean的生命周期"></a><a href="#">Bean的生命周期</a></h3><ul>
+<li>实例化一个Bean，也就是我们通常说的new。</li>
+<li>按照Spring上下文对实例化的Bean进行配置，也就是IOC注入。</li>
+<li>如果这个Bean实现了BeanNameAware接口，会调用它实现的setBeanName(String beanId)方法，此处传递的是Spring配置文件中Bean的ID。</li>
+<li>如果这个Bean实现了BeanFactoryAware接口，会调用它实现的setBeanFactory()，传递的是Spring工厂本身（可以用这个方法获取到其他Bean）。</li>
+<li>如果这个Bean实现了ApplicationContextAware接口，会调用setApplicationContext(ApplicationContext)方法，传入Spring上下文。</li>
+<li>如果这个Bean关联了BeanPostProcessor接口，将会调用postProcessBeforeInitialization(Object obj, String s)方法，BeanPostProcessor经常被用作是Bean内容的更改，并且由于这个是在Bean初始化结束时调用After方法，也可用于内存或缓存技术。</li>
+<li>如果这个Bean在Spring配置文件中配置了init-method属性会自动调用其配置的初始化方法。</li>
+<li>如果这个Bean关联了BeanPostProcessor接口，将会调用postAfterInitialization(Object obj, String s)方法。</li>
+<li>当Bean不再需要时，会经过清理阶段，如果Bean实现了DisposableBean接口，会调用其实现的destroy方法。</li>
+<li>最后，如果这个Bean的Spring配置中配置了destroy-method属性，会自动调用其配置的销毁方法。</li>
+</ul>
+<h3 id="Spring中依赖注入两种方式"><a href="#Spring中依赖注入两种方式" class="headerlink" title="Spring中依赖注入两种方式"></a><a href="#">Spring中依赖注入两种方式</a></h3><p>两种注入方式为：构造方法注入和设值注入</p>
+<ol>
+<li>设值注入与传统的JavaBean的写法更相似，程序员更容易理解、接受，通过setter方式设定依赖关系显得更加直观、明显;</li>
+<li>对于复杂的依赖关系，如果采用构造注入，会导致构造器过于臃肿，难以阅读。Spring在创建Bean实例时，需要同时实例化其依赖的全部实例，因而会产生浪费。而使用设值注入，则避免这下问题;</li>
+<li>在某些属性可选的情况下，多参数的构造器更加笨拙，官方更鼓励使用设值注入。</li>
+<li>构造注入可以在构造器中决定依赖关系的注入顺序，优先依赖的优先注入。</li>
+<li>对于依赖关系无须变化的Bean，构造注入更有用处，因为没有setter方法，所有的依赖关系全部在构造器内设定，因此，不用担心后续代码对依赖关系的破坏。</li>
+<li>构造注入使依赖关系只能在构造器中设定，则只有组件的创建者才能改变组件的依赖关系。对组件的调用者而言，组件内部的依赖关系完全透明，更符合高内聚的原则。</li>
+<li>设值注入不会重写构造方法的值。如果我们对同一个变量同时使用了构造方法注入又使用了设置方法注入的话，那么构造方法将不能覆盖由设值方法注入的值。</li>
+<li>建议采用以设值注入为主，构造注入为辅的注入策略。对于依赖关系无须变化的注入，尽量采用构造注入;而其他的依赖关系的注入，则考虑采用set注入。</li>
+</ol>
+<h3 id="Spring中的设计模式"><a href="#Spring中的设计模式" class="headerlink" title="Spring中的设计模式"></a><a href="#">Spring中的设计模式</a></h3><ul>
+<li>代理模式：在AOP和remoting中被用的比较多。</li>
+<li>单例模式：在spring配置文件中定义的bean默认为单例模式。</li>
+<li>模板方法模式：用来解决代码重复的问题。</li>
+<li>前端控制器模式：Spring提供了DispatcherServlet来对请求进行分发。</li>
+<li>依赖注入模式：贯穿于BeanFactory / ApplicationContext接口的核心理念。</li>
+<li>工厂模式：BeanFactory用来创建对象的实例。</li>
+</ul>
+<h3 id="BeanFactory-和ApplicationContext的区别"><a href="#BeanFactory-和ApplicationContext的区别" class="headerlink" title="BeanFactory 和ApplicationContext的区别"></a><a href="#">BeanFactory 和ApplicationContext的区别</a></h3><p>BeanFactory和ApplicationContext都是接口，并且ApplicationContext是BeanFactory的子接口。</p>
+<p>BeanFactory是Spring中最底层的接口，提供了最简单的容器的功能，只提供了实例化对象和拿对象的功能。而ApplicationContext是Spring的一个更高级的容器，提供了更多的有用的功能。 </p>
+<p>ApplicationContext提供的额外的功能：国际化的功能、消息发送、响应机制、统一加载资源的功能、强大的事件机制、对Web应用的支持等等。</p>
+<p>加载方式的区别：BeanFactory采用的是延迟加载的形式来注入Bean；ApplicationContext则相反的，它是在Ioc启动时就一次性创建所有的Bean,好处是可以马上发现Spring配置文件中的错误，坏处是造成浪费。</p>
+<h2 id="Spring-B"><a href="#Spring-B" class="headerlink" title="Spring B"></a>Spring B</h2><h3 id="1-为什么使用Spring"><a href="#1-为什么使用Spring" class="headerlink" title="1. 为什么使用Spring"></a>1. <a href="#">为什么使用Spring</a></h3><ol>
+<li><p>方便解耦，简化开发</p>
+<blockquote>
+<p>通过Spring提供的IoC容器，可以将对象之间的依赖关系交由Spring进行控制，避免硬编码所造成的过度程序耦合。</p>
+</blockquote>
+</li>
+<li><p>AOP编程的支持</p>
+<blockquote>
+<p>通过Spring提供的AOP功能，方便进行面向切面的编程，如性能监测、事务管理、日志记录等。</p>
+</blockquote>
+</li>
+<li><p>声明式事务的支持</p>
+</li>
+<li><p>方便集成各种优秀框架</p>
+</li>
+<li><p>降低Java EE API的使用难度</p>
+<blockquote>
+<p>如对JDBC，JavaMail，远程调用等提供了简便封装。</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="2-Spring的优点"><a href="#2-Spring的优点" class="headerlink" title="2. Spring的优点"></a>2. <a href="#">Spring的优点</a></h3><ol>
+<li><p>降低了组件之间的耦合性 ，实现了软件各层之间的解耦</p>
+</li>
+<li><p>可以使用容易提供的众多服务，如事务管理，消息服务等</p>
+</li>
+<li><p>容器提供单例模式支持</p>
+</li>
+<li><p>容器提供了AOP技术，利用它很容易实现如权限拦截，运行期监控等功能</p>
+</li>
+<li><p>容器提供了众多的辅助类，能加快应用的开发</p>
+</li>
+<li><p>spring对于主流的应用框架提供了集成支持，如hibernate，JPA，Struts等</p>
+</li>
+<li><p>spring属于低侵入式设计，代码的污染极低</p>
+</li>
+<li><p>独立于各种应用服务器</p>
+</li>
+<li><p>spring的DI机制降低了业务对象替换的复杂性</p>
+</li>
+<li><p>Spring的高度开放性，并不强制应用完全依赖于Spring，开发者可以自由选择spring的部分或全部</p>
+</li>
+</ol>
+<h3 id="3-什么是IOC，什么是DI，两者区别"><a href="#3-什么是IOC，什么是DI，两者区别" class="headerlink" title="3. 什么是IOC，什么是DI，两者区别"></a>3. <a href="#">什么是IOC，什么是DI，两者区别</a></h3><ul>
+<li>DI：依赖注入(<strong>Dependency injection</strong>)</li>
+<li>IOC：控制反转(<strong>Iversion of Controller</strong>)</li>
+</ul>
+<blockquote>
+<p>依赖注入是一个程序设计模式和架构模型， 一些时候也称作控制反转，尽管在技术上来讲，依赖注入是一个IOC的特殊实现，依赖注入是指一个对象应用另外一个对象来提供一个特殊的能力，例如：把一个 数据库连接以参数的形式传到一个对象的结构方法里面而不是在那个对象内部自行创建一个连接。</p>
+<p>控制反转和依赖注入的基本思想就是把类的依赖从类内部转化到外部以减少依赖</p>
+<p>应用控制反转，对象在被创建的时候，由一个调控系统内所有对象的外界实体，将其所依赖的对象的引用，传递给它。也可以说，依赖被注入到对象中。所以，控制反转是，关于一个对象如何获取他所依赖的对象的引用，这个责任的反转。</p>
+</blockquote>
+<h3 id="4-什么是IoC，为什么使用IoC"><a href="#4-什么是IoC，为什么使用IoC" class="headerlink" title="4. 什么是IoC，为什么使用IoC"></a>4. <a href="#">什么是IoC，为什么使用IoC</a></h3><blockquote>
+<p>IoC全称Iversion of Controller，控制反转。</p>
+<p>当某个角色需要另外一个角色协助的时候，在传统的程序设计过程中，通常由调用者来创建被调用者的实例对象。但在spring中创建被调用者的工作不再由调用者来完成，因此称为控制反转。创建被调用者的工作由spring来完成，然后注入调用者 直接使用。</p>
+<p>它能指导我们如何设计出松耦合、更优良的程序。</p>
+</blockquote>
+<h3 id="5-什么是AOP，为什么使用AOP"><a href="#5-什么是AOP，为什么使用AOP" class="headerlink" title="5. 什么是AOP，为什么使用AOP"></a>5. <a href="#">什么是AOP，为什么使用AOP</a></h3><blockquote>
+<p>AOP全称：Aspect-Oriented Programming，面向切面编程。</p>
+<p>AOP，面向切面编程，就是把可重用的功能提取出来，然后将这些通用功能在合适的时候织入到应用程序中，比如事务管理、权限控制、日志记录、性能统计等。</p>
+<p>AOP并没有帮助我们解决任何新的问题，它只是提供了一种更好的办法，能够用更少的工作量来解决现有的一些问题，使得系统更加健壮，可维护性更好。</p>
+</blockquote>
+<h3 id="6-Spring中AOP的应用场景、Aop原理、好处"><a href="#6-Spring中AOP的应用场景、Aop原理、好处" class="headerlink" title="6. Spring中AOP的应用场景、Aop原理、好处"></a>6. <a href="#">Spring中AOP的应用场景、Aop原理、好处</a></h3><p>AOP=&gt;<strong>Aspect Oriented Programming</strong>面向切面编程；用来封装横切关注点，具体可以在下面的场景中使用:</p>
+<p>Authentication 权限、Caching 缓存、Context passing 内容传递、Error handling 错误处理Lazy loading懒加载、Debugging调试、logging, tracing, profiling and monitoring 记录跟踪优化　校准、Performance optimization　性能优化、Persistence 持久化、Resource pooling　资源池、Synchronization　同步、Transactions 事务。</p>
+<p>原理：AOP是面向切面编程，是通过<code>动态代理</code>的方式为程序添加统一功能，集中解决一些公共问题。</p>
+<p>优点：</p>
+<ul>
+<li>各个步骤之间的良好隔离性耦合性大大降低</li>
+<li>源代码无关性，再扩展功能的同时不对源码进行修改操作</li>
+</ul>
+<h3 id="7-什么是Spring的事务管理"><a href="#7-什么是Spring的事务管理" class="headerlink" title="7. 什么是Spring的事务管理"></a>7. <a href="#">什么是Spring的事务管理</a></h3><blockquote>
+<p>事务就是对一系列的数据库操作（比如插入多条数据）进行统一的提交或回滚操作，如果插入成功，那么一起成功，如果中间有一条出现异常，那么回滚之前的所有操作。这样可以防止出现脏数据，防止数据库数据出现问题。</p>
+<p>开发中为了避免这种情况一般都会进行事务管理。</p>
+<p>Spring的声明式事务通常是指在配置文件中对事务进行配置声明，其中包括了很多声明属性，它是通过Spring Proxy帮你做代理，自己不用额外的写代码，只要在Spring配置文件中声明即可；通常用在数据库的操作里面；</p>
+<p>编程式事务就是指通过硬编码的方式做事务处理，这种处理方式需要写代码，事务中的逻辑可以自己定制；可以是数据库的东东，也可以是其他的操作。<br>Spring中也有自己的事务管理机制，一般是使用TransactionMananger进行管理，可以通过Spring的注入来完成此功能。</p>
+</blockquote>
+<h3 id="8-Spring中Bean的作用域"><a href="#8-Spring中Bean的作用域" class="headerlink" title="8. Spring中Bean的作用域"></a>8. <a href="#">Spring中Bean的作用域</a></h3><ul>
+<li>singleton : 默认值，bean在每个Spring ioc 容器中只有一个实例。</li>
+<li>prototype：一个bean的定义可以有多个实例。</li>
+<li>request：每次http请求都会创建一个bean，该作用域仅在基于web的Spring ApplicationContext情形下有效。</li>
+<li>session：在一个HTTP Session中，一个bean定义对应一个实例。该作用域仅在基于web的Spring ApplicationContext情形下有效。</li>
+<li>global-session：在一个全局的HTTP Session中，一个bean定义对应一个实例。该作用域仅在基于web的Spring ApplicationContext情形下有效。</li>
+</ul>
+<h3 id="9-什么是Spring的MVC框架"><a href="#9-什么是Spring的MVC框架" class="headerlink" title="9. 什么是Spring的MVC框架"></a>9. <a href="#">什么是Spring的MVC框架</a></h3><blockquote>
+<p>Spring 配备构建Web 应用的全功能MVC框架。Spring可以很便捷地和其他MVC框架集成，如Struts，Spring 的MVC框架用控制反转把业务对象和控制逻辑清晰地隔离。它也允许以声明的方式把请求参数和业务对象绑定。</p>
+<p>spring mvc是一个基于mvc的web框架。spring mvc是spring框架的一个模块，springmvc和spring无需通过中间整合层进行整合。</p>
+</blockquote>
+<h3 id="10-Spring-MVC的请求流程"><a href="#10-Spring-MVC的请求流程" class="headerlink" title="10. Spring MVC的请求流程"></a>10. <a href="#">Spring MVC的请求流程</a></h3><ul>
+<li>第一步：发起请求到前端控制器(DispatcherServlet)</li>
+<li>第二步：前端控制器请求HandlerMapping查找Handler可以根据xml配置、注解进行查找</li>
+<li>第三步：处理器映射器HandlerMapping向前端控制器返回Handler</li>
+<li>第四步：前端控制器调用处理器适配器去执行Handler</li>
+<li>第五步：处理器适配器去执行Handler</li>
+<li>第六步：Handler执行完成给适配器返回ModelAndView</li>
+<li>第七步：处理器适配器向前端控制器返回ModelAndView。ModelAndView是springmvc框架的一个底层对象，包括 Model和view</li>
+<li>第八步：前端控制器请求视图解析器去进行视图解析，根据逻辑视图名解析成真正的视图(jsp)</li>
+<li>第九步：视图解析器向前端控制器返回View</li>
+<li>第十步：前端控制器进行视图渲染。视图渲染将模型数据(在ModelAndView对象中)填充到request域</li>
+<li>第十一步：前端控制器向用户响应结果</li>
+</ul>
+<h3 id="11-Springmvc的优点"><a href="#11-Springmvc的优点" class="headerlink" title="11. Springmvc的优点"></a>11. <a href="#">Springmvc的优点</a></h3><ol>
+<li><p>它是基于组件技术的.全部的应用对象,无论控制器和视图,还是业务对象之类的都是 java组件.并且和Spring提供的其他基础结构紧密集成.</p>
+</li>
+<li><p>不依赖于Servlet API(目标虽是如此,但是在实现的时候确实是依赖于Servlet的)</p>
+</li>
+<li><p>可以任意使用各种视图技术,而不仅仅局限于JSP</p>
+</li>
+<li><p>支持各种请求资源的映射策略</p>
+</li>
+<li><p>它应是易于扩展的</p>
+</li>
+</ol>
+<h3 id="12-Spring-MVC-和-Struts2-对比"><a href="#12-Spring-MVC-和-Struts2-对比" class="headerlink" title="12.Spring MVC 和 Struts2 对比"></a>12.<a href="#">Spring MVC 和 Struts2 对比</a></h3><ol>
+<li><p>Struts2是类级别的拦截， 一个类对应一个request上下文，SpringMVC是方法级别的拦截，一个方法对应一个request上下文，而方法同时又跟一个url对应，所以说从架构本身上SpringMVC 就容易实现restful url</p>
+</li>
+<li><p>由上边原因，SpringMVC的方法之间基本上独立的，独享request response数据，请求数据通过参数获取，处理结果通过ModelMap交回给框架，方法之间不共享变量，而Struts2搞的就比较乱，虽然方法之间也是独立的，但其所有Action变量是共享的，这不会影响程序运行，却给我们编码 读程序时带来麻烦，每次来了请求就创建一个Action，一个Action对象对应一个request上下文。</p>
+</li>
+<li><p>由于Struts2需要针对每个request进行封装，把request，session等servlet生命周期的变量封装成一个一个Map，供给每个Action使用，并保证线程安全，所以在原则上，是比较耗费内存的。</p>
+</li>
+<li><p>SpringMVC集成了Ajax，使用非常方便，只需一个注解@ResponseBody就可以实现，然后直接返回响应文本即可，而Struts2拦截器集成了Ajax，在Action中处理时一般必须安装插件或者自己写代码集成进去，使用起来也相对不方便。</p>
+</li>
+<li><p>springmvc面向方法开发的（更接近service接口的开发方式），struts2面向类开发。</p>
+</li>
+<li><p>springmvc可以单例开发，struts2只能是多例开发。</p>
+</li>
+</ol>
+<h3 id="13-如何启用注解"><a href="#13-如何启用注解" class="headerlink" title="13. 如何启用注解"></a>13. <a href="#">如何启用注解</a></h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">context:annotation-config</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.tgb.web.controller.annotation&quot;</span>&gt;</span> </span><br><span class="line"><span class="comment">&lt;!-- 如果使用则上面内容&lt;context:annotation-config/&gt;可以省略--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="14-web-xml的配置"><a href="#14-web-xml的配置" class="headerlink" title="14. web.xml的配置"></a>14. <a href="#">web.xml的配置</a></h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--springmvc前端控制器 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>spring<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    contextConfigLocation配置的springmvc加载的配置文件（配置处理器映射器/适配器等）</span></span><br><span class="line"><span class="comment">    如果不配置contextConfigLocation，默认加载的是/WEB-INF/servlet名称-servlet.xml（springmvc-servlet.xml）</span></span><br><span class="line"><span class="comment">  --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:springmvc.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>1<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>springmvc<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">    第一种：*.do，访问以.do结尾由DispatcherServlet进行解析</span></span><br><span class="line"><span class="comment">    第二种：/，所有访问的地址都由DispatcherServlet进行解析，对于静态文件的解析需要配置不让DispatcherServlet进行解析此种方式可以实现RESTful风格的url</span></span><br><span class="line"><span class="comment">    第三种：/*，这样配置不对，使用这种配置，最终要转发到一个jsp页面时，仍然会由DispatcherServlet解析jsp地址，不能根据jsp页面找到handler，会报错</span></span><br><span class="line"><span class="comment">  --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.do<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="15-注解的处理器映射器和适配器"><a href="#15-注解的处理器映射器和适配器" class="headerlink" title="15. 注解的处理器映射器和适配器"></a>15. <a href="#">注解的处理器映射器和适配器</a></h3><p>spring3.1之前使用<code>org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping</code>注解映射器。</p>
+<p>spring3.1之后使用<code>org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter</code>注解适配器。</p>
+<p>使用 <code>mvc:annotation-driven</code>代替上边注解映射器和注解适配器配置</p>
+<h3 id="16-spring-与-mybatis整合过程"><a href="#16-spring-与-mybatis整合过程" class="headerlink" title="16. spring 与 mybatis整合过程"></a>16. <a href="#">spring 与 mybatis整合过程</a></h3><ol>
+<li><p>整合dao层</p>
+<p>mybatis和spring整合，通过spring管理mapper接口。使用mapper的扫描器自动扫描mapper接口在spring中进行注册。</p>
+</li>
+<li><p>整合service层</p>
+<p>通过spring管理 service接口。使用配置方式将service接口配置在spring配置文件中。实现事务控制。</p>
+</li>
+<li><p>整合springmvc</p>
+<p>由于springmvc是spring的模块，不需要整合</p>
+<p>主要配置有：</p>
+</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">1). mybatis配置文件sqlMapConfig.xml配置别名自动扫描(实体类)</span><br><span class="line">2). mapper扫描器(接口，数据库访问接口)</span><br><span class="line">3). 数据库连接池配置</span><br><span class="line">4). 声明式事务配置</span><br><span class="line">5). 启用注解扫描：<span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;cn.itcast.ssm.controller&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br><span class="line">6). 配置注解映射器和适配器： <span class="tag">&lt;<span class="name">mvc:annotation-driven</span>&gt;</span><span class="tag">&lt;/<span class="name">mvc:annotation-driven</span>&gt;</span></span><br><span class="line">7). 视图解析器：<span class="tag">&lt;<span class="name">bean</span>  <span class="attr">class</span>=<span class="string">&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;</span>&gt;</span></span><br><span class="line">8). 配置控制类： DispatcherServlet前端控制器</span><br><span class="line">9). 配置spring配置文件加载类：ClassLoadListener</span><br></pre></td></tr></table></figure>
+<h3 id="17-视图解析器配置前缀和后缀"><a href="#17-视图解析器配置前缀和后缀" class="headerlink" title="17. 视图解析器配置前缀和后缀"></a>17. <a href="#">视图解析器配置前缀和后缀</a></h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 视图解析器解析jsp时，默认使用jstl标签，classpath下的得有jstl的包--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span>&gt;</span></span><br><span class="line">  class=&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;&gt;</span><br><span class="line">  <span class="comment">&lt;!--配置jsp路径的前缀--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;prefix&quot;</span> <span class="attr">value</span>=<span class="string">&quot;/WEB-INF/jsp/&quot;</span>/&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--配置jsp路径的后缀--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;suffix&quot;</span> <span class="attr">value</span>=<span class="string">&quot;.jsp&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="18-sqlMapConfig-xml，mybatis自己的配置文件"><a href="#18-sqlMapConfig-xml，mybatis自己的配置文件" class="headerlink" title="18. sqlMapConfig.xml，mybatis自己的配置文件"></a>18. <a href="#">sqlMapConfig.xml，mybatis自己的配置文件</a></h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">configuration</span></span></span><br><span class="line"><span class="meta">PUBLIC <span class="meta-string">&quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span></span></span><br><span class="line"><span class="meta"><span class="meta-string">&quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span>     </span><br><span class="line">  <span class="comment">&lt;!--全局setting配置，根据需要添加--&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!--配置别名--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">typeAliases</span>&gt;</span>     </span><br><span class="line">    <span class="comment">&lt;!--批量扫描包名--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">&quot;com.mz.ssm.po&quot;</span> /&gt;</span>    </span><br><span class="line">  <span class="tag">&lt;/<span class="name">typeAliases</span>&gt;</span> </span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!--配置mapper</span></span><br><span class="line"><span class="comment">  由于使用spring和mybatis的整合进行mapper扫描，这里不需要配置了</span></span><br><span class="line"><span class="comment">  必须遵循mapper.xml和mapper.java文件同名且在一个目录</span></span><br><span class="line"><span class="comment">  --&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- &lt;mappers&gt;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  &lt;/mappers&gt; --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="19-配置数据源"><a href="#19-配置数据源" class="headerlink" title="19. 配置数据源"></a>19. <a href="#">配置数据源</a></h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 加载db.properties文件中的内容，db.properties文件中key命名有一定的特殊规则 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context:property-placeholder</span> <span class="attr">location</span>=<span class="string">&quot;classpath:db.properties&quot;</span> /&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 配置数据源，dbcp --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.apache.commons.dbcp.BasicDataSource&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">destroy-method</span>=<span class="string">&quot;close&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;driverClassName&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.driver&#125;&quot;</span> /&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;url&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.url&#125;&quot;</span> /&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.username&#125;&quot;</span> /&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.password&#125;&quot;</span> /&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxActive&quot;</span> <span class="attr">value</span>=<span class="string">&quot;30&quot;</span> /&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxIdle&quot;</span> <span class="attr">value</span>=<span class="string">&quot;5&quot;</span> /&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- sqlSessionFactory --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;sqlSessionFactory&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 数据库连接池 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span> /&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 加载mybatis的全局配置文件 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;configLocation value=&quot;</span><span class="attr">classpath:mybatis</span>/<span class="attr">sqlMapConfig.xml</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- mapper扫描器 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.mybatis.spring.mapper.MapperScannerConfigurer&quot;</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 扫描包路径，如果需要扫描多个包，中间使用半角逗号隔开 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;basePackage&quot;</span> <span class="attr">value</span>=<span class="string">&quot;cn.mz.ssm.mapper&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sqlSessionFactoryBeanName&quot;</span> <span class="attr">value</span>=<span class="string">&quot;sqlSessionFactory&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="20-事务控制-applicationContext-transaction-xml"><a href="#20-事务控制-applicationContext-transaction-xml" class="headerlink" title="20. 事务控制(applicationContext-transaction.xml)"></a>20. <a href="#">事务控制(applicationContext-transaction.xml)</a></h3><p>在<code>applicationContext-transaction.xml</code>中使用spring声明式事务控制方法。</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 事务管理器</span></span><br><span class="line"><span class="comment">  对mybatis操作数据库事物控制，spring使用jdbc的事物控制类</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;transactionManager&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 数据源</span></span><br><span class="line"><span class="comment">  dataSource在applicationContext-dao.xml中配置了</span></span><br><span class="line"><span class="comment">  --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 通知 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">tx:advice</span> <span class="attr">id</span>=<span class="string">&quot;txAdvice&quot;</span> <span class="attr">transaction-manager</span>=<span class="string">&quot;transactionManager&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">tx:attributes</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 传播行为 --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">&quot;save*&quot;</span> <span class="attr">propagation</span>=<span class="string">&quot;REQUIRED&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">&quot;delete*&quot;</span> <span class="attr">propagation</span>=<span class="string">&quot;REQUIRED&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">&quot;insert*&quot;</span> <span class="attr">propagation</span>=<span class="string">&quot;REQUIRED&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">&quot;update*&quot;</span> <span class="attr">propagation</span>=<span class="string">&quot;REQUIRED&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">&quot;find*&quot;</span> <span class="attr">propagation</span>=<span class="string">&quot;SUPPORTS&quot;</span> <span class="attr">read-only</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">&quot;get*&quot;</span> <span class="attr">propagation</span>=<span class="string">&quot;SUPPORTS&quot;</span> <span class="attr">read-only</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">&quot;select*&quot;</span> <span class="attr">propagation</span>=<span class="string">&quot;SUPPORTS&quot;</span> <span class="attr">read-only</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">tx:attributes</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tx:advice</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- aop --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">aop:advisor</span> <span class="attr">advice-ref</span>=<span class="string">&quot;txAdvice&quot;</span> <span class="attr">pointcut</span>=<span class="string">&quot;execution(* cn.mz.ssm.serviceImpl..(..))&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="21-加载spring配置"><a href="#21-加载spring配置" class="headerlink" title="21. 加载spring配置"></a>21. <a href="#">加载spring配置</a></h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 加载spring容器 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context-param</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>/WEB-INF/classes/spring/applicationContext-*.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">context-param</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">listener</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>org.springframework.web.context.contextConfigLocation <span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">listener</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="22-静态资源访问不被拦截"><a href="#22-静态资源访问不被拦截" class="headerlink" title="22. 静态资源访问不被拦截"></a>22. <a href="#">静态资源访问不被拦截</a></h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resources</span> <span class="attr">mapping</span>=<span class="string">&quot;/resources/**&quot;</span> <span class="attr">location</span>=<span class="string">&quot;/resources/&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resources</span> <span class="attr">mapping</span>=<span class="string">&quot;/images/**&quot;</span> <span class="attr">location</span>=<span class="string">&quot;/images/&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resources</span> <span class="attr">mapping</span>=<span class="string">&quot;/js/**&quot;</span> <span class="attr">location</span>=<span class="string">&quot;/js/&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="23-RequestMapping的作用"><a href="#23-RequestMapping的作用" class="headerlink" title="23. @RequestMapping的作用"></a>23. <a href="#">@RequestMapping的作用</a></h3><ol>
+<li><p>url映射</p>
+</li>
+<li><p>窄化请求映射</p>
+</li>
+<li><p>限制http请求方法</p>
+</li>
+</ol>
+<h3 id="24-controller方法的返回值"><a href="#24-controller方法的返回值" class="headerlink" title="24. controller方法的返回值"></a>24. <a href="#">controller方法的返回值</a></h3><p>1 返回ModelAndView</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">需要方法结束时，定义ModelAndView，将model和view分别进行设置。 </span><br></pre></td></tr></table></figure>
+<p>2 返回string</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">如果controller方法返回<span class="built_in">string</span>，</span><br><span class="line"><span class="number">1</span>). 表示返回逻辑视图名。真正视图(jsp路径)=前缀+逻辑视图名+后缀</span><br><span class="line"><span class="number">2</span>). redirect重定向：返回字符串格式为：<span class="string">&quot;redirect:queryItem.action&quot;</span></span><br><span class="line"><span class="number">3</span>). forward页面转发：返回字符串格式为：“forward:queryItem.action”</span><br></pre></td></tr></table></figure>
+<p>3 返回void</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">在controller方法形参上可以定义request和response，使用request或 response指定响应结果：</span><br><span class="line">1). 使用request转向页面，如下：request.getRequestDispatcher(<span class="string">&quot;页面路径&quot;</span>).forward(request, response);</span><br><span class="line">2). 也可以通过response页面重定向：response.sendRedirect(<span class="string">&quot;url&quot;</span>)</span><br><span class="line">3). 也可以通过response指定响应结果，例如响应json数据如下：</span><br><span class="line">response.setCharacterEncoding(<span class="string">&quot;utf-8&quot;</span>);</span><br><span class="line">response.setContentType(<span class="string">&quot;application/json;charset=utf-8&quot;</span>);</span><br><span class="line">response.getWriter().write(<span class="string">&quot;json串&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="25-参数绑定"><a href="#25-参数绑定" class="headerlink" title="25. 参数绑定"></a>25. <a href="#">参数绑定</a></h3><ol>
+<li>默认支持的类型</li>
+</ol>
+<p>直接在controller方法形参上定义下边类型的对象，就可以使用这些对象。在参数绑定过程中，如果遇到下边类型直接进行绑定。</p>
+<ol>
+<li><p>HttpServletRequest：通过request对象获取请求信息</p>
+</li>
+<li><p>HttpServletResponse：通过response处理响应信息</p>
+</li>
+<li><p>HttpSession：通过session对象得到session中存放的对象</p>
+</li>
+<li><p>Model/ModelMap：model是一个接口，modelMap是一个接口实现 。作用：将model数据填充到request域。</p>
+</li>
+<li><p>简单类型</p>
+</li>
+</ol>
+<p>通过@RequestParam对简单类型的参数进行绑定。</p>
+<p>如果不使用@RequestParam，要求request传入参数名称和controller方法的形参名称一致，方可绑定成功。</p>
+<p>如果使用@RequestParam，不用限制request传入参数名称和controller方法的形参名称一致。</p>
+<p>通过required属性指定参数是否必须要传入，如果设置为true，没有传入参数，会报错。</p>
+<ol start="3">
+<li>pojo绑定</li>
+</ol>
+<p>页面中input的name和controller的pojo形参中的属性名称一致，将页面中数据绑定到pojo。(usename,age；不需要user.username,user.age)</p>
+<ol start="4">
+<li>自定义参数绑定实现日期类型绑定</li>
+</ol>
+<p>对于controller形参中pojo对象，如果属性中有日期类型，需要自定义参数绑定。将请求日期数据串转成 日期类型，要转换的日期类型和pojo中日期属性的类型保持一致。</p>
+<h3 id="26-乱码处理"><a href="#26-乱码处理" class="headerlink" title="26. 乱码处理"></a>26. <a href="#">乱码处理</a></h3><ol>
+<li>post乱码</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">在<span class="selector-tag">web</span><span class="selector-class">.xml</span>添加<span class="selector-tag">post</span>乱码<span class="selector-tag">filter</span>：<span class="selector-tag">CharacterEncodingFilter</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><p>对于get请求中文参数出现乱码解决方法有两个：</p>
+<p>a. 修改tomcat配置文件添加编码与工程编码一致，如下：</p>
+</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">URIEncoding</span>=<span class="string">&quot;utf-8&quot;</span> <span class="attr">connectionTimeout</span>=<span class="string">&quot;20000&quot;</span> <span class="attr">port</span>=<span class="string">&quot;8080&quot;</span> <span class="attr">protocol</span>=<span class="string">&quot;HTTP/1.1&quot;</span> <span class="attr">redirectPort</span>=<span class="string">&quot;8443&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p> b. 对参数进行重新编码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ISO8859-1是tomcat默认编码，需要将tomcat编码后的内容按utf-8编码</span></span><br><span class="line">String userName = <span class="keyword">new</span> String(request.getParamter(<span class="string">&quot;userName&quot;</span>).getBytes(<span class="string">&quot;ISO8859-1&quot;</span>),<span class="string">&quot;utf-8&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="27-集合类型绑定"><a href="#27-集合类型绑定" class="headerlink" title="27. 集合类型绑定"></a>27. <a href="#">集合类型绑定</a></h3><ol>
+<li>数组绑定：</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">controller</span>方法参数使用：(<span class="selector-tag">Integer</span><span class="selector-attr">[]</span> <span class="selector-tag">itemId</span>)</span><br><span class="line">页面统一使用<span class="selector-pseudo">:itemId</span> 作为<span class="selector-tag">name</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>list绑定：</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">pojo</span>属性名为：<span class="selector-tag">itemsList</span></span><br><span class="line">页面：<span class="selector-tag">itemsList</span><span class="selector-attr">[index]</span>.属性名</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>map 绑定：</li>
+</ol>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line">pojo属性名为：</span><br><span class="line">    <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">Object</span>&gt; itemInfo = <span class="keyword">new</span> HashMap&lt;<span class="built_in">String</span>, <span class="built_in">Object</span>&gt;(); </span><br><span class="line">页面： </span><br><span class="line">    &lt;td&gt;姓名：&lt;inputtype=<span class="string">&quot;text&quot;</span>name=<span class="string">&quot;itemInfo[&#x27;name&#x27;]&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="28-spring-校验"><a href="#28-spring-校验" class="headerlink" title="28. spring 校验"></a>28. <a href="#">spring 校验</a></h3><ol>
+<li><p>项目中，通常使用较多是前端的校验，比如页面中js校验。对于安全要求较高点建议在服务端进行校验。</p>
+</li>
+<li><p>springmvc使用hibernate的校验框架validation(和hibernate没有任何关系)。</p>
+</li>
+</ol>
+<p>校验思路：页面提交请求的参数，请求到controller方法中，使用validation进行校验。如果校验出错，将错误信息展示到页面。</p>
+<h3 id="29-数据回显"><a href="#29-数据回显" class="headerlink" title="29. 数据回显"></a>29. <a href="#">数据回显</a></h3><ol>
+<li><p><code>@ModelAttribute</code>还可以将方法的返回值传到页面：在方法上加注解@ModelAttribute</p>
+</li>
+<li><p>使用最简单方法使用model，可以不用@ModelAttribute：model.addAttribute(“id”, id);</p>
+</li>
+<li><p>springmvc默认对pojo数据进行回显。pojo数据传入controller方法后，springmvc自动将pojo数据放到request域，key等于pojo类型（首字母小写）</p>
+</li>
+<li><p>public String testParam(PrintWriter out, @RequestParam(“username”) String username) { //out直接输出</p>
+</li>
+</ol>
+<h3 id="30-异常处理"><a href="#30-异常处理" class="headerlink" title="30. 异常处理"></a>30. <a href="#">异常处理</a></h3><p>springmvc提供全局异常处理器（一个系统只有一个异常处理器）进行统一异常处理。</p>
+<p>系统遇到异常，在程序中手动抛出，dao抛给service、service给controller、controller抛给前端控制器，前端控制器调用全局异常处理器。</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 全局异常处理器</span></span><br><span class="line"><span class="comment">  只要实现HandlerExceptionResolver接口就是全局异常处理器</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;cn.mz.ssm.exception.CustomExceptionResolver&gt;&lt;/bean&gt;</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="31-上传图片"><a href="#31-上传图片" class="headerlink" title="31. 上传图片"></a>31. <a href="#">上传图片</a></h3><ol>
+<li><p>在页面form中提交enctype=”multipart/form-data”的数据时，需要springmvc对multipart类型的数据进行解析。</p>
+</li>
+<li><p>在springmvc.xml中配置multipart类型解析器。</p>
+</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 文件上传 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;multipartResolver&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">class</span>=<span class="string">&quot;org.springframework.web.multipart.commons.CommonsMultipartResolver&quot;</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 设置上传文件的最大尺寸为5MB --&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxUploadSize&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>5242880<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>3). 方法中使用：MultipartFile attach (单个文件上传) 或者  MultipartFile[] attachs (多个文件上传)</p>
+<h3 id="32-Json处理"><a href="#32-Json处理" class="headerlink" title="32. Json处理"></a>32. <a href="#">Json处理</a></h3><ol>
+<li><p>加载json转换的jar包：springmvc中使用jackson的包进行json转换（@requestBody和@responseBody使用下边的包进行json转）</p>
+</li>
+<li><p>配置json转换器。在注解适配器RequestMappingHandlerAdapter中加入messageConverters。如果使用&lt;mvc:annotation-driven /&gt; 则会自动加入。</p>
+</li>
+<li><p>ajax</p>
+</li>
+</ol>
+<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="comment">//请求json，输出json</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">requestJson</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  $.ajax(&#123;</span><br><span class="line">    type:<span class="string">&#x27;post&#x27;</span>,</span><br><span class="line">    url:<span class="string">&#x27;$&#123;pageContext.request.contextPath&#125;/requestJson.do&#x27;</span>,</span><br><span class="line">    contentType:<span class="string">&#x27;application/json;charset=utf-8&#x27;</span>,</span><br><span class="line">    <span class="comment">//数据格式是json串，商品信息</span></span><br><span class="line">    data:<span class="string">&#x27;&#123;&quot;name&quot;:&quot;手机&quot;,&quot;price&quot;:999&#125;&#x27;</span>,</span><br><span class="line">    success:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;<span class="comment">//返回json结果</span></span><br><span class="line">      alert(data);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>Controller (ResponseBody、RequestBody)</li>
+</ol>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="comment">//请求json串（商品信息），输出json（商品信息）</span></span><br><span class="line"><span class="comment">//@RequestBody将请求的商品信息的json串转成itemsCustom对象</span></span><br><span class="line"><span class="comment">//@ResponseBody将itemsCustom转成json输出</span></span><br><span class="line"><span class="meta">@RequestMapping(<span class="meta-string">&quot;/requestJson&quot;</span>)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@ResponseBody</span> IntemsCustom requestJson(<span class="meta">@RequestBody</span> ItemCustom itemsCustom) &#123;</span><br><span class="line">  <span class="comment">//@ResponseBody将itemsCustom转成json输出</span></span><br><span class="line">  <span class="keyword">return</span> itemsCustom;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>注意ajax中contentType如果不设置为json类型，则传的参数为key/value类型。上面设置后，传的是json类型。</li>
+</ol>
+<h3 id="33-拦截器"><a href="#33-拦截器" class="headerlink" title="33. 拦截器"></a>33. <a href="#">拦截器</a></h3><ol>
+<li><p>定义拦截器，实现HandlerInterceptor接口。接口中提供三个方法。</p>
+<ol>
+<li>preHandle ：进入 Handler方法之前执行，用于身份认证、身份授权，比如身份认证，如果认证通过表示当前用户没有登陆，需要此方法拦截不再向下执行</li>
+<li>postHandle：进入Handler方法之后，返回modelAndView之前执行，应用场景从modelAndView出发：将公用的模型数据(比如菜单导航)在这里传到视图，也可以在这里统一指定视图</li>
+<li>afterCompletion：执行Handler完成执行此方法，应用场景：统一异常处理，统一日志处理</li>
+</ol>
+</li>
+<li><p>拦截器配置：</p>
+<ul>
+<li>针对HandlerMapping配置(不推荐)：springmvc拦截器针对HandlerMapping进行拦截设置，如果在某个HandlerMapping中配置拦截，经过该 HandlerMapping映射成功的handler最终使用该 拦截器。  (一般不推荐使用)</li>
+<li>类似全局的拦截器：springmvc配置类似全局的拦截器，springmvc框架将配置的类似全局的拦截器注入到每个HandlerMapping中</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 拦截器 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mvc:intercepters</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 多个拦截器，顺序执行 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mvc:intercepter</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- /**表示所有url包括子url路径 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:mapping</span> <span class="attr">path</span>=<span class="string">&quot;/**&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;cn.mz.ssm.intercepter.HandlerIntercepter1&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mvc:intercepter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mvc:intercepter</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">mvc:mapping</span> <span class="attr">path</span>=<span class="string">&quot;/**&quot;</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;cn.mz.ssm.intercepter.HandlerIntercepter2&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mvc:intercepter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mvc:intercepters</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="34-spring中自动装配的方式有哪些"><a href="#34-spring中自动装配的方式有哪些" class="headerlink" title="34. spring中自动装配的方式有哪些"></a>34. <a href="#">spring中自动装配的方式有哪些</a></h3><ol>
+<li><p>No：即不启用自动装配。</p>
+</li>
+<li><p>byName：通过属性的名字的方式查找JavaBean依赖的对象并为其注入。比如说类Computer有个属性printer，指定其autowire属性为byName后，Spring IoC容器会在配置文件中查找id/name属性为printer的bean，然后使用Seter方法为其注入。</p>
+</li>
+<li><p>byType：通过属性的类型查找JavaBean依赖的对象并为其注入。比如类Computer有个属性printer，类型为Printer，那么，指定其autowire属性为byType后，Spring IoC容器会查找Class属性为Printer的bean，使用Seter方法为其注入。</p>
+</li>
+<li><p>constructor：通byType一样，也是通过类型查找依赖对象。与byType的区别在于它不是使用Seter方法注入，而是使用构造子注入。</p>
+</li>
+<li><p>autodetect：在byType和constructor之间自动的选择注入方式。</p>
+</li>
+<li><p>default：由上级标签<beans>的default-autowire属性确定。</p>
+</li>
+</ol>
+<h3 id="35-Spring常见创建对象的注解"><a href="#35-Spring常见创建对象的注解" class="headerlink" title="35. Spring常见创建对象的注解"></a>35. <a href="#">Spring常见创建对象的注解</a></h3><ul>
+<li><code>@Component</code></li>
+<li><code>@Controller</code></li>
+<li><code>@Service</code></li>
+<li><code>@Repository</code></li>
+</ul>
+<h3 id="36-Spring中的设计模式"><a href="#36-Spring中的设计模式" class="headerlink" title="36. Spring中的设计模式"></a>36. <a href="#">Spring中的设计模式</a></h3><blockquote>
+<p>简单工厂、工厂方法、单例模式、适配器、包装器、代理、观察者、策略、模板方法</p>
+</blockquote>
+<ul>
+<li>代理模式：在AOP和remoting中被用的比较多。</li>
+<li>单例模式：在spring配置文件中定义的bean默认为单例模式。</li>
+<li>模板方法模式：用来解决代码重复的问题。</li>
+<li>前端控制器模式：Spring提供了DispatcherServlet来对请求进行分发。</li>
+<li>依赖注入模式：贯穿于BeanFactory / ApplicationContext接口的核心理念。</li>
+<li>工厂模式：BeanFactory用来创建对象的实例。</li>
+</ul>
+<h3 id="37-Spring管理事务"><a href="#37-Spring管理事务" class="headerlink" title="37. Spring管理事务"></a>37. <a href="#">Spring管理事务</a></h3><ol>
+<li><p>编程式事务，在代码中硬编码。(不推荐使用)</p>
+</li>
+<li><p>声明式事务，在配置文件中配置（推荐使用）</p>
+<ol>
+<li><p>基于XML的声明式事务</p>
+</li>
+<li><p>基于注解的声明式事务</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="38-spring中的核心类有那些，各有什么作用"><a href="#38-spring中的核心类有那些，各有什么作用" class="headerlink" title="38. spring中的核心类有那些，各有什么作用"></a>38. <a href="#">spring中的核心类有那些，各有什么作用</a></h3><ul>
+<li>BeanFactory：产生一个新的实例，可以实现单例模式</li>
+<li>BeanWrapper：提供统一的get及set方法</li>
+<li>ApplicationContext:提供框架的实现，包括BeanFactory的所有功能</li>
+</ul>
+<h3 id="39-Bean的调用方式有哪些"><a href="#39-Bean的调用方式有哪些" class="headerlink" title="39. Bean的调用方式有哪些"></a>39. <a href="#">Bean的调用方式有哪些</a></h3><ol>
+<li>使用BeanWrapper</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HelloWorld hw = <span class="keyword">new</span> HelloWorld(); </span><br><span class="line">BeanWrapper bw = <span class="keyword">new</span> BeanWrapperImpl(hw); </span><br><span class="line">bw.setPropertyvalue(”msg”,”HelloWorld”);</span><br><span class="line">system.out.println(bw.getPropertyCalue(”msg”));</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>使用BeanFactory</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">InputStream is = <span class="keyword">new</span> FileInputStream(”config.xml”);</span><br><span class="line">XmlBeanFactory factory = <span class="keyword">new</span> XmlBeanFactory(is);</span><br><span class="line">HelloWorld hw = (HelloWorld) factory.getBean(”HelloWorld”);</span><br><span class="line">system.out.println(hw.getMsg()); </span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>使用ApplicationConttext</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ApplicationContext actx = <span class="keyword">new</span> FleSystemXmlApplicationContext(”config.xml”);</span><br><span class="line">HelloWorld hw = (HelloWorld) actx.getBean(”HelloWorld”);</span><br><span class="line">System.out.println(hw.getMsg());</span><br></pre></td></tr></table></figure>
+<h3 id="40-spring两种代理方式"><a href="#40-spring两种代理方式" class="headerlink" title="40. spring两种代理方式"></a>40. <a href="#">spring两种代理方式</a></h3><ul>
+<li><p>若目标对象实现了若干接口，spring使用JDK的<code>java.lang.reflect.Proxy</code>类代理。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">优点：因为有接口，所以使系统更加松耦合</span><br><span class="line">缺点：为每一个目标类创建接口</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>若目标对象没有实现任何接口，spring使用<code>CGLIB</code>库生成目标对象的子类。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">优点：因为代理类与目标类是继承关系，所以不需要有接口的存在。</span><br><span class="line">缺点：因为没有使用接口，所以系统的耦合性没有使用JDK的动态代理好。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>spring</tag>
+        <tag>interview</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Windows Mstsc</title>
+    <url>/2020/12/12/Windows_mstsc/</url>
+    <content><![CDATA[<h5 id="远程桌面提示：身份验证错误-要求的函数不受支持"><a href="#远程桌面提示：身份验证错误-要求的函数不受支持" class="headerlink" title="远程桌面提示：身份验证错误 要求的函数不受支持"></a>远程桌面提示：身份验证错误 要求的函数不受支持</h5><p> 这个解决方法来自微软官方，</p>
+<p> 按照此方法发现我的电脑中并没有“加密 Oracle 修正”这一项。</p>
+<p> 解决方法如下：</p>
+<p> 命令 regedit 打开注册表，找到路径 [HKEY_LOCAL_MACHINE]\Software\Microsoft\Windows\CurrentVersion\Policies\System\CredSSP\Parameters</p>
+<p> 一般情况下，到了System之后就没了，缺少的可以自己创建文件夹。</p>
+<p> 然后在最底部文件夹里面新建 DWORD（32）位的。文件名 “AllowEncryptionOracle”，值：2</p>
+<p><img src="https://ftp.bmp.ovh/imgs/2020/12/1cbd101e5ad76435.jpg" alt="如图所示"></p>
+]]></content>
+      <tags>
+        <tag>windows</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Started</title>
+    <url>/2020/12/30/Started/</url>
+    <content><![CDATA[<p>All the best will be come on 2021.</p>
+]]></content>
+      <tags>
+        <tag>begin</tag>
+        <tag>life</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>WebSocket</title>
+    <url>/2021/03/05/WebSocket/</url>
+    <content><![CDATA[<p>WebSocket 是 HTML5 开始提供的一种在单个 TCP 连接上进行全双工通讯的协议。</p>
+<p>WebSocket 使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据。在 WebSocket API 中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。</p>
+<p>在 WebSocket API 中，浏览器和服务器只需要做一个握手的动作，然后，浏览器和服务器之间就形成了一条快速通道。两者之间就直接可以数据互相传送。</p>
+<p>现在，很多网站为了实现推送技术，所用的技术都是 Ajax 轮询。轮询是在特定的的时间间隔（如每1秒），由浏览器对服务器发出HTTP请求，然后由服务器返回最新的数据给客户端的浏览器。这种传统的模式带来很明显的缺点，即浏览器需要不断的向服务器发出请求，然而HTTP请求可能包含较长的头部，其中真正有效的数据可能只是很小的一部分，显然这样会浪费很多的带宽等资源。</p>
+<h3 id="POM"><a href="#POM" class="headerlink" title="POM"></a>POM</h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;springboot.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- websocket --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-websocket<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;springboot.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="YML"><a href="#YML" class="headerlink" title="YML"></a>YML</h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">9119</span></span><br></pre></td></tr></table></figure>
+<h3 id="Configuration"><a href="#Configuration" class="headerlink" title="@Configuration"></a>@Configuration</h3><p>重写<code>modifyHandshake</code>修改握手规则，用以向<code>HttpSession</code>存储<code>WebSocket</code>的<code>Session</code>。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebConfig</span> <span class="keyword">extends</span> <span class="title">ServerEndpointConfig</span>.<span class="title">Configurator</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *	ServerEndpoint容器</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ServerEndpointExporter <span class="title">serverEndpointExporter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ServerEndpointExporter();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 重写修改WebSocket握手规则，在WebSocket配置中写入HttpSession</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">modifyHandshake</span><span class="params">(ServerEndpointConfig config, HandshakeRequest request, HandshakeResponse response)</span> </span>&#123;</span><br><span class="line">        Map&lt;String, Object&gt; userProperties = config.getUserProperties();</span><br><span class="line">        log.info(<span class="string">&quot;UserProperties is Null ? &#123;&#125;&quot;</span>, (<span class="keyword">null</span> == userProperties));</span><br><span class="line">        HttpSession httpSession = (HttpSession) request.getHttpSession();</span><br><span class="line">        log.info(<span class="string">&quot;Request [&#123;&#125;] HttpSession is Null ? &#123;&#125;&quot;</span>, request.getRequestURI().getPath(), (<span class="keyword">null</span> == httpSession));</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != userProperties &amp;&amp; <span class="keyword">null</span> != httpSession)</span><br><span class="line">            userProperties.put(HttpSession.class.getName(), httpSession);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="ServerEndpoint"><a href="#ServerEndpoint" class="headerlink" title="@ServerEndpoint"></a>@ServerEndpoint</h3><p>服务端代码如下</p>
+<p><code>configurator = WebConfig.class</code>用以指定<code>WebSocket</code>配置类，该类需要继承<code>javax.websocket.server.ServerEndpointConfig.Configurator</code>。</p>
+<p><code>value = &quot;/test/oneToOne&quot;</code>用以指定客户端访问路径，该服务端的全路径访问地址格式为<code>ws://</code>+<code>服务端IP</code>+<code>服务端口(server.port: 9119)</code>+<code>/test/oneToOne</code>。</p>
+<p><code>AtomicInteger onlineCount</code>用以记录在线用户数量，<code>AtomicInteger</code>可保证并发请求时数量准确。</p>
+<p><code>Map&lt;String, Session&gt; clients</code>以<code>Session.getId()</code>为<code>key</code>，存储<code>Session</code>，用以对多个客户端发送消息。</p>
+<p><code>onOpen()</code>客户端连接成功</p>
+<p><code>onClose()</code>客户端关闭连接</p>
+<p><code>onError()</code>客户端连接出错</p>
+<p><code>onMessage()</code>接收到客户端消息，此处为接收<code>String</code>类型消息后，再行转换。下一节将介绍实现对应的接口后，自动转换。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@ServerEndpoint(value = &quot;/test/oneToOne&quot;,configurator = WebConfig.class)</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OneToOneWebSocket</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> AtomicInteger onlineCount = <span class="keyword">new</span> AtomicInteger(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String, Session&gt; clients = <span class="keyword">new</span> ConcurrentHashMap();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnOpen</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onOpen</span><span class="params">(Session session,EndpointConfig config)</span> </span>&#123;</span><br><span class="line">        onlineCount.incrementAndGet(); <span class="comment">// 在线数加1</span></span><br><span class="line">        HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != httpSession)&#123;</span><br><span class="line">            httpSession.setAttribute(<span class="string">&quot;socketSession&quot;</span>,session);</span><br><span class="line">        &#125;</span><br><span class="line">        log.info(<span class="string">&quot;&#123;&#125;&quot;</span>,JSON.toJSONString(httpSession));</span><br><span class="line">        clients.put(session.getId(), session);</span><br><span class="line">        log.info(<span class="string">&quot;有新连接加入：&#123;&#125;，当前在线人数为：&#123;&#125;&quot;</span>, session.getId(), onlineCount.get());</span><br><span class="line">        Set&lt;String&gt; strings = clients.keySet();</span><br><span class="line">        <span class="keyword">this</span>.sendMessage(MessageFormat.format(<span class="string">&quot;欢迎用户：&#123;0&#125; 加入连接，现有用户：&#123;1&#125;&quot;</span>, session.getId() , strings), session);</span><br><span class="line"></span><br><span class="line">        Iterator&lt;String&gt; iterator = strings.iterator();</span><br><span class="line">        String sessionId;</span><br><span class="line">        <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">            sessionId = iterator.next();</span><br><span class="line">            <span class="keyword">if</span> (!sessionId.equals(session.getId()))</span><br><span class="line">                <span class="keyword">this</span>.sendMessage(MessageFormat.format(<span class="string">&quot;用户：&#123;0&#125; 加入连接，现有用户：&#123;1&#125;&quot;</span>, session.getId(), strings), clients.get(sessionId));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnClose</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClose</span><span class="params">(Session session)</span> </span>&#123;</span><br><span class="line">        onlineCount.decrementAndGet(); <span class="comment">// 在线数减1</span></span><br><span class="line">        clients.remove(session.getId());</span><br><span class="line">        log.info(<span class="string">&quot;有一连接关闭：&#123;&#125;，当前在线人数为：&#123;&#125;&quot;</span>, session.getId(), onlineCount.get());</span><br><span class="line">        Set&lt;String&gt; strings = clients.keySet();</span><br><span class="line">        Iterator&lt;String&gt; iterator = strings.iterator();</span><br><span class="line">        String sessionId;</span><br><span class="line">        <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">            sessionId = iterator.next();</span><br><span class="line">            <span class="keyword">this</span>.sendMessage(MessageFormat.format(<span class="string">&quot;用户：&#123;0&#125; 关闭连接，现有用户：&#123;1&#125;&quot;</span>, session.getId(), strings), clients.get(sessionId));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnMessage</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onMessage</span><span class="params">(String message, Session session)</span> </span>&#123;</span><br><span class="line">        log.info(<span class="string">&quot;服务端收到客户端[&#123;&#125;]的消息[&#123;&#125;]&quot;</span>, session.getId(), message);</span><br><span class="line">        WebMessage myMessage = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            myMessage = JSON.parseObject(message, WebMessage.class);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            log.error(<span class="string">&quot;解析失败：&#123;&#125;&quot;</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (myMessage != <span class="keyword">null</span> &amp;&amp; myMessage.getMessage() != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> == myMessage.getUserId()) &#123;</span><br><span class="line">                Set&lt;String&gt; strings = clients.keySet();</span><br><span class="line">                Iterator&lt;String&gt; iterator = strings.iterator();</span><br><span class="line">                String sessionId;</span><br><span class="line">                <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">                    sessionId = iterator.next();</span><br><span class="line">                    <span class="keyword">if</span> (!session.getId().equals(sessionId))</span><br><span class="line">                        <span class="keyword">this</span>.sendMessage(MessageFormat.format(<span class="string">&quot;@所有人：&#123;0&#125;，来自：&#123;1&#125;&quot;</span>, myMessage.getMessage(), session.getId()), clients.get(sessionId));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                Session toSession = clients.get(myMessage.getUserId());</span><br><span class="line">                <span class="comment">// log.debug(toSession.getId());</span></span><br><span class="line">                <span class="keyword">if</span> (toSession != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">this</span>.sendMessage(MessageFormat.format(<span class="string">&quot;&#123;0&#125;，来自：&#123;1&#125;&quot;</span>, myMessage.getMessage(), session.getId()), toSession);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">this</span>.sendMessage(MessageFormat.format(<span class="string">&quot;发送失败！目标用户&#123;0&#125;不存在&quot;</span>, myMessage.getUserId()), session);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnError</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Session session, Throwable error)</span> </span>&#123;</span><br><span class="line">        log.error(<span class="string">&quot;发生错误&quot;</span>);</span><br><span class="line">        error.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">sendMessage</span><span class="params">(String message, Session toSession)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            log.info(<span class="string">&quot;服务端给客户端[&#123;&#125;]发送消息[&#123;&#125;]&quot;</span>, toSession.getId(), message);</span><br><span class="line">            toSession.getBasicRemote().sendText(message);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            log.error(<span class="string">&quot;服务端发送消息给客户端失败：&#123;&#125;&quot;</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="前端代码"><a href="#前端代码" class="headerlink" title="前端代码"></a>前端代码</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="string">&quot;WebSocket&quot;</span> <span class="keyword">in</span> <span class="built_in">window</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;浏览器支持 WebSocket&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> ws = <span class="keyword">new</span> WebSocket(<span class="string">&quot;ws://192.168.1.10:9119/websocket/test&quot;</span>);</span><br><span class="line"><span class="comment">//监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。</span></span><br><span class="line"><span class="built_in">window</span>.onbeforeunload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    ws.close();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//连接成功的回调方法</span></span><br><span class="line">ws.onopen = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;websocket connected ...&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//连接关闭的回调方法</span></span><br><span class="line">ws.onclose = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;websocket close ...&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//接收到消息</span></span><br><span class="line">ws.onmessage = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> msg = <span class="built_in">JSON</span>.parse(e.data)</span><br><span class="line">    <span class="built_in">console</span>.log(msg);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (msg.msg &amp;&amp; msg.msg === <span class="string">&quot;id&quot;</span>) &#123;</span><br><span class="line">        $(<span class="string">&#x27;input[name=&quot;from&quot;]&#x27;</span>).val(msg.to);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (msg.msg &amp;&amp; msg.msg.length &gt; <span class="number">0</span> &amp;&amp; msg.msg !== <span class="string">&quot;id&quot;</span>) &#123;</span><br><span class="line">        $(<span class="string">&#x27;#received&#x27;</span>).text(msg.msg + <span class="string">&#x27; from &#x27;</span> + msg.from);</span><br><span class="line">        $(<span class="string">&#x27;#received_box&#x27;</span>).css(<span class="string">&#x27;display&#x27;</span>, <span class="string">&#x27;block&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (msg.online != <span class="literal">null</span> &amp;&amp; msg.online.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> selects = [];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">in</span> msg.online) &#123;</span><br><span class="line">            selects.push(&#123;<span class="attr">name</span>:msg.online[i],<span class="attr">value</span>:msg.online[i]&#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        xmSelect.render(&#123;</span><br><span class="line">            el: <span class="string">&#x27;#form_select_mulit&#x27;</span>,</span><br><span class="line">            filterable: <span class="literal">true</span>,</span><br><span class="line">            toolbar: &#123; <span class="attr">show</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">            theme: &#123;</span><br><span class="line">                color: <span class="string">&#x27;#1E9FFF&#x27;</span>,</span><br><span class="line">            &#125;,</span><br><span class="line">            data: selects</span><br><span class="line">        &#125;);</span><br><span class="line">        form.render()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="自动转换消息类型"><a href="#自动转换消息类型" class="headerlink" title="自动转换消息类型"></a>自动转换消息类型</h3><ul>
+<li><p>建立常规实体类，实现<code>Serializable</code>接口。</p>
+</li>
+<li><p>建立两个转换类，分别实现<code>javax.websocket.Decoder.Text&lt;Message&gt;</code>和<code>javax.websocket.Encoder.Text&lt;Message&gt;</code>接口并重写方法。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Encoder</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">encode</span><span class="params">(Message message)</span> <span class="keyword">throws</span> EncodeException </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> JSON.toJSONString(message);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Decoder</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Message <span class="title">decode</span><span class="params">(String message)</span> <span class="keyword">throws</span> DecodeException </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> JSON.parseObject(message, Message.class);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">willDecode</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>服务端指定编码与解码消息对象类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@ServerEndpoint(value = &quot;/websocket/test&quot;,configurator = WebConfig.class,decoders = MessageDecoder.class,encoders = MessageEncoder.class)</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>服务端代码 <strong>重点：</strong><code>sendMessage(Message message,Session toSession)</code>方法中的接收参数必须与<code>onMessage(Session session,Message message)</code>的参数一致。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">sendMessage</span><span class="params">(Message message,Session toSession)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">null</span> == toSession) &#123;</span><br><span class="line">        log.error(<span class="string">&quot;session is Null. id [&#123;&#125;]&quot;</span>,message.getTo());</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        toSession.getBasicRemote().sendText(JSON.toJSONString(message));</span><br><span class="line">        log.info(<span class="string">&quot;server to [&#123;&#125;] send &#123;&#125; .&quot;</span>,toSession.getId(), JSON.toJSONString(message));</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        log.error(<span class="string">&quot;server to [&#123;&#125;] send &#123;&#125; failure . because : &#123;&#125;&quot;</span>,toSession.getId(), JSON.toJSONString(message),e.getLocalizedMessage());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@OnMessage</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onMessage</span><span class="params">(Session session,Message message)</span></span>&#123;</span><br><span class="line">    Session toSession = clients.get(message.getTo());</span><br><span class="line">    message.setFrom(session.getId());</span><br><span class="line">    sendMessage(message,toSession);</span><br><span class="line">    <span class="comment">// return message;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至止，<code>WebSocket</code>传递普通文本已经粗略完成。</p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>develop</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+</search>
