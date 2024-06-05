@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.liu-tm.cn","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="JasperReport生态IReport、JasperStudio是jasper的辅助视觉设计工具，不用它也能设计Jasper报表（编码jrxml）。 5.5之前这个工具叫ireport，5.5之后随着JasperStudio的出生，IReport就被完全替代了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JasperReport 全攻略">
+<meta property="og:url" content="https://blog.liu-tm.cn/2021/01/21/JasperReport/index.html">
+<meta property="og:site_name" content="Marvin&#39;s Blog">
+<meta property="og:description" content="JasperReport生态IReport、JasperStudio是jasper的辅助视觉设计工具，不用它也能设计Jasper报表（编码jrxml）。 5.5之前这个工具叫ireport，5.5之后随着JasperStudio的出生，IReport就被完全替代了。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-21T01:31:53.000Z">
+<meta property="article:modified_time" content="2024-06-05T07:00:22.141Z">
+<meta property="article:author" content="Marvin">
+<meta property="article:tag" content="develop">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://blog.liu-tm.cn/2021/01/21/JasperReport/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>JasperReport 全攻略 | Marvin's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body  oncontextmenu=self.event.returnValue=false onselectstart="return false"
+ itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Marvin's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hi, My friend. Welcome to my space</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.liu-tm.cn/2021/01/21/JasperReport/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Marvin">
+      <meta itemprop="description" content="博闻天地">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Marvin's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JasperReport 全攻略
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-21 09:31:53" itemprop="dateCreated datePublished" datetime="2021-01-21T09:31:53+08:00">2021-01-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-06-05 15:00:22" itemprop="dateModified" datetime="2024-06-05T15:00:22+08:00">2024-06-05</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/01/21/JasperReport/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/01/21/JasperReport/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span></span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>NaN:aN</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="JasperReport生态"><a href="#JasperReport生态" class="headerlink" title="JasperReport生态"></a>JasperReport生态</h3><p>IReport、JasperStudio是jasper的辅助视觉设计工具，不用它也能设计Jasper报表（编码jrxml）。</p>
+<p>5.5之前这个工具叫ireport，5.5之后随着JasperStudio的出生，IReport就被完全替代了。</p>
+<p><strong>IReport支持jdk最高版本为1.7</strong>，在不修改系统环境变量的前提下，可以配置IReport根目录中etc目录下的<code>ireport.conf</code>，将<code>jdkhome</code>注释打开并配置jdk1.7版本位置。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.codehaus.groovy<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>groovy-all<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.4.7<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Groovy是Java虚拟机的敏捷和动态语言，以Java语言的优势为基础，添加了从Python、Ruby和Smalltalk等语言中借鉴的特性。提供流行的编程语言特性，学习成本几乎为零。提供静态类型检查的能力，并静态地编译成java字节码，以获得健壮性和性能，与所有现有的Java类和库无缝集成，可以在任何可以使用java的地方使用它。通过其强大的处理原语、OO能力和Ant DSL使编写shell和构建脚本变得容易。</p>
+<p><code>Report -&gt; Language -&gt; java</code>选择语言为<code>java</code>后无需引入<code>groovy</code>，IReport可以设置全局语言模式，JasperStudio暂未发现。</p>
+<h3 id="JasperReport基本使用"><a href="#JasperReport基本使用" class="headerlink" title="JasperReport基本使用"></a>JasperReport基本使用</h3><ol>
+<li><p>使用可视化工具制作<code>.jrxml</code>报表模板</p>
+</li>
+<li><p>Java工程引入<code>jasperreports</code>（Language设置为java，若为groovy也要引入）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>net.sf.jasperreports<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jasperreports<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.6.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编码导出</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//指定模板文件位置</span></span><br><span class="line">String jrxml = <span class="string">&quot;C:\\Users\\Administrator\\JaspersoftWorkspace\\MyReports\\test.jrxml&quot;</span>;</span><br><span class="line"><span class="comment">//设定报表所需要的外部参数内容</span></span><br><span class="line">Map parameters = <span class="keyword">new</span> HashMap();</span><br><span class="line">parameters.put(<span class="string">&quot;company&quot;</span>, <span class="string">&quot;XXXXX有限公司&quot;</span>);</span><br><span class="line"><span class="comment">//编译模板文件</span></span><br><span class="line">JasperReport jasperReport = JasperCompileManager.compileReport(jrxml);</span><br><span class="line"><span class="comment">//填充数据，生成文件输出流</span></span><br><span class="line">JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, <span class="keyword">new</span> JREmptyDataSource());</span><br><span class="line"><span class="comment">//导出PDF文件</span></span><br><span class="line">JasperExportManager.exportReportToPdfFile(jasperPrint, <span class="string">&quot;D:/test/report/&quot;</span> + jasperReport.getName() + <span class="string">&quot;.pdf&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>其中<code>JasperReport</code>对象也可以由视图工具中编译好的<code>.jasper</code>文件加载</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//直接加载视图工具中编译好的.jasper文件</span></span><br><span class="line">String jasper = ReportPDF.class.getResource(<span class="string">&quot;/&quot;</span>).getPath() + <span class="string">&quot;template/test.jasper&quot;</span>;</span><br><span class="line">InputStream inputStream = <span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(jasper));</span><br><span class="line">JasperReport _jasperReport = (JasperReport) JRLoader.loadObject(inputStream);</span><br></pre></td></tr></table></figure></li>
+<li><p>疑难杂症</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">jasperReport</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://jasperreports.sourceforge.net/jasperreports&quot;</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd&quot;</span> <span class="attr">name</span>=<span class="string">&quot;test&quot;</span> <span class="attr">pageWidth</span>=<span class="string">&quot;686&quot;</span> <span class="attr">pageHeight</span>=<span class="string">&quot;397&quot;</span> <span class="attr">orientation</span>=<span class="string">&quot;Landscape&quot;</span> </span></span><br><span class="line"><span class="tag">              <span class="attr">whenNoDataType</span>=<span class="string">&quot;AllSectionsNoDetail&quot;</span> <span class="attr">columnWidth</span>=<span class="string">&quot;646&quot;</span> <span class="attr">leftMargin</span>=<span class="string">&quot;20&quot;</span> <span class="attr">rightMargin</span>=<span class="string">&quot;20&quot;</span> <span class="attr">topMargin</span>=<span class="string">&quot;20&quot;</span> <span class="attr">bottomMargin</span>=<span class="string">&quot;20&quot;</span> <span class="attr">uuid</span>=<span class="string">&quot;1d450a83-6e0f-4885-a0f1-979eaf18bf08&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">jasperReport</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>填充数据<code>fillReport(JasperReport report, Map parameters, JRDataSource datasource)</code>时<code>datasource</code>为可选参数。若无<code>new JREmptyDataSource()</code>，且模板文件中无<code>whenNoDataType=&quot;AllSectionsNoDetail&quot;</code>，则导出的文件内容为<strong>空白</strong>。</p>
+<p>其中IReport工具中该选项为<code>属性 -&gt; More -&gt; When No Data</code>，JasperStudio为<code>Properties -&gt; Report -&gt; When No Data Type</code>。</p>
+</li>
+</ol>
+<h3 id="JasperReport导出中文"><a href="#JasperReport导出中文" class="headerlink" title="JasperReport导出中文"></a>JasperReport导出中文</h3><p>在<code>.jrxml</code>模板文件中，所有涉及中文的<code>element</code>，需要设置如下</p>
+  <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">textElement</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">font</span> <span class="attr">pdfFontName</span>=<span class="string">&quot;STSong-Light&quot;</span> <span class="attr">pdfEncoding</span>=<span class="string">&quot;UniGB-UCS2-H&quot;</span> <span class="attr">isPdfEmbedded</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">textElement</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以上配置在JasperStudio中操作为<code>Properties -&gt; Advanced -&gt; PDF</code></p>
+<ul>
+<li>PDF Embedded = true</li>
+<li>PDF Encoding = UniGB-UCS2-H (Chinese Simplified)</li>
+<li>PDF Font Name = STSong-Light</li>
+</ul>
+<p>在Java工程中编码前，需要引入以下<code>jar</code>包<br>输出文件时</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.lowagie<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>itext-asian<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.7<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>system<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>$&#123;basedir&#125;/src/main/res/lib/iTextAsian.jar<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>输出流时</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.lowagie<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>itext<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.7.js4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>system<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>$&#123;basedir&#125;/src/main/res/lib/itext-2.1.7.js4.jar<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="JasperReport自定义字体"><a href="#JasperReport自定义字体" class="headerlink" title="JasperReport自定义字体"></a>JasperReport自定义字体</h3><ul>
+<li><p>JasperStudio中安装字体</p>
+<p><code>Window -&gt; Preperences -&gt; Jaspersoft Studio -&gt; Fonts -&gt; Add From Path</code>选择字体文件位置导入，导入成功之后选中字体点击<code>Edit</code>，<code>PDF Encoding</code>选择<code>Identity-H (Unicode with horizontal writing)</code>并勾选<code>Embed this font in PDF document</code>。</p>
+</li>
+<li><p>完成上一步之后，在字体编辑界面点击<code>Export</code>导出<code>zip</code>压缩文件</p>
+</li>
+<li><p>文本元素字体设置为自定义的字体，此时是文本元素的常规字体设置，并非<code>导出中文</code>中提及的<code>PDF Font Name</code></p>
+</li>
+<li><p>将从JasperStudio中导出的<code>zip／jar</code>文件解压并复制到Java工程中的<code>resources</code>下即可完成自定义字体</p>
+</li>
+</ul>
+<p>总结：通过上述步骤实操得知</p>
+<ul>
+<li><p>Java工程Classpath下需要有名为<code>jasperreports_extension.properties</code>的配置文件</p>
+<p>该配置文件内容如下：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">net.sf.jasperreports.extension.registry.factory.fonts</span>=<span class="string">net.sf.jasperreports.engine.fonts.SimpleFontExtensionsRegistryFactory</span></span><br><span class="line"><span class="meta">net.sf.jasperreports.extension.simple.font.families.ireportfamily1611215772940</span>=<span class="string">fonts/fontsfamily1611215772940.xml</span></span><br></pre></td></tr></table></figure></li>
+<li><p>其中<code>fontsfamily1611215772940.xml</code>即为字体实际配置</p>
+<p>编辑此配置，并在指定位置放置字体文件，即可省略JasperStudio中的字体安装／导出操作</p>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">fontFamilies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">fontFamily</span> <span class="attr">name</span>=<span class="string">&quot;阿里巴巴普惠体 R&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">normal</span>&gt;</span>&lt;![CDATA[fonts/阿里巴巴普惠体R/Alibaba-PuHuiTi-Regular.ttf]]&gt;<span class="tag">&lt;/<span class="name">normal</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">pdfEncoding</span>&gt;</span>&lt;![CDATA[Identity-H]]&gt;<span class="tag">&lt;/<span class="name">pdfEncoding</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">pdfEmbedded</span>&gt;</span>&lt;![CDATA[true]]&gt;<span class="tag">&lt;/<span class="name">pdfEmbedded</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">exportFonts</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">fontFamily</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">fontFamily</span> <span class="attr">name</span>=<span class="string">&quot;Mono&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">normal</span>&gt;</span>&lt;![CDATA[fonts/JetBrains/JetBrainsMono-Regular.ttf]]&gt;<span class="tag">&lt;/<span class="name">normal</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">pdfEncoding</span>&gt;</span>&lt;![CDATA[Identity-H]]&gt;<span class="tag">&lt;/<span class="name">pdfEncoding</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">pdfEmbedded</span>&gt;</span>&lt;![CDATA[true]]&gt;<span class="tag">&lt;/<span class="name">pdfEmbedded</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">exportFonts</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">fontFamily</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">fontFamilies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="JasperReport变量"><a href="#JasperReport变量" class="headerlink" title="JasperReport变量"></a>JasperReport变量</h3><ul>
+<li><p>Parameters</p>
+<p>JasperStudio中该配置位于<code>Outline</code>中，此面板显示设置方式为<code>Window &gt; Show View &gt; Other &gt; General &gt; Outline</code>（<code>hele -&gt; search</code>可以查找到此设置方式）</p>
+<p><code>右键此项选择Create Parameter</code>可以新建参数，参数可用于单次出现的可变数据，如公司名称、表单名称、、、</p>
+</li>
+<li><p>Fields</p>
+<p><code>右键此项选择Create Fedld</code>可以新建字段，字段可用于重复多次的列表数据，置于模板<code>Detail</code>详情区域。</p>
+</li>
+</ul>
+<h3 id="JasperReport图像"><a href="#JasperReport图像" class="headerlink" title="JasperReport图像"></a>JasperReport图像</h3><ul>
+<li><p>新建参数<code>Properties -&gt; Object -&gt; Name = img &amp; Class = java.io.InputStream</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">parameter</span> <span class="attr">name</span>=<span class="string">&quot;img&quot;</span> <span class="attr">class</span>=<span class="string">&quot;java.io.InputStream&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>插入图像<code>Image -&gt; Expression = $P&#123;img&#125;</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">image</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">x</span>=<span class="string">&quot;0&quot;</span> <span class="attr">y</span>=<span class="string">&quot;0&quot;</span> <span class="attr">width</span>=<span class="string">&quot;100&quot;</span> <span class="attr">height</span>=<span class="string">&quot;100&quot;</span> <span class="attr">uuid</span>=<span class="string">&quot;8b2bbc27-43a6-49f6-a79a-e8417ad20d8f&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">imageExpression</span>&gt;</span>&lt;![CDATA[$P&#123;img&#125;]]&gt;<span class="tag">&lt;/<span class="name">imageExpression</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">image</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>编码时参数中添加图片输出流</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String img = <span class="string">&quot;D:/Test/zxing.png&quot;</span>;</span><br><span class="line">parameters.put(<span class="string">&quot;img&quot;</span>, <span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(img)));</span><br></pre></td></tr></table></figure></li>
+<li><p>导出完成</p>
+</li>
+</ul>
+<h3 id="JasperReport条码"><a href="#JasperReport条码" class="headerlink" title="JasperReport条码"></a>JasperReport条码</h3><p>Java工程填充条码时需要导入以下两组插件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>net.sf.barcode4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>barcode4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.xmlgraphics<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>batik-bridge<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.11<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>条形码放大</p>
+<p><code>Module Width = 2.0</code></p>
+<p><code>Quiet Zone = 2.0</code></p>
+<p><code>Vertical Quiet Zone = 2.0</code></p>
+</li>
+<li><p>条形码上层放置文本内容设置背景色后还需取消勾选<code>Transparent</code></p>
+</li>
+<li><p>二维码设置<code>Margin = 0 px</code>可以清除白色空白区域</p>
+</li>
+</ul>
+<h3 id="JasperReport导出JavaBean列表"><a href="#JasperReport导出JavaBean列表" class="headerlink" title="JasperReport导出JavaBean列表"></a>JasperReport导出JavaBean列表</h3><p><strong>重点</strong>：列表数据循环加载的关键在于<code>Fields</code>变量文本所在区域移除空白区域（双击区域），且模板文件中该区域留有空闲高度。例：文件可用高度为300px，<code>Page Header</code>和<code>Page Footer</code>总高度为100px（除<code>Detail</code>区域再无其它区域），若<code>Fields</code>变量文本高度为20px，则每页可循环10组列表数据。</p>
+<ul>
+<li><p>模板工具添加<code>Fields</code>变量（变量名称与Bean对象属性名称一致）</p>
+</li>
+<li><p>模板<code>Detail</code>区域插入<code>Fields</code>（根据需求设置样式及边框）</p>
+</li>
+<li><p>编码添加数据并导出</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">List&lt;User&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">10</span>; i++) &#123;</span><br><span class="line">    <span class="comment">//注意：JavaBean的属性名称和模版的Fileds的名称一致的</span></span><br><span class="line">    list.add(<span class="keyword">new</span> User().setName(<span class="string">&quot;张三-&quot;</span> + i).setAge(<span class="number">10</span> + i).setSex(i));</span><br><span class="line">&#125;</span><br><span class="line">String jrxml = <span class="string">&quot;C:\\Users\\Administrator\\JaspersoftWorkspace\\MyReports\\userList.jrxml&quot;</span>;</span><br><span class="line">JRBeanCollectionDataSource dataSource = <span class="keyword">new</span> JRBeanCollectionDataSource(list);</span><br><span class="line">JasperReport jasperReport = JasperCompileManager.compileReport(jrxml);</span><br><span class="line">JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, <span class="keyword">new</span> HashMap&lt;&gt;(), dataSource);</span><br><span class="line"><span class="comment">//导出PDF文件</span></span><br><span class="line">JasperExportManager.exportReportToPdfFile(jasperPrint, <span class="string">&quot;D:/test/report/&quot;</span> + jasperReport.getName() + <span class="string">&quot;.pdf&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="JasperReport结合数据库连接导出数据"><a href="#JasperReport结合数据库连接导出数据" class="headerlink" title="JasperReport结合数据库连接导出数据"></a>JasperReport结合数据库连接导出数据</h3><ul>
+<li><p>添加<code>Data Adapters</code></p>
+<p>在<code>Repository Explorer -&gt; Data Adapters</code>中右键选择<code>Create Data Adapter</code>，在弹出框中选择<code>Database JDBC Connection</code>后，进行常规JDBC配置（命名：<code>DemoData</code>）。需要在<code>Driver Classpath</code>中添加对应的<strong>数据库连接驱动</strong>。</p>
+<p>该配置或许不支持<code>useSSL</code>，JDBC URL配置常规路径既可<code>jdbc:mysql://localhost/database</code>。测试连接正常后继续往下操作</p>
+</li>
+<li><p>在<code>Outline</code>中右键模板文件选择<code>Dataset And Query ...</code>，在弹出框中配置数据库查询。</p>
+<p>首先在数据库图标右侧选择上一步配置好的数据库连接，然后在右侧输入区域填入查询语句，点击<code>Read Fields</code>按钮。若无特殊情况，到此即可，也可以根据实际情况编辑字段列表。</p>
+</li>
+<li><p><code>Fields</code>添加字段</p>
+</li>
+<li><p><code>Detail</code>区域插入字段</p>
+</li>
+<li><p>编码导出（在线预览PDF模式）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">String path = <span class="string">&quot;C:\\Users\\Administrator\\JaspersoftWorkspace\\MyReports\\userData.jrxml&quot;</span>;</span><br><span class="line"><span class="comment">//1.编译</span></span><br><span class="line">JasperReport jasperReport = JasperCompileManager.compileReport(path);</span><br><span class="line"><span class="comment">//2.构建Print对象，用于让模块结合数据</span></span><br><span class="line"><span class="comment">//第三个参数：如果是JDBC数据源，应该设置Connection对象</span></span><br><span class="line">Connection connection = dataSource.getConnection();</span><br><span class="line">JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, <span class="keyword">new</span> HashMap&lt;&gt;(), connection);</span><br><span class="line"><span class="comment">//3.PDF输出流</span></span><br><span class="line">response.setContentType(<span class="string">&quot;application/pdf&quot;</span>);</span><br><span class="line">response.setHeader(<span class="string">&quot;Content-Disposition&quot;</span>, <span class="string">&quot;inline;&quot;</span>);</span><br><span class="line"><span class="keyword">final</span> OutputStream outputStream = response.getOutputStream();</span><br><span class="line">JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);</span><br><span class="line"><span class="comment">//关闭连接和输出流</span></span><br><span class="line">connection.close();</span><br><span class="line">outputStream.close();</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="JasperReport制作表格"><a href="#JasperReport制作表格" class="headerlink" title="JasperReport制作表格"></a>JasperReport制作表格</h3><p>之前两节所涉及的集合数据均为普通的<code>Text Field</code>元素组成，表格制作方式与上面所述完全不同。</p>
+<ul>
+<li><p>结合数据源制作表格（数据源使用上文设置好的连接<code>DemoData</code>）</p>
+<ol>
+<li><p><code>Outline</code>面板右键选择<code>Dataset And Query ...</code>或者<code>Properties</code>面板点击<code>Edit query, filter and sort options</code>，在弹出框的右边编辑区域填入SQL查询语句，<code>Read Fidlds</code>获取字段（可省略）。</p>
+</li>
+<li><p>拖入<code>Table</code>组件，弹出框选择<code>Create a Table using a new dataset</code>新建<code>dataset</code>，名称自定义，选择<code>Create new dataset from a connection or Data Source</code>继续，<code>Data Adapter</code>选择<code>DemoData</code>，编辑区填入SQL查询语句，选择字段（必要），<code>Group By</code>（可选）。后续设置按需求，直至结束。</p>
+</li>
+<li><p>Java编码只需传入数据库<code>connection</code>即可。</p>
+<p><code>JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap&lt;&gt;(), connection);</code></p>
+</li>
+</ol>
+</li>
+<li><p>基于JavaBean集合数据制作表格（较为繁琐）</p>
+<ol>
+<li><p>新建<code>dataset</code>，<code>Data Source</code>选择<code>One Empty Record - Empty rows</code>后结束。</p>
+</li>
+<li><p><code>dataset</code>中的<code>Fields</code>按需建立与<code>JavaBean</code>对象同名的属性名称。</p>
+</li>
+<li><p><code>Outline</code>面板模板文件中的<code>Fields</code>中建立名为<code>dataList</code>的字段（该名称后续需要用到），<code>Class</code>填入<code>net.sf.jasperreports.engine.data.JRBeanCollectionDataSource</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">&quot;users&quot;</span> <span class="attr">class</span>=<span class="string">&quot;net.sf.jasperreports.engine.data.JRBeanCollectionDataSource&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>拖入<code>Table</code>组件，在弹出框选择<code>Create a Table using an existing dataset</code>并选择刚刚建立的<code>dataset</code>名称，<code>Connection</code>选择<code>Use a JRDatasource expression</code>后在编辑区填入<code>$F&#123;dataList&#125;</code>（上一步建立的字段名，后续仍会用到），后续操作与结合数据源制作方式类似。</p>
+</li>
+<li><p>Java编码</p>
+<ol>
+<li><p>新建类<code>TableDataSource</code>，其中<code>JRBeanCollectionDataSource</code>类型的属性名称与之前必须一致<code>dataList</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TableDataSource</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> JRBeanCollectionDataSource dataList;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> JRBeanCollectionDataSource <span class="title">getDataList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> dataList;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> TableDataSource <span class="title">setDataList</span><span class="params">(JRBeanCollectionDataSource dataList)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.dataList = dataList;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//其它属性值以及get()、set()、、、</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>封装数据，此时分三步封装</p>
+<ul>
+<li><p>封装底层结果集</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List&lt;User&gt; users = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">10</span>; i++) &#123;</span><br><span class="line">    users.add(<span class="keyword">new</span> User().setName(<span class="string">&quot;Name-&quot;</span> + i).setAge(<span class="number">10</span> + i).setSex(i));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">TableDataSource tableDataSource = <span class="keyword">new</span> TableDataSource();</span><br><span class="line">tableDataSource.setDataList(<span class="keyword">new</span> JRBeanCollectionDataSource(users));</span><br></pre></td></tr></table></figure></li>
+<li><p>封装用于后续操作的<code>Collection</code>对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;TableDataSource&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">list.add(tableDataSource);</span><br></pre></td></tr></table></figure></li>
+<li><p>封装模板数据源</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JRBeanCollectionDataSource dataSource = <span class="keyword">new</span> JRBeanCollectionDataSource(list);</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>结合模板导出</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">String jrxml = <span class="string">&quot;C:\\Users\\Administrator\\JaspersoftWorkspace\\MyReports\\&quot;</span> + sourceName + <span class="string">&quot;.jrxml&quot;</span>;</span><br><span class="line"><span class="comment">//编译</span></span><br><span class="line">JasperReport jasperReport = JasperCompileManager.compileReport(jrxml);</span><br><span class="line"><span class="comment">//填充</span></span><br><span class="line">JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, <span class="keyword">new</span> HashMap(), dataSource);</span><br><span class="line"><span class="comment">//导出PDF文件</span></span><br><span class="line">JasperExportManager.exportReportToPdfFile(jasperPrint, <span class="string">&quot;D:/test/report/&quot;</span> + jasperReport.getName() + <span class="string">&quot;.pdf&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="JasperReport其它配置"><a href="#JasperReport其它配置" class="headerlink" title="JasperReport其它配置"></a>JasperReport其它配置</h3><ul>
+<li><p>本文所涉及到的配置未提及IReport时，均为JasperStudio的配置。</p>
+</li>
+<li><p>内容溢出时自动换行（前提是文本区域高度足够），勾选<code>Properties -&gt; Appearance -&gt; Detail Overflows</code></p>
+<p><code>.jrxml</code>中配置如下<code>isPrintWhenDetailOverflows=&quot;true&quot;</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">staticText</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">reportElement</span> <span class="attr">x</span>=<span class="string">&quot;307&quot;</span> <span class="attr">y</span>=<span class="string">&quot;51&quot;</span> <span class="attr">width</span>=<span class="string">&quot;100&quot;</span> <span class="attr">height</span>=<span class="string">&quot;30&quot;</span> <span class="attr">isPrintWhenDetailOverflows</span>=<span class="string">&quot;true&quot;</span> <span class="attr">uuid</span>=<span class="string">&quot;f299c63b-b25d-44c4-8a23-210eed43f6d2&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">textElement</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">font</span> <span class="attr">pdfFontName</span>=<span class="string">&quot;STSong-Light&quot;</span> <span class="attr">pdfEncoding</span>=<span class="string">&quot;UniGB-UCS2-H&quot;</span> <span class="attr">isPdfEmbedded</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">textElement</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">text</span>&gt;</span>&lt;![CDATA[Static Text]]&gt;<span class="tag">&lt;/<span class="name">text</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">staticText</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h3><p>自定义字体解决方案出自：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/andy-alone/p/8202783.html"> 博客园 Andy_alone </a></p>
+<p>表格制作出自：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43563538/article/details/100095261"> CSDN ゛Smlie。</a></p>
+<p>其它资料部分出自：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/unrecognized/p/11585228.html"> 博客园 该昵称无法识别 </a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+	  
+	  	
+		<div class="post-end">
+		  
+			<div>
+    
+	<div class="end-flag">
+
+		<span class="line"></span>
+
+		<span class="text">&ensp;本文到此结束&ensp;<i class="fa fa-heart"></i>&ensp;感谢您的阅读&ensp;</span>
+
+		<span class="line"></span>
+
+    </div>
+<!--
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------&ensp;本文到此结束&ensp;<i class="fa fa-heart"></i>&ensp;感谢您的阅读&ensp;------------</div>		
+-->
+    
+</div>
+		  
+		</div>
+          <div class="post-tags">
+              <a href="/tags/develop/" rel="tag"><i class="fa fa-tags"></i> develop</a>
+              <a href="/tags/java/" rel="tag"><i class="fa fa-tags"></i> java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/12/30/Started/" rel="prev" title="Started">
+      <i class="fa fa-chevron-left"></i> Started
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/05/Http_Cross/" rel="next" title="Http Cross">
+      Http Cross <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+
+	  	<div class="post-spread"></div>
+
+	<link rel="stylesheet" href="/css/share.min.css" >
+	<script src="/js/jquery-1.10.2.min.js"></script>
+	<script src="/js/jquery.share.js"></script>
+	<script src="/js/jquery.qrcode.min.js"></script>
+
+	<script>
+	var statement = "本文取自网络"
+	+( $('#quote').data('modify') ? "（已作部分改动及格式整理），":"，")
+	+( $('#quote').data('source') ? "原文来自<a id='source_href' href='javascript:getSource()'>这里</a>，":"")
+	+"如有侵权请联系<a href='../../../../about/index'>我</a>改正。";
+	$('#quote').html(statement);
+	function getSource(){
+		window.open($('#quote').data('source'))
+	}
+	</script>
+	
+	<script>
+	var $config = {
+	  sites : ['weibo','qq', 'wechat','qzone','douban', 'facebook', 'twitter'],
+	  disabled: [ 'linkedin', 'diandian'],
+	  wechatQrcodeTitle: "微信扫一扫",
+	  wechatQrcodeHelper: '<p>微信扫一扫，右上角分享</p>',
+	  source: 'Marvin'
+	};
+
+
+	$('.post-spread').share($config);
+
+	function pjaxshare() {
+	  $('.post-spread').share($config);
+	}
+	</script>	
+	  
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+	  
+	  <!--网易云音乐播放器-->
+	  <iframe
+	  frameborder="no" border="0" marginwidth="0" marginheight="0" 
+	  width=300 height=450 
+	  src="//music.163.com/outchain/player?type=0&id=5442729063&auto=0&height=430">
+	  </iframe>
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E7%94%9F%E6%80%81"><span class="nav-number">1.</span> <span class="nav-text">JasperReport生态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">JasperReport基本使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E5%AF%BC%E5%87%BA%E4%B8%AD%E6%96%87"><span class="nav-number">3.</span> <span class="nav-text">JasperReport导出中文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E4%BD%93"><span class="nav-number">4.</span> <span class="nav-text">JasperReport自定义字体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E5%8F%98%E9%87%8F"><span class="nav-number">5.</span> <span class="nav-text">JasperReport变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E5%9B%BE%E5%83%8F"><span class="nav-number">6.</span> <span class="nav-text">JasperReport图像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E6%9D%A1%E7%A0%81"><span class="nav-number">7.</span> <span class="nav-text">JasperReport条码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E5%AF%BC%E5%87%BAJavaBean%E5%88%97%E8%A1%A8"><span class="nav-number">8.</span> <span class="nav-text">JasperReport导出JavaBean列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E7%BB%93%E5%90%88%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE"><span class="nav-number">9.</span> <span class="nav-text">JasperReport结合数据库连接导出数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E5%88%B6%E4%BD%9C%E8%A1%A8%E6%A0%BC"><span class="nav-number">10.</span> <span class="nav-text">JasperReport制作表格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JasperReport%E5%85%B6%E5%AE%83%E9%85%8D%E7%BD%AE"><span class="nav-number">11.</span> <span class="nav-text">JasperReport其它配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%B4%E8%B0%A2"><span class="nav-number">12.</span> <span class="nav-text">致谢</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Marvin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Marvin</p>
+  <div class="site-description" itemprop="description">博闻天地</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/liu-tm" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;liu-tm" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:liumin@liu-tm.cn" title="E-Mail → mailto:liumin@liu-tm.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=352626862&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;352626862&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fa fa-user fa-fw"></i>QQ</a>
+      </span>
+  </div>
+
+
+
+      </div>
+	  
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  <span>Copyright </span>
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2024</span>
+  
+  <!--
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  -->
+  
+  <span>Author by </span>
+  
+  <span class="author" itemprop="copyrightHolder">Marvin</span>
+</div>
+<div>
+	<!--
+    <span class="post-meta-divider">|</span>
+	-->
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">NaNm</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">NaN:aN</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3GDAqGOhX31UHhUeEgKgOPrs-gzGzoHsz',
+      appKey     : 'c0Q8up8LMo25TzptQjdEJoEW',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.liu-tm.cn","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="连接：adb shell 多个终端选择：adb -s xiaomi shell:-s命令表示选择设备,这里是选择xiaomi设备进shell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android ADB">
+<meta property="og:url" content="https://blog.liu-tm.cn/2020/12/12/Android_ADB/index.html">
+<meta property="og:site_name" content="Marvin&#39;s Blog">
+<meta property="og:description" content="连接：adb shell 多个终端选择：adb -s xiaomi shell:-s命令表示选择设备,这里是选择xiaomi设备进shell">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-12T07:59:03.000Z">
+<meta property="article:modified_time" content="2024-06-05T07:00:22.139Z">
+<meta property="article:author" content="Marvin">
+<meta property="article:tag" content="android">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://blog.liu-tm.cn/2020/12/12/Android_ADB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Android ADB | Marvin's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body  oncontextmenu=self.event.returnValue=false onselectstart="return false"
+ itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Marvin's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hi, My friend. Welcome to my space</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.liu-tm.cn/2020/12/12/Android_ADB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Marvin">
+      <meta itemprop="description" content="博闻天地">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Marvin's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Android ADB
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-12-12 15:59:03" itemprop="dateCreated datePublished" datetime="2020-12-12T15:59:03+08:00">2020-12-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-06-05 15:00:22" itemprop="dateModified" datetime="2024-06-05T15:00:22+08:00">2024-06-05</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/12/12/Android_ADB/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/12/12/Android_ADB/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span></span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>NaN:aN</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><i id="quote" data-modify="true"></i></p>
+<p>连接：<code>adb shell</code></p>
+<p>多个终端选择：<code>adb -s xiaomi shell:-s命令表示选择设备,这里是选择xiaomi设备进shell</code></p>
+<p>与终端成功建立连接后</p>
+<p>获取系统应用：<code>pm list packages -s &gt; list.txt</code></p>
+<p>禁用：<code>pm disable-user com.huawei.search</code></p>
+<p>删除：<code>pm uninstall -k --user 0 com.huawei.search</code>，**-k** 表示保存数据，如不需要，可去掉 -k。</p>
+<p><strong>系统自带软件说明</strong>：</p>
+<p><code>com.android.email</code>电子邮箱。我常用的就是qq邮箱，留它无用，我卸载了。<br><code>com.huawei.bone</code>华为穿戴。没什么华为穿戴，我卸载了。<br><code>com.huawei.himovie</code>华为视频。我常用的是MX player pro（版本1.9.0）播放器，强大得蔑视一切视频播放器，但是不要升级到最新，要不然一暂停就会弹出广告，看着烦。在线视频我用的爱奇艺视频破解版、腾讯视频WeTv无广告版，清爽得多。<br><code>com.huawei.KoBackup</code>备份。我还是保留了，虽然恢复时出现过无法恢复的情况（负责任的说，该软件不完善的地方，备份时老版本可以设置6位数密码或跳过不用设置密码，但如今必须用新版本恢复，原来未设置密码或设置的6位数密码的备份材料都无法恢复了），所以三管齐下，同时在云空间、电脑手机助手进行了备份，吃一堑长一智吧。<br><code>com.example.android.notepad</code>备忘录。我不用它，我喜欢用《随手写》，特别是其中的“涂鸦”功能。<br><code>com.android.browser</code>华为浏览器。很多人在吐槽不好用，反正我不用，我用360浏览器，电脑版我用习惯了。<br><code>com.vmall.client</code>华为商城。看你要不要在上面买东西了，我在上面买过两台荣誉9X，毕竟官方商城放心些。不用可以卸载，反正想用还可以安上。<br><code>com.android.printspooler</code>打印处理服务。你用手机直接联网打印吗，不用啊，不用你留它干嘛。<br><code>com.huawei.livewallpaper.artflower</code>繁花，自动壁纸。看你的运气了，可能卸载不了。<br><code>com.huawei.android.airsharing</code>多屏互动。原来还备了一根绿联的线，结果连电视、连电脑，没有一次成功过。<br><code>com.huawei.fans</code>花粉俱乐部。我现在兴趣很大，与花粉交流，帮花粉解决问题，发的帖子上好几万的浏览量，可以满足一下自己的虚荣心啊。<br><code>com.huawei.livewallpaper.naturalgarden</code>花园，壁纸。看你的运气了，可能卸载不了。<br><code>com.huawei.appmarket</code>华为应用市场。我几乎不用，我用豌豆荚，可以方便下载各种老版本软件。<br><code>com.huawei.gamebox</code>华为游戏中心。我不玩游戏。<br><code>com.huawei.hwireader</code>华为阅读。资源少了点，还是看纸质书有感觉。<br><code>com.huawei.vrinstaller</code>华为VR安装向导。我没有VR设备。<br><code>com.huawei.vrservice</code>华为VR服务。我没有VR设备。<br><code>com.android.dreams.basic</code>华为互动屏保。耗电，新鲜劲过了就没啥意思了。<br><code>com.huawei.vdrive</code>华为驾驶模式。看个人的需求了。<br><code>com.huawei.hifolder</code>华为精品推荐。我喜欢啥我自己清楚。<br><code>com.huawei.fastapp</code>华为快应用中心。“快应用”是啥？这都不知道啊。嘻嘻，我也是上网查的，所谓“快应用”就是免安装，类似微信的小程序。没这使用习惯，据说还弹广告。<br><code>com.android.bips</code>默认打印服务。你用手机打印吗？<br><code>com.huawei.hwvplayer.youku</code>视频-优酷版。我用破解版爱奇艺，用优酷我也找个免广告破解了的，8.1的操作系统就是好，不会像9.0以上版本用个软件还那么多限制，我的手机难道不能做主吗。<br><code>com.huawei.android.tips</code>玩机技巧。刚买手机时还可以参考一下，你都是老司机了还用得到吗。<br><code>com.huawei.hidisk</code>文件管理。我用“ES文件浏览器”，功能强大，特别是习惯电脑的，用它好得很。但是不要升级到最新版，新版本启动慢还有广告，我的是3.2.5.5版本，安装好后把弹出的升级框取消掉，然后在软件中找到“设置——更新设置——自动检测”后面的√去掉即可。<br><code>com.huawei.desktop.explorer</code>文件管理。如上，我用的是功能强大而小巧的“ES文件浏览器”。<br><code>com.android.mediacenter</code>音乐。我常用的是破解版的酷狗音乐，就是图它启动快操作简单，还备用了破解版的qq音乐、酷我音乐、懒人听说等。<br><code>com.huawei.gameassistant</code>游戏助手。我不玩游戏。<br><code>com.huawei.livewallpaper.flowersbloom</code>绽放-壁纸。看你的运气能否卸载了。<br><code>com.huawei.smarthome</code>智能家居。我只是用几个手机而已。<br><code>com.huawei.android.remotecontroller</code>智能遥控。试了没意思，有现成的遥控为什么不用。<br><code>com.android.htmlviewerHTML</code>查看器。查看网页源码的程序，其实这些用浏览器自带的就可以完成，意义不大，我默认用360浏览器，还被硬塞进了腾讯浏览器。<br><code>com.baidu.input_huawei</code>华为输入法。我反正不用，我用的是讯飞输入法。<br><code>com.huawei.livewallpaper.mountaincloud</code> 层峦。这是动态壁纸，省电的话你用着这个吗？<br><code>com.android.emergency</code> 个人紧急信息。遇到紧急事件，查看你的个人紧急信息。这玩意反正我用不着，我停用了。<br><code>com.android.keyguard</code> 杂志锁屏 。这东西看个人吧我不喜欢经常变换壁纸，要省电的话停用了就好。<br><code>com.huawei.videoeditor</code> 视频编辑。 编辑你拍好的视频。电脑的性能还不如手机吗？我没卸载停用了。<br><code>com.huawei.skytone</code> 天际通。你要是不知道天际通是做什么的你就停用。出国漫游费用高，不如直接换成当地卡上网。<br><code>com.huawei.android.hwouc</code> 系统更新。你想更新系统吗？你想天天接受华为的天天骚扰吗？如果想你就留着。我直接卸载了，当然哪天想升级了，还可以用手机助手或卡刷升级。我连电脑手机助手，显示可以由8.1.0.351升级到9.0.0.181，想用哪个版本，就可以一级级升级停在哪个版本。<br><code>com.huawei.parentcontrol</code> 学生模式。供家长设置手机各应用的可使用时间段功能。<br><code>com.huawei.android.FloatTasks</code> 悬浮导航。我一般用按键的，悬浮用不惯。<br><code>com.huawei.android.UEInfoCheck</code> 用户体验计划监控。停用<br><code>com.huawei.intelligent</code> 情景智能。 这是就是负一页的那个。我用不着，直接停用。<br><code>com.huawei.android.karaoke</code> 卡拉OK。在手机上唱卡拉OK是何等的窝槽。反正我没用过。<br><code>com.huawei.cryptosms.service</code> 信息加密。有啥用？你是特工人员？不是？那就赶紧停用。<br><code>com.android.exchange Exchange</code>服务。此apk是邮件exchange协议的控制部分。要是系统自带的电子邮件应用你删除了，那这个也停用。电子邮件可以用三方代替。<br><code>com.huawei.yellowpage</code> 黄页。联系人中的黄页功能。这个删除了黄页功能还是有的，我删除了。<br><code>com.huawei.rcsserviceapplication</code> 智能推荐系统。用于华为智能助手服务推荐，<a target="_blank" rel="noopener" href="http://club.huawei.com/forum.php?gid=2867">EMUI</a> 亮点特性推荐以及智能通知管理。我删除了用不到。<br><code>com.huawei.wallet</code> 钱包。 我不用华为支付，我停用了。<br><code>com.huawei.android.hwpay</code> 华为支付。我不用，我停用了。<br><code>com.huawei.phoneservice</code> 会员服务。系统更新停用了。留着这个干什么？<br><code>com.android.stk</code> 顾名思义就是可以看你的sim卡上有啥玩意的。这玩意屁用无。停用！<br><code>com.huawei.hiview com.huawei.hiviewtunnel</code> 这俩玩意是<a target="_blank" rel="noopener" href="https://club.huawei.com/forum.php?gid=2867">EMUI</a>日志上传功能，费电费流量。不是网上其他人所说的什么海信电视什么的，华为和海信难道有py？？<br><code>com.iflytek.speechsuite</code> 讯飞的语音输入。你要是用语音助手的话你就不要删了，不用的话你就停用。<br><code>com.huawei.vassistant</code> 语音输入都删除了，这个还留着干什么？还等着你好小E来给我精简一下手机？</p>
+<p><code>com.huawei.bd</code> 用户体验计划。说白了就是<a target="_blank" rel="noopener" href="https://club.huawei.com/forum-gid-36.html">华为手机</a>窃取你干啥了的应用，直接停用。省电！<br><code>com.huawei.regservice</code> 运营商通过该应用获取您设备的相关信息。 想让运营商获取？不想的话那就停！<br><code>com.huawei.android.AutoRegSms</code> 电信短信自注册应用，开机通过后台短信方式自动上报手机的部分信息。 真的想让手机上报？不想的话那你就停。<br><code>com.huawei.android.chr</code> 通信协议可维可测apk，用于检测异常，收集异常关键信息等。 我的手机信息我让你给我收集？垃圾……停用！<br><code>com.huawei.indexsearch</code> <code>com.huawei.indexsearch.observer</code> 这两个玩意是为本地文件建立索引，用于本地搜索使用。手机搜索你的信息，然后……我停用了。<br><code>com.huawei.android.findmyphone</code> 手机掉了之后能找回？我不信，我停用了你们看着办。<br><code>com.android.bluetoothmidiservice</code> 蓝牙音乐服务。用蓝牙听歌的不要删除。我不用，我停用了。<br><code>com.android.cts.ctsshim</code>  <code>com.android.cts.priv.ctsshim</code> 这俩货是CTS环境运行辅助。要是你不知道cts是干什么的赶紧停用！<br><code>com.huawei.android.dsdscardmanager</code> 双卡管理。用双卡的别删，不用双卡的管理毛线的双卡，停用！<br><code>org.simalliance.openmobileapi.service</code> 支持钱包应用智能卡相关功能 前面你都删除华为支付了，还留着它过年吗？停用！<br><code>com.svox.pico</code> TTS文字转语音引擎 。前面你都删除语音输入了，还留着它干吗？停用！<br><code>com.huawei.android.pushagent</code> 推送服务。说白了就是推送广告的，停停停！<br><code>com.huawei.android.hsf</code> 华为框架。这货说白了就是支持他自家的系列软件的，就算删除了还是照样可以正常使用。停用。</p>
+<p><code>com.android.dreams.phototable</code> 动态屏保 这玩意除了耗电一无是处。删<br><code>com.huawei.wifiprobqeservice</code> 评估 WiFi 质量以及 Portal 检测的容错。我的wifi用着你来评估？？删！！<br><code>com.huawei.android.instantonline</code> 华为一键热点应用通过打开蓝牙和登录相同华为账户，实现无需输入密码即可共享热点的功能。 我删了，用不到。<br><code>com.huawei.hwstartupguide</code> 首次开机时、引导用户设置系列信息。你不是第一次开机了吧？删！<br><code>com.huawei.mmitest</code> 测试功能，保证发货手机基本器件功能正常。你手里面的手机就是正常的，因为已经卖出来了。删！<br><code>com.android.phone.recorder</code> 通话录音。用不着删了，用的话你保留。<br><code>com.huawei.watch.sync</code> 手表同步。没有<a target="_blank" rel="noopener" href="https://club.huawei.com/forum-4301-1.html">华为手表</a>的删了吧。我删了。<br><code>com.huawei.iconnect</code> 扫描发现穿戴设备后进行连接提醒。用不着的话删<br><code>com.huawei.synergy</code> 可以帮您将手机端的消息同步到您的穿戴设备上。同上。<br><code>com.android.wallpaper.livepicker</code> 桌面动态壁纸。费电，删。<br><code>com.huawei.android.wfdft</code> WLAN 直连可支持华为设备之间数据传输。没用过，删了。</p>
+<p><strong>下面开始精简谷歌的系列服务</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">com.google.android.marvin.talkback </span><br><span class="line">com.google.android.syncadapters.calendar</span><br><span class="line">com.google.android.syncadapters.contacts</span><br><span class="line">com.android.vending</span><br><span class="line">com.google.android.gsf</span><br><span class="line">com.google.android.gms</span><br><span class="line">com.google.android.feedback</span><br><span class="line">com.google.android.backuptransport</span><br><span class="line">com.google.android.configupdater</span><br><span class="line">com.google.android.partnersetup</span><br><span class="line">com.google.android.onetimeinitializer</span><br><span class="line">com.android.sharedstoragebackup</span><br><span class="line">com.google.ar.core</span><br><span class="line">com.google.android.ext.services</span><br><span class="line">com.google.android.ext.shared</span><br></pre></td></tr></table></figure>
+<p><strong>下面开始停用华为所谓“智能AI”系列服务</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">com.huawei.decision</span><br><span class="line">com.huawei.contentsensor</span><br><span class="line">com.huawei.hwdetectrepair</span><br><span class="line">com.huawei.lbs</span><br><span class="line">com.huawei.pengine</span><br><span class="line">com.huawei.hitouch</span><br><span class="line">com.huawei.hiaction</span><br><span class="line">com.huawei.hiai</span><br><span class="line">com.huawei.recsys</span><br><span class="line">com.huawei.appmarket</span><br><span class="line">com.huawei.nlp</span><br><span class="line">com.huawei.hilink.framework</span><br></pre></td></tr></table></figure>
+<p>所有的程序，按照你个人的使用习惯来停用或卸载。<strong>重点提醒：**</strong>如果以上列举的应用你正用着，那就在名单里面把这一行英文删除即可。<strong>如果担心精简出错，且临时用不到，那就执行停用命令；如果你是个强迫症且不想在系统里面再看到它了，那就执行卸载命令。程序停用后，如果想恢复直接用启用程序命令即可。卸载了最干净，但卸载后是无法通过“启用命令”来重新启用的（特别提醒，特别提醒，特别提醒，一定要慎重）。一旦执行了卸载命令，但是确实后悔了，可以尝试用电子市场下载软件的形式重新安装试试，不行的话就用电脑手机助手或卡刷新系统来恢复（我卸载了手机更新程序，连手机助手“系统更新”同样可以找到升级的版本）；另外可通过恢复出厂设置来恢复程序（我折腾了好几次，确实有效），恢复出厂前一定要备份重要资料啊。<br>要修改命令，可以用鼠标右键单击选择“编辑”或“打开方式”选择“记事本”打开即可。</strong></p>
+<p>停用程序为<code>adb shell pm disable-user+空格+程序名</code>；</p>
+<p>启用程序为<code>db shell pm enable+空格+程序名</code>；</p>
+<p>删除程序为<code>db shell pm uninstall --user 0+空格+程序名</code>。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+	  
+	  	
+		<div class="post-end">
+		  
+			<div>
+    
+	<div class="end-flag">
+
+		<span class="line"></span>
+
+		<span class="text">&ensp;本文到此结束&ensp;<i class="fa fa-heart"></i>&ensp;感谢您的阅读&ensp;</span>
+
+		<span class="line"></span>
+
+    </div>
+<!--
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------&ensp;本文到此结束&ensp;<i class="fa fa-heart"></i>&ensp;感谢您的阅读&ensp;------------</div>		
+-->
+    
+</div>
+		  
+		</div>
+          <div class="post-tags">
+              <a href="/tags/android/" rel="tag"><i class="fa fa-tags"></i> android</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/12/12/Java_Compound/" rel="prev" title="Java Compound">
+      <i class="fa fa-chevron-left"></i> Java Compound
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/12/12/Android_Theme/" rel="next" title="Android Theme 相关">
+      Android Theme 相关 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+
+	  	<div class="post-spread"></div>
+
+	<link rel="stylesheet" href="/css/share.min.css" >
+	<script src="/js/jquery-1.10.2.min.js"></script>
+	<script src="/js/jquery.share.js"></script>
+	<script src="/js/jquery.qrcode.min.js"></script>
+
+	<script>
+	var statement = "本文取自网络"
+	+( $('#quote').data('modify') ? "（已作部分改动及格式整理），":"，")
+	+( $('#quote').data('source') ? "原文来自<a id='source_href' href='javascript:getSource()'>这里</a>，":"")
+	+"如有侵权请联系<a href='../../../../about/index'>我</a>改正。";
+	$('#quote').html(statement);
+	function getSource(){
+		window.open($('#quote').data('source'))
+	}
+	</script>
+	
+	<script>
+	var $config = {
+	  sites : ['weibo','qq', 'wechat','qzone','douban', 'facebook', 'twitter'],
+	  disabled: [ 'linkedin', 'diandian'],
+	  wechatQrcodeTitle: "微信扫一扫",
+	  wechatQrcodeHelper: '<p>微信扫一扫，右上角分享</p>',
+	  source: 'Marvin'
+	};
+
+
+	$('.post-spread').share($config);
+
+	function pjaxshare() {
+	  $('.post-spread').share($config);
+	}
+	</script>	
+	  
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+	  
+	  <!--网易云音乐播放器-->
+	  <iframe
+	  frameborder="no" border="0" marginwidth="0" marginheight="0" 
+	  width=300 height=450 
+	  src="//music.163.com/outchain/player?type=0&id=5442729063&auto=0&height=430">
+	  </iframe>
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Marvin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Marvin</p>
+  <div class="site-description" itemprop="description">博闻天地</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/liu-tm" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;liu-tm" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:liumin@liu-tm.cn" title="E-Mail → mailto:liumin@liu-tm.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=352626862&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;352626862&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fa fa-user fa-fw"></i>QQ</a>
+      </span>
+  </div>
+
+
+
+      </div>
+	  
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  <span>Copyright </span>
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2024</span>
+  
+  <!--
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  -->
+  
+  <span>Author by </span>
+  
+  <span class="author" itemprop="copyrightHolder">Marvin</span>
+</div>
+<div>
+	<!--
+    <span class="post-meta-divider">|</span>
+	-->
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">NaNm</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">NaN:aN</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3GDAqGOhX31UHhUeEgKgOPrs-gzGzoHsz',
+      appKey     : 'c0Q8up8LMo25TzptQjdEJoEW',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

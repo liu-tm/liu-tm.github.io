@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.liu-tm.cn","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="WebSocket 是 HTML5 开始提供的一种在单个 TCP 连接上进行全双工通讯的协议。 WebSocket 使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据。在 WebSocket API 中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。 在 WebSocket API 中，浏览器和服务器只需要做一个握手的动作，然后">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebSocket">
+<meta property="og:url" content="https://blog.liu-tm.cn/2021/03/05/WebSocket/index.html">
+<meta property="og:site_name" content="Marvin&#39;s Blog">
+<meta property="og:description" content="WebSocket 是 HTML5 开始提供的一种在单个 TCP 连接上进行全双工通讯的协议。 WebSocket 使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据。在 WebSocket API 中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。 在 WebSocket API 中，浏览器和服务器只需要做一个握手的动作，然后">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-05T03:30:00.000Z">
+<meta property="article:modified_time" content="2024-06-05T07:00:22.144Z">
+<meta property="article:author" content="Marvin">
+<meta property="article:tag" content="develop">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://blog.liu-tm.cn/2021/03/05/WebSocket/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>WebSocket | Marvin's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body  oncontextmenu=self.event.returnValue=false onselectstart="return false"
+ itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Marvin's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Hi, My friend. Welcome to my space</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.liu-tm.cn/2021/03/05/WebSocket/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Marvin">
+      <meta itemprop="description" content="博闻天地">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Marvin's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          WebSocket
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-05 11:30:00" itemprop="dateCreated datePublished" datetime="2021-03-05T11:30:00+08:00">2021-03-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-06-05 15:00:22" itemprop="dateModified" datetime="2024-06-05T15:00:22+08:00">2024-06-05</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/05/WebSocket/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/05/WebSocket/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span></span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>NaN:aN</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>WebSocket 是 HTML5 开始提供的一种在单个 TCP 连接上进行全双工通讯的协议。</p>
+<p>WebSocket 使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据。在 WebSocket API 中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。</p>
+<p>在 WebSocket API 中，浏览器和服务器只需要做一个握手的动作，然后，浏览器和服务器之间就形成了一条快速通道。两者之间就直接可以数据互相传送。</p>
+<p>现在，很多网站为了实现推送技术，所用的技术都是 Ajax 轮询。轮询是在特定的的时间间隔（如每1秒），由浏览器对服务器发出HTTP请求，然后由服务器返回最新的数据给客户端的浏览器。这种传统的模式带来很明显的缺点，即浏览器需要不断的向服务器发出请求，然而HTTP请求可能包含较长的头部，其中真正有效的数据可能只是很小的一部分，显然这样会浪费很多的带宽等资源。</p>
+<h3 id="POM"><a href="#POM" class="headerlink" title="POM"></a>POM</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;springboot.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- websocket --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-websocket<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;springboot.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="YML"><a href="#YML" class="headerlink" title="YML"></a>YML</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">9119</span></span><br></pre></td></tr></table></figure>
+<h3 id="Configuration"><a href="#Configuration" class="headerlink" title="@Configuration"></a>@Configuration</h3><p>重写<code>modifyHandshake</code>修改握手规则，用以向<code>HttpSession</code>存储<code>WebSocket</code>的<code>Session</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebConfig</span> <span class="keyword">extends</span> <span class="title">ServerEndpointConfig</span>.<span class="title">Configurator</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *	ServerEndpoint容器</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ServerEndpointExporter <span class="title">serverEndpointExporter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ServerEndpointExporter();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 重写修改WebSocket握手规则，在WebSocket配置中写入HttpSession</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">modifyHandshake</span><span class="params">(ServerEndpointConfig config, HandshakeRequest request, HandshakeResponse response)</span> </span>&#123;</span><br><span class="line">        Map&lt;String, Object&gt; userProperties = config.getUserProperties();</span><br><span class="line">        log.info(<span class="string">&quot;UserProperties is Null ? &#123;&#125;&quot;</span>, (<span class="keyword">null</span> == userProperties));</span><br><span class="line">        HttpSession httpSession = (HttpSession) request.getHttpSession();</span><br><span class="line">        log.info(<span class="string">&quot;Request [&#123;&#125;] HttpSession is Null ? &#123;&#125;&quot;</span>, request.getRequestURI().getPath(), (<span class="keyword">null</span> == httpSession));</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != userProperties &amp;&amp; <span class="keyword">null</span> != httpSession)</span><br><span class="line">            userProperties.put(HttpSession.class.getName(), httpSession);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="ServerEndpoint"><a href="#ServerEndpoint" class="headerlink" title="@ServerEndpoint"></a>@ServerEndpoint</h3><p>服务端代码如下</p>
+<p><code>configurator = WebConfig.class</code>用以指定<code>WebSocket</code>配置类，该类需要继承<code>javax.websocket.server.ServerEndpointConfig.Configurator</code>。</p>
+<p><code>value = &quot;/test/oneToOne&quot;</code>用以指定客户端访问路径，该服务端的全路径访问地址格式为<code>ws://</code>+<code>服务端IP</code>+<code>服务端口(server.port: 9119)</code>+<code>/test/oneToOne</code>。</p>
+<p><code>AtomicInteger onlineCount</code>用以记录在线用户数量，<code>AtomicInteger</code>可保证并发请求时数量准确。</p>
+<p><code>Map&lt;String, Session&gt; clients</code>以<code>Session.getId()</code>为<code>key</code>，存储<code>Session</code>，用以对多个客户端发送消息。</p>
+<p><code>onOpen()</code>客户端连接成功</p>
+<p><code>onClose()</code>客户端关闭连接</p>
+<p><code>onError()</code>客户端连接出错</p>
+<p><code>onMessage()</code>接收到客户端消息，此处为接收<code>String</code>类型消息后，再行转换。下一节将介绍实现对应的接口后，自动转换。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@ServerEndpoint(value = &quot;/test/oneToOne&quot;,configurator = WebConfig.class)</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OneToOneWebSocket</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> AtomicInteger onlineCount = <span class="keyword">new</span> AtomicInteger(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String, Session&gt; clients = <span class="keyword">new</span> ConcurrentHashMap();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnOpen</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onOpen</span><span class="params">(Session session,EndpointConfig config)</span> </span>&#123;</span><br><span class="line">        onlineCount.incrementAndGet(); <span class="comment">// 在线数加1</span></span><br><span class="line">        HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != httpSession)&#123;</span><br><span class="line">            httpSession.setAttribute(<span class="string">&quot;socketSession&quot;</span>,session);</span><br><span class="line">        &#125;</span><br><span class="line">        log.info(<span class="string">&quot;&#123;&#125;&quot;</span>,JSON.toJSONString(httpSession));</span><br><span class="line">        clients.put(session.getId(), session);</span><br><span class="line">        log.info(<span class="string">&quot;有新连接加入：&#123;&#125;，当前在线人数为：&#123;&#125;&quot;</span>, session.getId(), onlineCount.get());</span><br><span class="line">        Set&lt;String&gt; strings = clients.keySet();</span><br><span class="line">        <span class="keyword">this</span>.sendMessage(MessageFormat.format(<span class="string">&quot;欢迎用户：&#123;0&#125; 加入连接，现有用户：&#123;1&#125;&quot;</span>, session.getId() , strings), session);</span><br><span class="line"></span><br><span class="line">        Iterator&lt;String&gt; iterator = strings.iterator();</span><br><span class="line">        String sessionId;</span><br><span class="line">        <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">            sessionId = iterator.next();</span><br><span class="line">            <span class="keyword">if</span> (!sessionId.equals(session.getId()))</span><br><span class="line">                <span class="keyword">this</span>.sendMessage(MessageFormat.format(<span class="string">&quot;用户：&#123;0&#125; 加入连接，现有用户：&#123;1&#125;&quot;</span>, session.getId(), strings), clients.get(sessionId));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnClose</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClose</span><span class="params">(Session session)</span> </span>&#123;</span><br><span class="line">        onlineCount.decrementAndGet(); <span class="comment">// 在线数减1</span></span><br><span class="line">        clients.remove(session.getId());</span><br><span class="line">        log.info(<span class="string">&quot;有一连接关闭：&#123;&#125;，当前在线人数为：&#123;&#125;&quot;</span>, session.getId(), onlineCount.get());</span><br><span class="line">        Set&lt;String&gt; strings = clients.keySet();</span><br><span class="line">        Iterator&lt;String&gt; iterator = strings.iterator();</span><br><span class="line">        String sessionId;</span><br><span class="line">        <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">            sessionId = iterator.next();</span><br><span class="line">            <span class="keyword">this</span>.sendMessage(MessageFormat.format(<span class="string">&quot;用户：&#123;0&#125; 关闭连接，现有用户：&#123;1&#125;&quot;</span>, session.getId(), strings), clients.get(sessionId));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnMessage</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onMessage</span><span class="params">(String message, Session session)</span> </span>&#123;</span><br><span class="line">        log.info(<span class="string">&quot;服务端收到客户端[&#123;&#125;]的消息[&#123;&#125;]&quot;</span>, session.getId(), message);</span><br><span class="line">        WebMessage myMessage = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            myMessage = JSON.parseObject(message, WebMessage.class);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            log.error(<span class="string">&quot;解析失败：&#123;&#125;&quot;</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (myMessage != <span class="keyword">null</span> &amp;&amp; myMessage.getMessage() != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> == myMessage.getUserId()) &#123;</span><br><span class="line">                Set&lt;String&gt; strings = clients.keySet();</span><br><span class="line">                Iterator&lt;String&gt; iterator = strings.iterator();</span><br><span class="line">                String sessionId;</span><br><span class="line">                <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">                    sessionId = iterator.next();</span><br><span class="line">                    <span class="keyword">if</span> (!session.getId().equals(sessionId))</span><br><span class="line">                        <span class="keyword">this</span>.sendMessage(MessageFormat.format(<span class="string">&quot;@所有人：&#123;0&#125;，来自：&#123;1&#125;&quot;</span>, myMessage.getMessage(), session.getId()), clients.get(sessionId));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                Session toSession = clients.get(myMessage.getUserId());</span><br><span class="line">                <span class="comment">// log.debug(toSession.getId());</span></span><br><span class="line">                <span class="keyword">if</span> (toSession != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">this</span>.sendMessage(MessageFormat.format(<span class="string">&quot;&#123;0&#125;，来自：&#123;1&#125;&quot;</span>, myMessage.getMessage(), session.getId()), toSession);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">this</span>.sendMessage(MessageFormat.format(<span class="string">&quot;发送失败！目标用户&#123;0&#125;不存在&quot;</span>, myMessage.getUserId()), session);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnError</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Session session, Throwable error)</span> </span>&#123;</span><br><span class="line">        log.error(<span class="string">&quot;发生错误&quot;</span>);</span><br><span class="line">        error.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">sendMessage</span><span class="params">(String message, Session toSession)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            log.info(<span class="string">&quot;服务端给客户端[&#123;&#125;]发送消息[&#123;&#125;]&quot;</span>, toSession.getId(), message);</span><br><span class="line">            toSession.getBasicRemote().sendText(message);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            log.error(<span class="string">&quot;服务端发送消息给客户端失败：&#123;&#125;&quot;</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="前端代码"><a href="#前端代码" class="headerlink" title="前端代码"></a>前端代码</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="string">&quot;WebSocket&quot;</span> <span class="keyword">in</span> <span class="built_in">window</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;浏览器支持 WebSocket&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> ws = <span class="keyword">new</span> WebSocket(<span class="string">&quot;ws://192.168.1.10:9119/websocket/test&quot;</span>);</span><br><span class="line"><span class="comment">//监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。</span></span><br><span class="line"><span class="built_in">window</span>.onbeforeunload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    ws.close();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//连接成功的回调方法</span></span><br><span class="line">ws.onopen = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;websocket connected ...&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//连接关闭的回调方法</span></span><br><span class="line">ws.onclose = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;websocket close ...&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//接收到消息</span></span><br><span class="line">ws.onmessage = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> msg = <span class="built_in">JSON</span>.parse(e.data)</span><br><span class="line">    <span class="built_in">console</span>.log(msg);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (msg.msg &amp;&amp; msg.msg === <span class="string">&quot;id&quot;</span>) &#123;</span><br><span class="line">        $(<span class="string">&#x27;input[name=&quot;from&quot;]&#x27;</span>).val(msg.to);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (msg.msg &amp;&amp; msg.msg.length &gt; <span class="number">0</span> &amp;&amp; msg.msg !== <span class="string">&quot;id&quot;</span>) &#123;</span><br><span class="line">        $(<span class="string">&#x27;#received&#x27;</span>).text(msg.msg + <span class="string">&#x27; from &#x27;</span> + msg.from);</span><br><span class="line">        $(<span class="string">&#x27;#received_box&#x27;</span>).css(<span class="string">&#x27;display&#x27;</span>, <span class="string">&#x27;block&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (msg.online != <span class="literal">null</span> &amp;&amp; msg.online.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> selects = [];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">in</span> msg.online) &#123;</span><br><span class="line">            selects.push(&#123;<span class="attr">name</span>:msg.online[i],<span class="attr">value</span>:msg.online[i]&#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        xmSelect.render(&#123;</span><br><span class="line">            el: <span class="string">&#x27;#form_select_mulit&#x27;</span>,</span><br><span class="line">            filterable: <span class="literal">true</span>,</span><br><span class="line">            toolbar: &#123; <span class="attr">show</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">            theme: &#123;</span><br><span class="line">                color: <span class="string">&#x27;#1E9FFF&#x27;</span>,</span><br><span class="line">            &#125;,</span><br><span class="line">            data: selects</span><br><span class="line">        &#125;);</span><br><span class="line">        form.render()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="自动转换消息类型"><a href="#自动转换消息类型" class="headerlink" title="自动转换消息类型"></a>自动转换消息类型</h3><ul>
+<li><p>建立常规实体类，实现<code>Serializable</code>接口。</p>
+</li>
+<li><p>建立两个转换类，分别实现<code>javax.websocket.Decoder.Text&lt;Message&gt;</code>和<code>javax.websocket.Encoder.Text&lt;Message&gt;</code>接口并重写方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Encoder</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">encode</span><span class="params">(Message message)</span> <span class="keyword">throws</span> EncodeException </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> JSON.toJSONString(message);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Decoder</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Message <span class="title">decode</span><span class="params">(String message)</span> <span class="keyword">throws</span> DecodeException </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> JSON.parseObject(message, Message.class);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">willDecode</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>服务端指定编码与解码消息对象类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ServerEndpoint(value = &quot;/websocket/test&quot;,configurator = WebConfig.class,decoders = MessageDecoder.class,encoders = MessageEncoder.class)</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>服务端代码 <strong>重点：</strong><code>sendMessage(Message message,Session toSession)</code>方法中的接收参数必须与<code>onMessage(Session session,Message message)</code>的参数一致。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">sendMessage</span><span class="params">(Message message,Session toSession)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">null</span> == toSession) &#123;</span><br><span class="line">        log.error(<span class="string">&quot;session is Null. id [&#123;&#125;]&quot;</span>,message.getTo());</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        toSession.getBasicRemote().sendText(JSON.toJSONString(message));</span><br><span class="line">        log.info(<span class="string">&quot;server to [&#123;&#125;] send &#123;&#125; .&quot;</span>,toSession.getId(), JSON.toJSONString(message));</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        log.error(<span class="string">&quot;server to [&#123;&#125;] send &#123;&#125; failure . because : &#123;&#125;&quot;</span>,toSession.getId(), JSON.toJSONString(message),e.getLocalizedMessage());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@OnMessage</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onMessage</span><span class="params">(Session session,Message message)</span></span>&#123;</span><br><span class="line">    Session toSession = clients.get(message.getTo());</span><br><span class="line">    message.setFrom(session.getId());</span><br><span class="line">    sendMessage(message,toSession);</span><br><span class="line">    <span class="comment">// return message;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至止，<code>WebSocket</code>传递普通文本已经粗略完成。</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+	  
+	  	
+		<div class="post-end">
+		  
+			<div>
+    
+	<div class="end-flag">
+
+		<span class="line"></span>
+
+		<span class="text">&ensp;本文到此结束&ensp;<i class="fa fa-heart"></i>&ensp;感谢您的阅读&ensp;</span>
+
+		<span class="line"></span>
+
+    </div>
+<!--
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------&ensp;本文到此结束&ensp;<i class="fa fa-heart"></i>&ensp;感谢您的阅读&ensp;------------</div>		
+-->
+    
+</div>
+		  
+		</div>
+          <div class="post-tags">
+              <a href="/tags/develop/" rel="tag"><i class="fa fa-tags"></i> develop</a>
+              <a href="/tags/java/" rel="tag"><i class="fa fa-tags"></i> java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/05/Http_Cross/" rel="prev" title="Http Cross">
+      <i class="fa fa-chevron-left"></i> Http Cross
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/31/MySQL5.7/" rel="next" title="Mysql5.7 解压版安装全过程">
+      Mysql5.7 解压版安装全过程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+
+	  	<div class="post-spread"></div>
+
+	<link rel="stylesheet" href="/css/share.min.css" >
+	<script src="/js/jquery-1.10.2.min.js"></script>
+	<script src="/js/jquery.share.js"></script>
+	<script src="/js/jquery.qrcode.min.js"></script>
+
+	<script>
+	var statement = "本文取自网络"
+	+( $('#quote').data('modify') ? "（已作部分改动及格式整理），":"，")
+	+( $('#quote').data('source') ? "原文来自<a id='source_href' href='javascript:getSource()'>这里</a>，":"")
+	+"如有侵权请联系<a href='../../../../about/index'>我</a>改正。";
+	$('#quote').html(statement);
+	function getSource(){
+		window.open($('#quote').data('source'))
+	}
+	</script>
+	
+	<script>
+	var $config = {
+	  sites : ['weibo','qq', 'wechat','qzone','douban', 'facebook', 'twitter'],
+	  disabled: [ 'linkedin', 'diandian'],
+	  wechatQrcodeTitle: "微信扫一扫",
+	  wechatQrcodeHelper: '<p>微信扫一扫，右上角分享</p>',
+	  source: 'Marvin'
+	};
+
+
+	$('.post-spread').share($config);
+
+	function pjaxshare() {
+	  $('.post-spread').share($config);
+	}
+	</script>	
+	  
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+	  
+	  <!--网易云音乐播放器-->
+	  <iframe
+	  frameborder="no" border="0" marginwidth="0" marginheight="0" 
+	  width=300 height=450 
+	  src="//music.163.com/outchain/player?type=0&id=5442729063&auto=0&height=430">
+	  </iframe>
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#POM"><span class="nav-number">1.</span> <span class="nav-text">POM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#YML"><span class="nav-number">2.</span> <span class="nav-text">YML</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configuration"><span class="nav-number">3.</span> <span class="nav-text">@Configuration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ServerEndpoint"><span class="nav-number">4.</span> <span class="nav-text">@ServerEndpoint</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E4%BB%A3%E7%A0%81"><span class="nav-number">5.</span> <span class="nav-text">前端代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E8%BD%AC%E6%8D%A2%E6%B6%88%E6%81%AF%E7%B1%BB%E5%9E%8B"><span class="nav-number">6.</span> <span class="nav-text">自动转换消息类型</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Marvin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Marvin</p>
+  <div class="site-description" itemprop="description">博闻天地</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/liu-tm" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;liu-tm" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:liumin@liu-tm.cn" title="E-Mail → mailto:liumin@liu-tm.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=352626862&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;352626862&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fa fa-user fa-fw"></i>QQ</a>
+      </span>
+  </div>
+
+
+
+      </div>
+	  
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  <span>Copyright </span>
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2024</span>
+  
+  <!--
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  -->
+  
+  <span>Author by </span>
+  
+  <span class="author" itemprop="copyrightHolder">Marvin</span>
+</div>
+<div>
+	<!--
+    <span class="post-meta-divider">|</span>
+	-->
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">NaNm</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">NaN:aN</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3GDAqGOhX31UHhUeEgKgOPrs-gzGzoHsz',
+      appKey     : 'c0Q8up8LMo25TzptQjdEJoEW',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
